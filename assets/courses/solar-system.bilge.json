@@ -1,0 +1,1660 @@
+{
+  "format": "bilge-course",
+  "version": 1,
+  "id": "solar-system",
+  "title": "The Solar System",
+  "description": "Explore our cosmic neighbourhood planet by planet.",
+  "emoji": "🪐",
+  "language": "en",
+  "sayLang": "tr",
+  "author": "Bilge",
+  "outline": [
+    "The Sun and Its Neighbours",
+    "Giant Planets and Beyond",
+    "Small Bodies",
+    "Moons",
+    "Secrets of the Sun",
+    "Moon Phases and Eclipses",
+    "The Journey of Discovery",
+    "Space by Numbers"
+  ],
+  "units": [
+    {
+      "id": "u1",
+      "title": "The Sun and Its Neighbours",
+      "description": "Meet our star, the rocky planets and the Moon.",
+      "emoji": "🌞",
+      "lessons": [
+        {
+          "id": "u1/l1",
+          "title": "Our Star, the Sun",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "The Sun is a star",
+              "body": "The Sun is the **star** at the centre of the Solar System. It holds about **99.8%** of all the mass in the system. The planets stay in orbit thanks to the Sun’s gravity.",
+              "example": "If the Sun were a basketball, the Earth would be about the size of a peppercorn."
+            },
+            {
+              "type": "choice",
+              "question": "What kind of object is the Sun?",
+              "answer": "A star",
+              "distractors": [
+                "A planet",
+                "A moon",
+                "A comet"
+              ],
+              "explanation": "The Sun is a star: it makes its own light and heat. Planets do not produce light."
+            },
+            {
+              "type": "truefalse",
+              "statement": "Almost all of the mass in the Solar System is in the Sun.",
+              "answer": true,
+              "explanation": "Yes: about 99.8%. All the planets, moons and asteroids share the tiny remainder."
+            },
+            {
+              "type": "info",
+              "title": "An 8-minute delay",
+              "body": "Sunlight takes about **8 minutes** to reach the Earth. So the Sun you see in the sky is really the Sun as it was 8 minutes ago.",
+              "example": ""
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "Sunlight reaches the Earth in about {{8}} minutes.",
+              "distractors": [
+                "1",
+                "60",
+                "24"
+              ],
+              "explanation": "Light is very fast, but the Sun is very far: it crosses about 150 million km in 8 minutes."
+            },
+            {
+              "type": "choice",
+              "question": "What keeps the planets in their orbits around the Sun?",
+              "answer": "The Sun’s gravity",
+              "distractors": [
+                "The light the Sun gives off",
+                "The planets’ magnetic fields",
+                "The pressure of empty space"
+              ],
+              "explanation": "The Sun is so massive that its pull holds every planet in place."
+            },
+            {
+              "type": "multi",
+              "question": "Which of these are true of the Sun?",
+              "answers": [
+                "It makes its own light",
+                "It is at the centre of the system"
+              ],
+              "distractors": [
+                "It orbits the Earth",
+                "It has a rocky surface"
+              ],
+              "explanation": "The Sun sits at the centre and produces light. It is the Earth that orbits, and the Sun is made of hot gas."
+            },
+            {
+              "type": "type",
+              "question": "What is the name of the star at the centre of the Solar System?",
+              "answer": "The Sun",
+              "accept": [
+                "Sun"
+              ],
+              "explanation": "That is where the system gets its name: the Solar System."
+            },
+            {
+              "type": "flashcard",
+              "front": "How long does sunlight take to reach the Earth?",
+              "back": "About **8 minutes**."
+            }
+          ]
+        },
+        {
+          "id": "u1/l2",
+          "title": "The Rocky Planets",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Four rocky neighbours",
+              "body": "The four planets closest to the Sun are the **rocky planets**. From nearest to farthest:\n1. Mercury\n2. Venus\n3. Earth\n4. Mars\nEach has a solid surface you could stand on. Mars is called the **Red Planet** because of its colour.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "Which planet is closest to the Sun?",
+              "answer": "Mercury",
+              "distractors": [
+                "Venus",
+                "Mars",
+                "Earth"
+              ],
+              "explanation": "The order is Mercury, Venus, Earth, Mars."
+            },
+            {
+              "type": "order",
+              "question": "Put the rocky planets in order, from closest to the Sun to farthest.",
+              "items": [
+                "Mercury",
+                "Venus",
+                "Earth",
+                "Mars"
+              ],
+              "explanation": "Earth is third; our next neighbour outward is Mars."
+            },
+            {
+              "type": "info",
+              "title": "The hottest-planet surprise",
+              "body": "The hottest planet is not Mercury, the closest one, but **Venus**. Its thick carbon dioxide atmosphere traps heat inside; this is called the **greenhouse effect**. Its surface is about 465 °C.",
+              "example": "Like a car left in the sun with the windows shut: heat gets in but cannot get out."
+            },
+            {
+              "type": "truefalse",
+              "statement": "The planet closest to the Sun is also the hottest planet.",
+              "answer": false,
+              "explanation": "The hottest planet is Venus. Mercury is closer, but it has no thick atmosphere to hold the heat."
+            },
+            {
+              "type": "match",
+              "question": "Match each planet to its feature.",
+              "pairs": [
+                [
+                  "Mercury",
+                  "Closest to the Sun"
+                ],
+                [
+                  "Venus",
+                  "Hottest planet"
+                ],
+                [
+                  "Earth",
+                  "Third planet"
+                ],
+                [
+                  "Mars",
+                  "Red Planet"
+                ]
+              ],
+              "explanation": "Now you know all four rocky planets."
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "Venus’s thick atmosphere traps heat; this is called the {{greenhouse effect}}.",
+              "distractors": [
+                "tide",
+                "eclipse"
+              ],
+              "explanation": "The greenhouse effect is the atmosphere holding heat like a blanket."
+            },
+            {
+              "type": "build",
+              "question": "Build the correct sentence.",
+              "answer": [
+                "Mars",
+                "is called",
+                "the Red",
+                "Planet"
+              ],
+              "distractors": [
+                "Venus",
+                "the Blue"
+              ],
+              "accept": [],
+              "explanation": "Mars gets its colour from iron oxide, that is rust, on its surface."
+            },
+            {
+              "type": "type",
+              "question": "Which planet is third in order from the Sun?",
+              "answer": "Earth",
+              "accept": [
+                "The Earth"
+              ],
+              "explanation": "Mercury, Venus, Earth: our home is third."
+            }
+          ]
+        },
+        {
+          "id": "u1/l3",
+          "title": "The Earth and the Moon",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Our only moon",
+              "body": "The Moon is the Earth’s only natural satellite. It goes once around the Earth in about **27 days**. The Moon makes no light of its own; it **reflects** light from the Sun.",
+              "example": ""
+            },
+            {
+              "type": "truefalse",
+              "statement": "The Moon makes its own light, just like the Sun.",
+              "answer": false,
+              "explanation": "The Moon is like a mirror: the brightness we see is reflected sunlight."
+            },
+            {
+              "type": "choice",
+              "question": "About how long does the Moon take to go once around the Earth?",
+              "answer": "27 days",
+              "distractors": [
+                "24 hours",
+                "7 days",
+                "365 days"
+              ],
+              "explanation": "About 27 days. That is also where the word “month” comes from."
+            },
+            {
+              "type": "info",
+              "title": "Why do we have seasons?",
+              "body": "The Earth spins on its axis once a **day** and goes around the Sun once a **year**. The seasons are caused not by distance from the Sun but by the Earth’s **axial tilt** (about 23.5°): through the year, different hemispheres receive the Sun’s rays more directly.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "What is the main cause of the seasons?",
+              "answer": "The Earth’s axial tilt",
+              "distractors": [
+                "The Earth moving closer to and farther from the Sun",
+                "The pull of the Moon",
+                "The Sun’s heat changing through the year"
+              ],
+              "explanation": "If it were distance, both hemispheres would have summer at once. Instead, one has summer while the other has winter."
+            },
+            {
+              "type": "match",
+              "question": "Match each length of time to the motion.",
+              "pairs": [
+                [
+                  "1 day",
+                  "One spin of the Earth on its axis"
+                ],
+                [
+                  "About 27 days",
+                  "One trip of the Moon around the Earth"
+                ],
+                [
+                  "1 year",
+                  "One trip of the Earth around the Sun"
+                ]
+              ],
+              "explanation": "Day, month and year: all three units of our calendar come from a turn in the sky."
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "The Earth’s axial tilt is about {{23.5}} degrees.",
+              "distractors": [
+                "0",
+                "45",
+                "90"
+              ],
+              "explanation": "With a tilt of 0 there would be no seasons; 23.5 degrees gives us four."
+            },
+            {
+              "type": "order",
+              "question": "Order these motions from the shortest time to the longest.",
+              "items": [
+                "One spin of the Earth on its axis",
+                "One trip of the Moon around the Earth",
+                "One trip of the Earth around the Sun"
+              ],
+              "explanation": "1 day, about 27 days, 1 year."
+            },
+            {
+              "type": "multi",
+              "question": "Which of these are true of the Moon?",
+              "answers": [
+                "It is the Earth’s natural satellite",
+                "It reflects sunlight"
+              ],
+              "distractors": [
+                "It makes its own light",
+                "It is a planet"
+              ],
+              "explanation": "The Moon is a satellite, and it only reflects."
+            },
+            {
+              "type": "number",
+              "question": "The Moon goes once around the Earth in about 27 days. About how many days do three trips take?",
+              "answer": 81,
+              "tolerance": 0,
+              "unit": "days",
+              "explanation": "Three trips is roughly three months; the word “month” comes from “Moon”.",
+              "hint": "Multiply the time for one trip by the number of trips.",
+              "solution": "1. One trip: 27 days\n2. Three trips: $27 \\cdot 3 = 81$ days"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u2",
+      "title": "Giant Planets and Beyond",
+      "description": "Gas giants, ice giants and the story of Pluto.",
+      "emoji": "🪐",
+      "lessons": [
+        {
+          "id": "u2/l1",
+          "title": "The Gas Giants",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Jupiter and Saturn",
+              "body": "After Mars come the **gas giants**: Jupiter and Saturn. They are made mostly of hydrogen and helium and have no solid surface to stand on. **Jupiter** is the largest planet in the Solar System.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "Which is the largest planet in the Solar System?",
+              "answer": "Jupiter",
+              "distractors": [
+                "Saturn",
+                "Earth",
+                "Mars"
+              ],
+              "explanation": "Jupiter is so big that more than a thousand Earths would fit inside it."
+            },
+            {
+              "type": "truefalse",
+              "statement": "Jupiter has a solid surface you could walk on.",
+              "answer": false,
+              "explanation": "Gas giants have no ground to land on; the gas just gets denser the deeper you go."
+            },
+            {
+              "type": "info",
+              "title": "A giant storm and rings",
+              "body": "Jupiter’s **Great Red Spot** is a giant storm that has raged for centuries and is bigger than the Earth. **Saturn** is known for its magnificent **rings**, made of pieces of ice and rock.",
+              "example": ""
+            },
+            {
+              "type": "match",
+              "question": "Match them up.",
+              "pairs": [
+                [
+                  "Jupiter",
+                  "Largest planet"
+                ],
+                [
+                  "Saturn",
+                  "Magnificent rings"
+                ],
+                [
+                  "Great Red Spot",
+                  "A giant storm"
+                ],
+                [
+                  "Hydrogen and helium",
+                  "What gas giants are made of"
+                ]
+              ],
+              "explanation": "That completes the gas giants’ ID card."
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "Saturn’s rings are made of pieces of {{ice}} and rock.",
+              "distractors": [
+                "lava",
+                "iron"
+              ],
+              "explanation": "The rings are not one solid piece: they are countless bits of ice and rock, from dust grains to house-sized chunks."
+            },
+            {
+              "type": "categorize",
+              "question": "Rocky planet or gas giant?",
+              "categories": [
+                {
+                  "name": "Rocky planet",
+                  "items": [
+                    "Mercury",
+                    "Venus",
+                    "Earth",
+                    "Mars"
+                  ]
+                },
+                {
+                  "name": "Gas giant",
+                  "items": [
+                    "Jupiter",
+                    "Saturn"
+                  ]
+                }
+              ],
+              "explanation": "The four inner planets are rocky; Jupiter and Saturn are gas giants."
+            },
+            {
+              "type": "type",
+              "question": "Which planet is famous for its rings?",
+              "answer": "Saturn",
+              "accept": [],
+              "explanation": "Other planets have thin rings too, but none are as spectacular as Saturn’s."
+            },
+            {
+              "type": "flashcard",
+              "front": "What is the Great Red Spot?",
+              "back": "A giant **storm** on Jupiter that has lasted for centuries and is bigger than the Earth."
+            }
+          ]
+        },
+        {
+          "id": "u2/l2",
+          "title": "Ice Giants and Pluto",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Uranus and Neptune",
+              "body": "The two outermost planets are the **ice giants**: Uranus and Neptune. Uranus spins almost **on its side**. **Neptune** is the planet farthest from the Sun.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "Which planet is farthest from the Sun?",
+              "answer": "Neptune",
+              "distractors": [
+                "Uranus",
+                "Saturn",
+                "Jupiter"
+              ],
+              "explanation": "The order ends like this: Jupiter, Saturn, Uranus, Neptune."
+            },
+            {
+              "type": "truefalse",
+              "statement": "Uranus spins almost on its side.",
+              "answer": true,
+              "explanation": "Its axis is tilted so far that it moves along its orbit like a rolling ball."
+            },
+            {
+              "type": "info",
+              "title": "What happened to Pluto?",
+              "body": "In 2006 Pluto was reclassified as a **dwarf planet**. That left **8 planets** in the Solar System. Beyond Neptune lies the **Kuiper Belt**, full of icy bodies like Pluto.",
+              "example": ""
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "There are {{8}} planets in the Solar System; Pluto counts as a {{dwarf planet}}.",
+              "distractors": [
+                "9",
+                "moon"
+              ],
+              "explanation": "Since the 2006 decision the number of planets has been 8."
+            },
+            {
+              "type": "order",
+              "question": "Put the outer planets in order, from closest to the Sun to farthest.",
+              "items": [
+                "Jupiter",
+                "Saturn",
+                "Uranus",
+                "Neptune"
+              ],
+              "explanation": "First the two gas giants, then the two ice giants."
+            },
+            {
+              "type": "build",
+              "question": "Build the correct sentence.",
+              "answer": [
+                "Neptune",
+                "is the planet",
+                "farthest from",
+                "the Sun"
+              ],
+              "distractors": [
+                "closest to",
+                "Uranus"
+              ],
+              "accept": [],
+              "explanation": "The farthest planet is Neptune; the closest is Mercury."
+            },
+            {
+              "type": "categorize",
+              "question": "Which group does each belong to?",
+              "categories": [
+                {
+                  "name": "Gas giant",
+                  "items": [
+                    "Jupiter",
+                    "Saturn"
+                  ]
+                },
+                {
+                  "name": "Ice giant",
+                  "items": [
+                    "Uranus",
+                    "Neptune"
+                  ]
+                },
+                {
+                  "name": "Dwarf planet",
+                  "items": [
+                    "Pluto"
+                  ]
+                }
+              ],
+              "explanation": "The four outer planets split into two pairs; Pluto is in a class of its own."
+            },
+            {
+              "type": "type",
+              "question": "What is the region beyond Neptune, full of icy bodies, called?",
+              "answer": "Kuiper Belt",
+              "accept": [
+                "The Kuiper Belt",
+                "Kuiper"
+              ],
+              "explanation": "Pluto is a member of this belt too."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u3",
+      "title": "Small Bodies",
+      "description": "Asteroids, comets and shooting stars.",
+      "emoji": "☄️",
+      "lessons": [
+        {
+          "id": "u3/l1",
+          "title": "The Asteroid Belt",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Between Mars and Jupiter",
+              "body": "Millions of rocky pieces orbit between the paths of Mars and Jupiter: this is the **Asteroid Belt**. Its largest object is **Ceres**, big enough to count as a dwarf planet.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "Between which two planets is the Asteroid Belt?",
+              "answer": "Mars and Jupiter",
+              "distractors": [
+                "Earth and Mars",
+                "Jupiter and Saturn",
+                "Venus and Earth"
+              ],
+              "explanation": "The belt separates the rocky planets from the gas giants."
+            },
+            {
+              "type": "truefalse",
+              "statement": "Asteroids are made mostly of gas.",
+              "answer": false,
+              "explanation": "Asteroids are made of rock and metal."
+            },
+            {
+              "type": "type",
+              "question": "What is the largest object in the Asteroid Belt?",
+              "answer": "Ceres",
+              "accept": [],
+              "explanation": "Ceres is both the largest in the belt and a dwarf planet."
+            },
+            {
+              "type": "categorize",
+              "question": "Dwarf planet or planet?",
+              "categories": [
+                {
+                  "name": "Dwarf planet",
+                  "items": [
+                    "Ceres",
+                    "Pluto"
+                  ]
+                },
+                {
+                  "name": "Planet",
+                  "items": [
+                    "Mars",
+                    "Neptune",
+                    "Venus"
+                  ]
+                }
+              ],
+              "explanation": "Ceres and Pluto are dwarf planets."
+            }
+          ]
+        },
+        {
+          "id": "u3/l2",
+          "title": "Comets and Shooting Stars",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Icy travellers",
+              "body": "**Comets** are made of ice and dust. Near the Sun their ice turns to vapour and forms a bright tail, which always points **away from the Sun**. Small pieces that burn up in our atmosphere are **shooting stars**; a piece that reaches the ground is a **meteorite**.",
+              "example": ""
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "A comet’s tail always points {{away from}} the Sun.",
+              "distractors": [
+                "towards",
+                "below"
+              ],
+              "explanation": "Particles streaming from the Sun push the tail outward."
+            },
+            {
+              "type": "choice",
+              "question": "What are comets mostly made of?",
+              "answer": "Ice and dust",
+              "distractors": [
+                "Molten lava",
+                "Only iron",
+                "Hot gas"
+              ],
+              "explanation": "That is why they are also called “dirty snowballs”."
+            },
+            {
+              "type": "match",
+              "question": "Match them up.",
+              "pairs": [
+                [
+                  "Shooting star",
+                  "A piece burning in the atmosphere"
+                ],
+                [
+                  "Meteorite",
+                  "A piece that reaches the ground"
+                ],
+                [
+                  "Comet",
+                  "A traveller of ice and dust"
+                ]
+              ],
+              "explanation": "All three are small bodies of the Solar System."
+            },
+            {
+              "type": "truefalse",
+              "statement": "Shooting stars are really stars.",
+              "answer": false,
+              "explanation": "They are small bits of rock and dust burning in the atmosphere."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u4",
+      "title": "Moons",
+      "description": "The remarkable moons of other planets.",
+      "emoji": "🌙",
+      "lessons": [
+        {
+          "id": "u4/l1",
+          "title": "Jupiter’s Moons",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Galileo’s four moons",
+              "body": "Jupiter has four large moons: **Io**, **Europa**, **Ganymede** and **Callisto**. Ganymede is the **largest moon** in the Solar System. Io is famous for its volcanoes, Europa for the ocean beneath its icy crust.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "Which is the largest moon in the Solar System?",
+              "answer": "Ganymede",
+              "distractors": [
+                "The Moon",
+                "Europa",
+                "Io"
+              ],
+              "explanation": "Ganymede is even bigger than the planet Mercury."
+            },
+            {
+              "type": "match",
+              "question": "Match each moon to its feature.",
+              "pairs": [
+                [
+                  "Io",
+                  "Volcanoes"
+                ],
+                [
+                  "Europa",
+                  "Ocean under ice"
+                ],
+                [
+                  "Ganymede",
+                  "Largest moon"
+                ]
+              ],
+              "explanation": "All three orbit Jupiter."
+            },
+            {
+              "type": "truefalse",
+              "statement": "Europa is thought to have an ocean beneath its icy crust.",
+              "answer": true,
+              "explanation": "That makes it one of the most intriguing places in the search for life."
+            },
+            {
+              "type": "multi",
+              "question": "Which of these are moons of Jupiter?",
+              "answers": [
+                "Io",
+                "Callisto"
+              ],
+              "distractors": [
+                "The Moon",
+                "Ceres"
+              ],
+              "explanation": "The Moon belongs to the Earth, and Ceres is a dwarf planet."
+            }
+          ]
+        },
+        {
+          "id": "u4/l2",
+          "title": "Titan and the Moons of Mars",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "A moon with an atmosphere",
+              "body": "**Titan** is Saturn’s largest moon and the only moon with a **thick atmosphere**. Mars has two small moons: **Phobos** and **Deimos**.",
+              "example": ""
+            },
+            {
+              "type": "type",
+              "question": "Which moon has a thick atmosphere?",
+              "answer": "Titan",
+              "accept": [],
+              "explanation": "Titan’s atmosphere is even denser than the Earth’s."
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "Mars has {{2}} moons.",
+              "distractors": [
+                "1",
+                "4"
+              ],
+              "explanation": "Phobos and Deimos."
+            },
+            {
+              "type": "categorize",
+              "question": "Which planet does each moon belong to?",
+              "categories": [
+                {
+                  "name": "Jupiter",
+                  "items": [
+                    "Io",
+                    "Europa"
+                  ]
+                },
+                {
+                  "name": "Saturn",
+                  "items": [
+                    "Titan"
+                  ]
+                },
+                {
+                  "name": "Mars",
+                  "items": [
+                    "Phobos",
+                    "Deimos"
+                  ]
+                }
+              ],
+              "explanation": "Two of Jupiter’s big four, Saturn’s giant and the two little ones of Mars."
+            },
+            {
+              "type": "flashcard",
+              "front": "What sets Titan apart from other moons?",
+              "back": "It has a **thick atmosphere**."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u5",
+      "title": "Secrets of the Sun",
+      "description": "Why the Sun shines, and what its spots and wind are.",
+      "emoji": "🔥",
+      "lessons": [
+        {
+          "id": "u5/l1",
+          "title": "Why Does the Sun Shine?",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "A giant fusion furnace",
+              "body": "In the Sun’s core, **hydrogen** atoms join to form **helium**; this is called **fusion**. The energy released reaches us as light and heat. The core is about **15 million °C**, the surface about 5,500 °C.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "What process produces the Sun’s energy?",
+              "answer": "Fusion",
+              "distractors": [
+                "Burning",
+                "Friction",
+                "Evaporation"
+              ],
+              "explanation": "The Sun does not burn like a fire; atoms fuse together."
+            },
+            {
+              "type": "build",
+              "question": "Build the correct sentence.",
+              "answer": [
+                "Hydrogen",
+                "fuses",
+                "into",
+                "helium"
+              ],
+              "distractors": [
+                "iron",
+                "ice"
+              ],
+              "accept": [],
+              "explanation": "Hydrogen is the fuel of fusion; helium is the product."
+            },
+            {
+              "type": "truefalse",
+              "statement": "The Sun’s core is cooler than its surface.",
+              "answer": false,
+              "explanation": "The core is millions of degrees; the surface is thousands."
+            },
+            {
+              "type": "order",
+              "question": "Order from coldest to hottest.",
+              "items": [
+                "The Earth’s surface",
+                "The surface of Venus",
+                "The Sun’s surface",
+                "The Sun’s core"
+              ],
+              "explanation": "About 15 °C, 465 °C, 5,500 °C and 15 million °C."
+            }
+          ]
+        },
+        {
+          "id": "u5/l2",
+          "title": "Sunspots and the Solar Wind",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Spots and wind",
+              "body": "**Sunspots** are regions that look dark because they are cooler than their surroundings. The Sun also streams charged particles into space: the **solar wind**. Near the Earth’s poles these particles create the **auroras**.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "Why do sunspots look dark?",
+              "answer": "They are cooler than their surroundings",
+              "distractors": [
+                "They are holes in the surface",
+                "Clouds cover them",
+                "They are in shadow"
+              ],
+              "explanation": "A cooler region gives off less light."
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "The auroras are caused by the {{solar wind}}.",
+              "distractors": [
+                "moonlight",
+                "asteroids"
+              ],
+              "explanation": "The sky glows when charged particles hit the atmosphere."
+            },
+            {
+              "type": "truefalse",
+              "statement": "The solar wind is charged particles streaming out from the Sun.",
+              "answer": true,
+              "explanation": "This wind also pushes comet tails outward."
+            },
+            {
+              "type": "type",
+              "question": "What are the colourful lights seen in the sky near the poles called?",
+              "answer": "Auroras",
+              "accept": [
+                "Aurora",
+                "The auroras",
+                "Northern lights"
+              ],
+              "explanation": "In the north they are also called the northern lights."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u6",
+      "title": "Moon Phases and Eclipses",
+      "description": "Why the Moon changes shape and how eclipses happen.",
+      "emoji": "🌗",
+      "lessons": [
+        {
+          "id": "u6/l1",
+          "title": "Phases of the Moon",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "The Moon doesn’t change shape",
+              "body": "Half of the Moon is always lit; how much of that lit half we see decides how it looks. The phases in order: **new moon**, **first quarter**, **full moon**, **last quarter**. One cycle takes about **29.5 days**.",
+              "example": ""
+            },
+            {
+              "type": "order",
+              "question": "Order the phases, starting from the new moon.",
+              "items": [
+                "New moon",
+                "First quarter",
+                "Full moon",
+                "Last quarter"
+              ],
+              "explanation": "Then it returns to new moon."
+            },
+            {
+              "type": "choice",
+              "question": "In which phase does the Moon look fully lit?",
+              "answer": "Full moon",
+              "distractors": [
+                "New moon",
+                "First quarter",
+                "Last quarter"
+              ],
+              "explanation": "At full moon we see the whole lit face."
+            },
+            {
+              "type": "truefalse",
+              "statement": "The phases happen because the Moon really shrinks and grows.",
+              "answer": false,
+              "explanation": "What changes is how much of the lit half we can see."
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "One cycle of the Moon’s phases takes about {{29.5}} days.",
+              "distractors": [
+                "7",
+                "365"
+              ],
+              "explanation": "This is where the calendar month comes from."
+            }
+          ]
+        },
+        {
+          "id": "u6/l2",
+          "title": "Eclipses",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "A game of shadows",
+              "body": "In a **solar eclipse** the Moon passes between the Sun and the Earth and covers the Sun. In a **lunar eclipse** the Earth is in between and its shadow falls on the Moon.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "What passes in between during a solar eclipse?",
+              "answer": "The Moon",
+              "distractors": [
+                "The Earth",
+                "Mars",
+                "Venus"
+              ],
+              "explanation": "The Moon moves between the Sun and the Earth."
+            },
+            {
+              "type": "match",
+              "question": "Match each eclipse to its explanation.",
+              "pairs": [
+                [
+                  "Solar eclipse",
+                  "The Moon covers the Sun"
+                ],
+                [
+                  "Lunar eclipse",
+                  "The Earth’s shadow falls on the Moon"
+                ]
+              ],
+              "explanation": "In both, the three bodies line up."
+            },
+            {
+              "type": "truefalse",
+              "statement": "In a lunar eclipse the Earth is between the Sun and the Moon.",
+              "answer": true,
+              "explanation": "That is why a lunar eclipse only happens at full moon."
+            },
+            {
+              "type": "build",
+              "question": "Build the correct sentence.",
+              "answer": [
+                "In a solar eclipse",
+                "the Moon",
+                "covers",
+                "the Sun"
+              ],
+              "distractors": [
+                "the Earth",
+                "Mars"
+              ],
+              "accept": [],
+              "explanation": "The Moon does the covering; the Sun is covered."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u7",
+      "title": "The Journey of Discovery",
+      "description": "From telescopes to spacecraft: how we came to know the Solar System.",
+      "emoji": "🚀",
+      "lessons": [
+        {
+          "id": "u7/l1",
+          "title": "The Telescope",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Galileo looks up",
+              "body": "In 1610 **Galileo** turned his telescope to the sky and saw four moons circling Jupiter. It was strong evidence that not everything orbits the Earth.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "Who first observed Jupiter’s four large moons?",
+              "answer": "Galileo",
+              "distractors": [
+                "Newton",
+                "Einstein",
+                "Copernicus"
+              ],
+              "explanation": "That is why they are called the Galilean moons."
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "Galileo observed Jupiter’s moons in {{1610}}.",
+              "distractors": [
+                "1492",
+                "1969"
+              ],
+              "explanation": "The telescope had only just been invented."
+            },
+            {
+              "type": "truefalse",
+              "statement": "Galileo’s observations supported the idea that everything orbits the Earth.",
+              "answer": false,
+              "explanation": "The opposite: they showed bodies orbiting another planet."
+            },
+            {
+              "type": "flashcard",
+              "front": "What did Galileo see around Jupiter in 1610?",
+              "back": "Four large moons: **Io, Europa, Ganymede, Callisto**."
+            }
+          ]
+        },
+        {
+          "id": "u7/l2",
+          "title": "Spacecraft",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Human and robot explorers",
+              "body": "In 1969 humans set foot on the Moon for the first time with **Apollo 11**. **Voyager 1**, launched in 1977, is the most distant human-made craft and has reached interstellar space. On Mars, robot rovers such as **Perseverance** roam the surface.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "With which mission did humans first set foot on the Moon?",
+              "answer": "Apollo 11",
+              "distractors": [
+                "Voyager 1",
+                "Perseverance",
+                "Apollo 1"
+              ],
+              "explanation": "The year was 1969."
+            },
+            {
+              "type": "match",
+              "question": "Match each craft to its achievement.",
+              "pairs": [
+                [
+                  "Apollo 11",
+                  "First humans on the Moon"
+                ],
+                [
+                  "Voyager 1",
+                  "Most distant human-made craft"
+                ],
+                [
+                  "Perseverance",
+                  "Robot rover on Mars"
+                ]
+              ],
+              "explanation": "All three are milestones of exploration."
+            },
+            {
+              "type": "order",
+              "question": "Order the events from oldest to newest.",
+              "items": [
+                "Galileo sees Jupiter’s moons",
+                "Apollo 11 lands on the Moon",
+                "Voyager 1 is launched",
+                "Perseverance lands on Mars"
+              ],
+              "explanation": "1610, 1969, 1977 and 2021."
+            },
+            {
+              "type": "type",
+              "question": "What is the most distant human-made spacecraft?",
+              "answer": "Voyager 1",
+              "accept": [
+                "Voyager"
+              ],
+              "explanation": "It has been travelling since 1977."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u8",
+      "title": "Space by Numbers",
+      "description": "Speed, distance, time, charts and a little space Turkish.",
+      "emoji": "🧮",
+      "lessons": [
+        {
+          "id": "u8/l1",
+          "title": "How Fast Is Light?",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Distance, speed and time",
+              "body": "The distance covered at a steady speed is the speed multiplied by the time: $x = v \\cdot t$\n\nIf you want the time, divide the distance by the speed:\n\n$$t = \\frac{x}{v}$$\n\n**Light** travels about **300,000 km** every second; nothing in the universe is faster.",
+              "example": "At 80 km per hour, in 2 hours you cover $80 \\cdot 2 = 160$ km."
+            },
+            {
+              "type": "choice",
+              "question": "You know the distance and the speed. Which formula gives the time?",
+              "answer": "$t = \\frac{x}{v}$",
+              "distractors": [
+                "$t = x \\cdot v$",
+                "$t = \\frac{v}{x}$",
+                "$t = x + v$"
+              ],
+              "explanation": "Distance = speed × time, so time is distance divided by speed."
+            },
+            {
+              "type": "number",
+              "question": "Light travels 300,000 km per second. How many km does it cover in 2 seconds?",
+              "answer": 600000,
+              "tolerance": 0,
+              "unit": "km",
+              "explanation": "That is more than one and a half times the distance from the Earth to the Moon!",
+              "hint": "In $x = v \\cdot t$ the speed is 300,000 km/s and the time is 2 s.",
+              "solution": "1. Formula: $x = v \\cdot t$\n2. Put the values in: $x = 300{,}000 \\cdot 2$\n3. Result: **600,000 km**"
+            },
+            {
+              "type": "truefalse",
+              "statement": "A vehicle going twice as fast covers the same distance in half the time.",
+              "answer": true,
+              "explanation": "In $t = \\frac{x}{v}$, doubling the bottom number halves the result."
+            },
+            {
+              "type": "number",
+              "question": "The Sun is about 150 million km from the Earth. How many seconds does light take to cover that distance?",
+              "answer": 500,
+              "tolerance": 5,
+              "unit": "s",
+              "explanation": "So the sunlight you see right now set off about 8 minutes ago.",
+              "hint": "Time = distance ÷ speed. Cancelling the zeros first makes it easier.",
+              "solution": "1. Formula: $t = \\frac{x}{v}$\n2. Put the values in: $t = \\frac{150{,}000{,}000}{300{,}000}$\n3. Cancel the zeros: $t = \\frac{1500}{3} = 500$ s\n4. Convert to minutes: $500 \\div 60 \\approx 8.3$ minutes"
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "Light takes about {{8}} minutes to travel from the Sun to the Earth.",
+              "distractors": [
+                "1",
+                "80"
+              ],
+              "explanation": "500 seconds is a little more than 8 minutes."
+            },
+            {
+              "type": "build",
+              "question": "Build the distance formula.",
+              "answer": [
+                "$x$",
+                "=",
+                "$v$",
+                "·",
+                "$t$"
+              ],
+              "distractors": [
+                "+",
+                "÷"
+              ],
+              "accept": [
+                "$x$ = $t$ · $v$"
+              ],
+              "explanation": "Distance is speed multiplied by time."
+            }
+          ]
+        },
+        {
+          "id": "u8/l2",
+          "title": "Mars Logbook",
+          "context": "**From the logbook of a Mars rover**\n\nA day on Mars, called a *sol*, lasts about **24 hours 40 minutes**. A Mars year is **687 Earth days**. Gravity is about **38%** of the Earth’s. The rover covers **100 metres** per sol on average.",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Read the passage first",
+              "body": "The next questions are based on the **logbook** of a Mars rover. The passage sits above every question; tap its header to close it and open it again.\n\nIf you get stuck, tap **Hint**; after answering, **See the solution** shows the worked steps.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "According to the passage, what is a day on Mars called?",
+              "answer": "A sol",
+              "distractors": [
+                "An orbit",
+                "A phase",
+                "A Mars month"
+              ],
+              "explanation": "*Sol* is Latin for “sun”; it means one solar day on Mars."
+            },
+            {
+              "type": "truefalse",
+              "statement": "According to the passage, a Mars year is shorter than an Earth year.",
+              "answer": false,
+              "explanation": "687 days is longer than 365: a Mars year lasts almost two Earth years."
+            },
+            {
+              "type": "number",
+              "question": "How many metres does the rover cover in 30 sols?",
+              "answer": 3000,
+              "tolerance": 0,
+              "unit": "m",
+              "explanation": "Mars rovers are in no hurry: 3 km takes more than a month.",
+              "hint": "Multiply the distance per sol by the number of sols.",
+              "solution": "1. In one sol: 100 m\n2. In 30 sols: $100 \\cdot 30 = 3000$ m\n3. That is **3 km**"
+            },
+            {
+              "type": "number",
+              "question": "An athlete reads 50 kg on a scale on the Earth. What would the same scale read on Mars, in kg?",
+              "answer": 19,
+              "tolerance": 0.5,
+              "unit": "kg",
+              "explanation": "Your mass stays the same but your weight drops; on Mars you could jump much higher.",
+              "hint": "To find 38% of a number, multiply it by 0.38.",
+              "solution": "1. Ratio: $38\\% = \\frac{38}{100} = 0.38$\n2. Multiply: $50 \\cdot 0.38 = 19$\n3. The scale reads about **19 kg**."
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "A Mars year lasts {{687}} Earth days.",
+              "distractors": [
+                "365",
+                "88"
+              ],
+              "explanation": "365 days is the Earth’s year and 88 days is Mercury’s."
+            },
+            {
+              "type": "match",
+              "question": "Match the facts from the passage.",
+              "pairs": [
+                [
+                  "One sol",
+                  "24 hours 40 minutes"
+                ],
+                [
+                  "One Mars year",
+                  "687 Earth days"
+                ],
+                [
+                  "Gravity on Mars",
+                  "38% of the Earth’s"
+                ],
+                [
+                  "Distance per sol",
+                  "100 metres"
+                ]
+              ],
+              "explanation": "You have read the whole logbook."
+            }
+          ]
+        },
+        {
+          "id": "u8/l3",
+          "title": "Reading Charts",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Bar chart",
+              "body": "In a **bar chart**, the taller the bar, the bigger the value. Tap the chart to see a bar’s exact value; the button at the top right shows the same data as a table.",
+              "example": "",
+              "chart": {
+                "type": "bar",
+                "title": "Diameter of the rocky planets",
+                "labels": [
+                  "Mercury",
+                  "Venus",
+                  "Earth",
+                  "Mars"
+                ],
+                "values": [
+                  4879,
+                  12104,
+                  12742,
+                  6779
+                ],
+                "y": "km"
+              }
+            },
+            {
+              "type": "choice",
+              "question": "According to the chart, which is the smallest rocky planet?",
+              "answer": "Mercury",
+              "distractors": [
+                "Mars",
+                "Venus",
+                "Earth"
+              ],
+              "explanation": "The shortest bar is Mercury’s: its diameter is under 5 thousand km.",
+              "chart": {
+                "type": "bar",
+                "title": "Diameter of the rocky planets",
+                "labels": [
+                  "Mercury",
+                  "Venus",
+                  "Earth",
+                  "Mars"
+                ],
+                "values": [
+                  4879,
+                  12104,
+                  12742,
+                  6779
+                ],
+                "y": "km"
+              }
+            },
+            {
+              "type": "truefalse",
+              "statement": "According to the chart, Venus and the Earth are almost the same size.",
+              "answer": true,
+              "explanation": "The two bars are almost the same height; that is why Venus is called the Earth’s twin.",
+              "chart": {
+                "type": "bar",
+                "title": "Diameter of the rocky planets",
+                "labels": [
+                  "Mercury",
+                  "Venus",
+                  "Earth",
+                  "Mars"
+                ],
+                "values": [
+                  4879,
+                  12104,
+                  12742,
+                  6779
+                ],
+                "y": "km"
+              }
+            },
+            {
+              "type": "number",
+              "question": "According to the chart, about how many **thousand** km is the diameter of Mars?",
+              "answer": 7,
+              "tolerance": 1,
+              "unit": "thousand km",
+              "explanation": "Mars is 6,779 km across: about half the Earth.",
+              "hint": "Tap Mars’s bar, or see which grid lines its top lies between.",
+              "chart": {
+                "type": "bar",
+                "title": "Diameter of the rocky planets",
+                "labels": [
+                  "Mercury",
+                  "Venus",
+                  "Earth",
+                  "Mars"
+                ],
+                "values": [
+                  4879,
+                  12104,
+                  12742,
+                  6779
+                ],
+                "y": "km"
+              }
+            },
+            {
+              "type": "info",
+              "title": "Line chart",
+              "body": "A **line chart** shows how a value changes. Planets get colder the farther they are from the Sun, with one exception: **Venus**! Its thick atmosphere traps heat, making it hotter even than Mercury, which is closer to the Sun.",
+              "example": "",
+              "chart": {
+                "type": "line",
+                "title": "Average temperature",
+                "labels": [
+                  "Mercury",
+                  "Venus",
+                  "Earth",
+                  "Mars",
+                  "Jupiter",
+                  "Saturn"
+                ],
+                "values": [
+                  167,
+                  464,
+                  15,
+                  -65,
+                  -110,
+                  -140
+                ],
+                "y": "°C"
+              }
+            },
+            {
+              "type": "choice",
+              "question": "According to the chart, which planet is the hottest?",
+              "answer": "Venus",
+              "distractors": [
+                "Mercury",
+                "Earth",
+                "Jupiter"
+              ],
+              "explanation": "The line peaks at Venus: about 460 °C.",
+              "chart": {
+                "type": "line",
+                "title": "Average temperature",
+                "labels": [
+                  "Mercury",
+                  "Venus",
+                  "Earth",
+                  "Mars",
+                  "Jupiter",
+                  "Saturn"
+                ],
+                "values": [
+                  167,
+                  464,
+                  15,
+                  -65,
+                  -110,
+                  -140
+                ],
+                "y": "°C"
+              }
+            },
+            {
+              "type": "truefalse",
+              "statement": "According to the chart, the average temperature on Mars is below zero.",
+              "answer": true,
+              "explanation": "Mars’s point lies under the zero line: about −65 °C.",
+              "chart": {
+                "type": "line",
+                "title": "Average temperature",
+                "labels": [
+                  "Mercury",
+                  "Venus",
+                  "Earth",
+                  "Mars",
+                  "Jupiter",
+                  "Saturn"
+                ],
+                "values": [
+                  167,
+                  464,
+                  15,
+                  -65,
+                  -110,
+                  -140
+                ],
+                "y": "°C"
+              }
+            },
+            {
+              "type": "info",
+              "title": "Function graph",
+              "body": "For anything moving at a steady speed, the distance–time graph is a **straight line**. Light covers 300 thousand km every second: $x = 300 \\cdot t$ (thousand km). Slide your finger along the graph to read the distance at any moment.",
+              "example": "",
+              "chart": {
+                "type": "function",
+                "title": "Distance covered by light",
+                "fn": "300x",
+                "from": 0,
+                "to": 10,
+                "x": "Time (s)",
+                "y": "Distance (thousand km)"
+              }
+            },
+            {
+              "type": "number",
+              "question": "According to the graph, how many **thousand** km does light cover in 4 seconds?",
+              "answer": 1200,
+              "tolerance": 0,
+              "unit": "thousand km",
+              "explanation": "$300 \\cdot 4 = 1200$ thousand km, that is 1.2 million km.",
+              "hint": "Tap the graph at x = 4.",
+              "solution": "1. Find $x = 4$ on the graph\n2. The value on the line: **1200**\n3. Check by calculating: $300 \\cdot 4 = 1200$",
+              "chart": {
+                "type": "function",
+                "title": "Distance covered by light",
+                "fn": "300x",
+                "from": 0,
+                "to": 10,
+                "x": "Time (s)",
+                "y": "Distance (thousand km)"
+              }
+            },
+            {
+              "type": "choice",
+              "question": "According to the chart, which gas makes up most of the Earth’s atmosphere?",
+              "answer": "Nitrogen",
+              "distractors": [
+                "Oxygen",
+                "Carbon dioxide",
+                "Helium"
+              ],
+              "explanation": "About 78% of the air we breathe is nitrogen; oxygen is only 21%.",
+              "chart": {
+                "type": "pie",
+                "title": "The Earth’s atmosphere",
+                "labels": [
+                  "Nitrogen",
+                  "Oxygen",
+                  "Other gases"
+                ],
+                "values": [
+                  78,
+                  21,
+                  1
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "u8/l4",
+          "title": "Space Turkish",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Learn by listening",
+              "body": "Bilge speaks Turkish too! In this lesson you learn the Turkish names of four objects in the sky **by listening**. The big button reads the word, the small one reads it slowly. If you can’t turn the sound on, skip the question with “I can’t listen now”.",
+              "example": "Güneş = Sun · Ay = Moon · Dünya = Earth · Yıldız = Star",
+              "say": "Güneş, Ay, Dünya, Yıldız"
+            },
+            {
+              "type": "match",
+              "question": "Match each word to its meaning.",
+              "pairs": [
+                [
+                  "Güneş",
+                  "Sun"
+                ],
+                [
+                  "Ay",
+                  "Moon"
+                ],
+                [
+                  "Dünya",
+                  "Earth"
+                ],
+                [
+                  "Yıldız",
+                  "Star"
+                ]
+              ],
+              "explanation": "Now you know four Turkish words."
+            },
+            {
+              "type": "choice",
+              "question": "What does the word you hear mean?",
+              "say": "Ay",
+              "answer": "Moon",
+              "distractors": [
+                "Sun",
+                "Earth",
+                "Star"
+              ],
+              "explanation": "“Ay” means the Moon."
+            },
+            {
+              "type": "type",
+              "question": "Type the word you hear.",
+              "say": "Güneş",
+              "answer": "Güneş",
+              "accept": [],
+              "explanation": "“Güneş” means the Sun."
+            },
+            {
+              "type": "choice",
+              "question": "What does the sentence you hear mean?",
+              "say": "Dünya bir gezegendir.",
+              "answer": "The Earth is a planet.",
+              "distractors": [
+                "The Moon is a satellite.",
+                "The Sun is a star.",
+                "Mars is red."
+              ],
+              "explanation": "*Dünya* is the Earth and *gezegen* means planet."
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "The Turkish word “Dünya” means the {{Earth}}.",
+              "distractors": [
+                "Moon",
+                "Sun"
+              ],
+              "explanation": "In Turkish, too, the planet’s name is capitalised: Dünya."
+            },
+            {
+              "type": "type",
+              "question": "Type the word you hear.",
+              "say": "Yıldız",
+              "answer": "Yıldız",
+              "accept": [],
+              "explanation": "“Yıldız” means star. The Sun is a star, too!"
+            },
+            {
+              "type": "flashcard",
+              "front": "Ay",
+              "back": "Moon",
+              "say": "Ay"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

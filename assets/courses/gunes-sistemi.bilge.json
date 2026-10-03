@@ -1,0 +1,1662 @@
+{
+  "format": "bilge-course",
+  "version": 1,
+  "id": "gunes-sistemi",
+  "title": "Güneş Sistemi",
+  "description": "Kozmik mahallemizi gezegen gezegen keşfet.",
+  "emoji": "🪐",
+  "language": "tr",
+  "sayLang": "en",
+  "author": "Bilge",
+  "outline": [
+    "Güneş ve Komşuları",
+    "Dev Gezegenler ve Ötesi",
+    "Küçük Cisimler",
+    "Uydular",
+    "Güneş’in Sırları",
+    "Ay’ın Evreleri ve Tutulmalar",
+    "Keşif Yolculuğu",
+    "Sayılarla Uzay"
+  ],
+  "units": [
+    {
+      "id": "u1",
+      "title": "Güneş ve Komşuları",
+      "description": "Yıldızımızı, kayalık gezegenleri ve Ay’ı tanı.",
+      "emoji": "🌞",
+      "lessons": [
+        {
+          "id": "u1/l1",
+          "title": "Yıldızımız Güneş",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Güneş bir yıldızdır",
+              "body": "Güneş, Güneş Sistemi’nin merkezindeki **yıldızdır**. Sistemdeki toplam kütlenin yaklaşık **%99,8**’i ondadır. Gezegenler, Güneş’in kütle çekimi sayesinde yörüngede kalır.",
+              "example": "Güneş bir basketbol topu olsaydı, Dünya bir karabiber tanesi kadar kalırdı."
+            },
+            {
+              "type": "choice",
+              "question": "Güneş ne tür bir gök cismidir?",
+              "answer": "Yıldız",
+              "distractors": [
+                "Gezegen",
+                "Uydu",
+                "Kuyruklu yıldız"
+              ],
+              "explanation": "Güneş kendi ışığını ve ısısını üreten bir yıldızdır; gezegenler ise ışık üretmez."
+            },
+            {
+              "type": "truefalse",
+              "statement": "Güneş Sistemi’ndeki kütlenin neredeyse tamamı Güneş’tedir.",
+              "answer": true,
+              "explanation": "Evet: yaklaşık %99,8. Bütün gezegenler, uydular ve asteroitler geri kalan küçücük payı bölüşür."
+            },
+            {
+              "type": "info",
+              "title": "8 dakikalık gecikme",
+              "body": "Güneş ışığı Dünya’ya yaklaşık **8 dakikada** ulaşır. Yani gökyüzünde gördüğün Güneş, aslında 8 dakika önceki hâlidir.",
+              "example": ""
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "Güneş ışığı Dünya’ya yaklaşık {{8}} dakikada ulaşır.",
+              "distractors": [
+                "1",
+                "60",
+                "24"
+              ],
+              "explanation": "Işık çok hızlıdır ama Güneş de çok uzaktır: aradaki yaklaşık 150 milyon km’yi 8 dakikada aşar."
+            },
+            {
+              "type": "choice",
+              "question": "Gezegenleri Güneş’in çevresindeki yörüngelerinde tutan şey nedir?",
+              "answer": "Güneş’in kütle çekimi",
+              "distractors": [
+                "Güneş’in yaydığı ışık",
+                "Gezegenlerin manyetik alanı",
+                "Uzay boşluğunun basıncı"
+              ],
+              "explanation": "Güneş o kadar büyük kütlelidir ki çekimi bütün gezegenleri kendine bağlı tutar."
+            },
+            {
+              "type": "multi",
+              "question": "Hangileri Güneş için doğrudur?",
+              "answers": [
+                "Kendi ışığını üretir",
+                "Sistemin merkezindedir"
+              ],
+              "distractors": [
+                "Dünya’nın çevresinde döner",
+                "Kayalık bir yüzeyi vardır"
+              ],
+              "explanation": "Güneş merkezdedir ve ışık üretir. Dönen Dünya’dır; Güneş ise sıcak gazdan oluşur."
+            },
+            {
+              "type": "type",
+              "question": "Güneş Sistemi’nin merkezindeki yıldızın adı nedir?",
+              "answer": "Güneş",
+              "accept": [
+                "Güneş yıldızı"
+              ],
+              "explanation": "Sistemin adı da buradan gelir: Güneş Sistemi."
+            },
+            {
+              "type": "flashcard",
+              "front": "Güneş ışığı Dünya’ya ne kadar sürede ulaşır?",
+              "back": "Yaklaşık **8 dakikada**."
+            }
+          ]
+        },
+        {
+          "id": "u1/l2",
+          "title": "Kayalık Gezegenler",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Dört kayalık komşu",
+              "body": "Güneş’e en yakın dört gezegen **kayalık gezegenlerdir**. Yakından uzağa:\n1. Merkür\n2. Venüs\n3. Dünya\n4. Mars\nHepsinin üzerine basılabilecek katı bir yüzeyi vardır. Mars, rengi yüzünden **Kızıl Gezegen** diye anılır.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "Güneş’e en yakın gezegen hangisidir?",
+              "answer": "Merkür",
+              "distractors": [
+                "Venüs",
+                "Mars",
+                "Dünya"
+              ],
+              "explanation": "Sıra şöyle: Merkür, Venüs, Dünya, Mars."
+            },
+            {
+              "type": "order",
+              "question": "Kayalık gezegenleri Güneş’e yakından uzağa doğru sırala.",
+              "items": [
+                "Merkür",
+                "Venüs",
+                "Dünya",
+                "Mars"
+              ],
+              "explanation": "Dünya üçüncü sıradadır; hemen dışımızdaki komşu Mars’tır."
+            },
+            {
+              "type": "info",
+              "title": "En sıcak gezegen sürprizi",
+              "body": "En sıcak gezegen Güneş’e en yakın olan Merkür değil, **Venüs**’tür. Kalın karbondioksit atmosferi ısıyı içeride hapseder; buna **sera etkisi** denir. Yüzeyi yaklaşık 465 °C’dir.",
+              "example": "Güneşte camları kapalı bırakılmış bir araba gibi: ısı girer ama çıkamaz."
+            },
+            {
+              "type": "truefalse",
+              "statement": "Güneş’e en yakın gezegen, aynı zamanda en sıcak gezegendir.",
+              "answer": false,
+              "explanation": "En sıcak gezegen Venüs’tür. Merkür daha yakındır ama ısıyı tutacak kalın bir atmosferi yoktur."
+            },
+            {
+              "type": "match",
+              "question": "Gezegeni özelliğiyle eşleştir.",
+              "pairs": [
+                [
+                  "Merkür",
+                  "Güneş’e en yakın"
+                ],
+                [
+                  "Venüs",
+                  "En sıcak gezegen"
+                ],
+                [
+                  "Dünya",
+                  "Üçüncü gezegen"
+                ],
+                [
+                  "Mars",
+                  "Kızıl Gezegen"
+                ]
+              ],
+              "explanation": "Dört kayalık gezegenin dördü de artık tanıdık."
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "Venüs’ün kalın atmosferi ısıyı hapseder; buna {{sera etkisi}} denir.",
+              "distractors": [
+                "gelgit",
+                "tutulma"
+              ],
+              "explanation": "Sera etkisi, atmosferin ısıyı bir battaniye gibi tutmasıdır."
+            },
+            {
+              "type": "build",
+              "question": "Parçalardan doğru cümleyi kur.",
+              "answer": [
+                "Mars’a",
+                "Kızıl",
+                "Gezegen",
+                "denir"
+              ],
+              "distractors": [
+                "Venüs’e",
+                "Mavi"
+              ],
+              "accept": [],
+              "explanation": "Mars’a rengini yüzeyindeki demir oksit, yani pas verir."
+            },
+            {
+              "type": "type",
+              "question": "Güneş’e yakınlık sırasında üçüncü olan gezegen hangisidir?",
+              "answer": "Dünya",
+              "accept": [
+                "Yerküre"
+              ],
+              "explanation": "Merkür, Venüs, Dünya: evimiz üçüncü sırada."
+            }
+          ]
+        },
+        {
+          "id": "u1/l3",
+          "title": "Dünya ve Ay",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Tek uydumuz: Ay",
+              "body": "Ay, Dünya’nın tek doğal uydusudur. Dünya’nın çevresindeki bir turunu yaklaşık **27 günde** tamamlar. Ay kendi ışığını üretmez; Güneş’ten gelen ışığı **yansıtır**.",
+              "example": ""
+            },
+            {
+              "type": "truefalse",
+              "statement": "Ay, tıpkı Güneş gibi kendi ışığını üretir.",
+              "answer": false,
+              "explanation": "Ay bir ayna gibidir: gördüğümüz parlaklık, yansıyan Güneş ışığıdır."
+            },
+            {
+              "type": "choice",
+              "question": "Ay, Dünya’nın çevresindeki bir turunu yaklaşık ne kadar sürede tamamlar?",
+              "answer": "27 gün",
+              "distractors": [
+                "24 saat",
+                "7 gün",
+                "365 gün"
+              ],
+              "explanation": "Yaklaşık 27 gün. “Ay” dediğimiz zaman dilimi de buradan gelir."
+            },
+            {
+              "type": "info",
+              "title": "Mevsimler neden olur?",
+              "body": "Dünya kendi ekseni çevresinde **1 günde**, Güneş’in çevresinde **1 yılda** döner. Mevsimlerin nedeni Güneş’e uzaklık değil, Dünya’nın **eksen eğikliğidir** (yaklaşık 23,5°): yıl boyunca farklı yarım küreler Güneş ışınlarını daha dik alır.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "Mevsimlerin oluşmasının temel nedeni nedir?",
+              "answer": "Dünya’nın eksen eğikliği",
+              "distractors": [
+                "Dünya’nın Güneş’e yaklaşıp uzaklaşması",
+                "Ay’ın çekim kuvveti",
+                "Güneş’in ısısının yıl içinde değişmesi"
+              ],
+              "explanation": "Uzaklık olsaydı iki yarım kürede aynı anda yaz olurdu. Oysa biri yazı yaşarken diğeri kışı yaşar."
+            },
+            {
+              "type": "match",
+              "question": "Süreyi hareketle eşleştir.",
+              "pairs": [
+                [
+                  "1 gün",
+                  "Dünya’nın kendi ekseninde bir turu"
+                ],
+                [
+                  "Yaklaşık 27 gün",
+                  "Ay’ın Dünya çevresinde bir turu"
+                ],
+                [
+                  "1 yıl",
+                  "Dünya’nın Güneş çevresinde bir turu"
+                ]
+              ],
+              "explanation": "Gün, ay ve yıl: takvimimizin üç birimi de gökyüzündeki bir dönüşten gelir."
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "Dünya’nın eksen eğikliği yaklaşık {{23,5}} derecedir.",
+              "distractors": [
+                "0",
+                "45",
+                "90"
+              ],
+              "explanation": "Eğiklik 0 olsaydı mevsim olmazdı; 23,5 derece dört mevsimi getirir."
+            },
+            {
+              "type": "order",
+              "question": "Bu hareketleri en kısa sürenden en uzun sürene doğru sırala.",
+              "items": [
+                "Dünya’nın kendi ekseninde bir turu",
+                "Ay’ın Dünya çevresinde bir turu",
+                "Dünya’nın Güneş çevresinde bir turu"
+              ],
+              "explanation": "1 gün, yaklaşık 27 gün, 1 yıl."
+            },
+            {
+              "type": "multi",
+              "question": "Ay için hangileri doğrudur?",
+              "answers": [
+                "Dünya’nın doğal uydusudur",
+                "Güneş ışığını yansıtır"
+              ],
+              "distractors": [
+                "Kendi ışığını üretir",
+                "Bir gezegendir"
+              ],
+              "explanation": "Ay bir uydudur ve yalnızca yansıtır."
+            },
+            {
+              "type": "number",
+              "question": "Ay bir turunu yaklaşık 27 günde tamamlıyor. Üç turu yaklaşık kaç gün sürer?",
+              "answer": 81,
+              "tolerance": 0,
+              "unit": "gün",
+              "explanation": "Üç tur, yaklaşık üç ay demek: “ay” sözcüğü de zaten buradan gelir.",
+              "hint": "Tek turun süresini tur sayısıyla çarp.",
+              "solution": "1. Bir tur: 27 gün\n2. Üç tur: $27 \\cdot 3 = 81$ gün"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u2",
+      "title": "Dev Gezegenler ve Ötesi",
+      "description": "Gaz devleri, buz devleri ve Plüton’un hikâyesi.",
+      "emoji": "🪐",
+      "lessons": [
+        {
+          "id": "u2/l1",
+          "title": "Gaz Devleri",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Jüpiter ve Satürn",
+              "body": "Mars’tan sonra **gaz devleri** gelir: Jüpiter ve Satürn. Çoğunlukla hidrojen ve helyumdan oluşurlar; üzerine basabileceğin katı bir yüzeyleri yoktur. **Jüpiter**, Güneş Sistemi’nin en büyük gezegenidir.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "Güneş Sistemi’nin en büyük gezegeni hangisidir?",
+              "answer": "Jüpiter",
+              "distractors": [
+                "Satürn",
+                "Dünya",
+                "Mars"
+              ],
+              "explanation": "Jüpiter o kadar büyüktür ki içine binden fazla Dünya sığar."
+            },
+            {
+              "type": "truefalse",
+              "statement": "Jüpiter’in üzerinde yürüyebileceğin katı bir yüzeyi vardır.",
+              "answer": false,
+              "explanation": "Gaz devlerinde inilecek bir zemin yoktur; derine indikçe gaz yalnızca yoğunlaşır."
+            },
+            {
+              "type": "info",
+              "title": "Dev fırtına ve halkalar",
+              "body": "Jüpiter’deki **Büyük Kırmızı Leke**, yüzyıllardır süren ve Dünya’dan bile büyük olan dev bir fırtınadır. **Satürn** ise buz ve kaya parçalarından oluşan görkemli **halkalarıyla** tanınır.",
+              "example": ""
+            },
+            {
+              "type": "match",
+              "question": "Eşleştir.",
+              "pairs": [
+                [
+                  "Jüpiter",
+                  "En büyük gezegen"
+                ],
+                [
+                  "Satürn",
+                  "Görkemli halkalar"
+                ],
+                [
+                  "Büyük Kırmızı Leke",
+                  "Dev bir fırtına"
+                ],
+                [
+                  "Hidrojen ve helyum",
+                  "Gaz devlerinin ana maddesi"
+                ]
+              ],
+              "explanation": "Gaz devlerinin kimlik kartı tamam."
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "Satürn’ün halkaları {{buz}} ve kaya parçalarından oluşur.",
+              "distractors": [
+                "lav",
+                "demir"
+              ],
+              "explanation": "Halkalar tek parça değildir: toz tanesinden ev boyutuna kadar sayısız buz ve kaya parçasıdır."
+            },
+            {
+              "type": "categorize",
+              "question": "Kayalık mı, gaz devi mi?",
+              "categories": [
+                {
+                  "name": "Kayalık gezegen",
+                  "items": [
+                    "Merkür",
+                    "Venüs",
+                    "Dünya",
+                    "Mars"
+                  ]
+                },
+                {
+                  "name": "Gaz devi",
+                  "items": [
+                    "Jüpiter",
+                    "Satürn"
+                  ]
+                }
+              ],
+              "explanation": "İçteki dört gezegen kayalıktır; Jüpiter ve Satürn gaz devidir."
+            },
+            {
+              "type": "type",
+              "question": "Halkalarıyla ünlü gezegen hangisidir?",
+              "answer": "Satürn",
+              "accept": [],
+              "explanation": "Başka gezegenlerin de ince halkaları vardır ama hiçbiri Satürn’ünkiler kadar gösterişli değildir."
+            },
+            {
+              "type": "flashcard",
+              "front": "Büyük Kırmızı Leke nedir?",
+              "back": "Jüpiter’de yüzyıllardır süren, Dünya’dan büyük dev bir **fırtına**."
+            }
+          ]
+        },
+        {
+          "id": "u2/l2",
+          "title": "Buz Devleri ve Plüton",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Uranüs ve Neptün",
+              "body": "En dıştaki iki gezegen **buz devleridir**: Uranüs ve Neptün. Uranüs neredeyse **yan yatmış** hâlde döner. **Neptün** ise Güneş’e en uzak gezegendir.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "Güneş’e en uzak gezegen hangisidir?",
+              "answer": "Neptün",
+              "distractors": [
+                "Uranüs",
+                "Satürn",
+                "Jüpiter"
+              ],
+              "explanation": "Sıra şöyle biter: Jüpiter, Satürn, Uranüs, Neptün."
+            },
+            {
+              "type": "truefalse",
+              "statement": "Uranüs neredeyse yan yatmış hâlde döner.",
+              "answer": true,
+              "explanation": "Ekseni o kadar eğiktir ki yörüngesinde yuvarlanan bir top gibi ilerler."
+            },
+            {
+              "type": "info",
+              "title": "Plüton’a ne oldu?",
+              "body": "Plüton, 2006’da **cüce gezegen** olarak yeniden sınıflandırıldı. Böylece Güneş Sistemi’nde **8 gezegen** kaldı. Neptün’ün ötesinde, Plüton gibi buzlu cisimlerle dolu **Kuiper Kuşağı** uzanır.",
+              "example": ""
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "Güneş Sistemi’nde {{8}} gezegen vardır; Plüton ise bir {{cüce gezegen}} sayılır.",
+              "distractors": [
+                "9",
+                "uydu"
+              ],
+              "explanation": "2006’daki karardan beri gezegen sayısı 8’dir."
+            },
+            {
+              "type": "order",
+              "question": "Dış gezegenleri Güneş’e yakından uzağa doğru sırala.",
+              "items": [
+                "Jüpiter",
+                "Satürn",
+                "Uranüs",
+                "Neptün"
+              ],
+              "explanation": "Önce iki gaz devi, sonra iki buz devi."
+            },
+            {
+              "type": "build",
+              "question": "Parçalardan doğru cümleyi kur.",
+              "answer": [
+                "Neptün",
+                "Güneş’e",
+                "en",
+                "uzak",
+                "gezegendir"
+              ],
+              "distractors": [
+                "yakın",
+                "Uranüs"
+              ],
+              "accept": [
+                "Güneş’e en uzak gezegendir Neptün"
+              ],
+              "explanation": "En uzak gezegen Neptün, en yakın gezegen Merkür."
+            },
+            {
+              "type": "categorize",
+              "question": "Hangi gruba ait?",
+              "categories": [
+                {
+                  "name": "Gaz devi",
+                  "items": [
+                    "Jüpiter",
+                    "Satürn"
+                  ]
+                },
+                {
+                  "name": "Buz devi",
+                  "items": [
+                    "Uranüs",
+                    "Neptün"
+                  ]
+                },
+                {
+                  "name": "Cüce gezegen",
+                  "items": [
+                    "Plüton"
+                  ]
+                }
+              ],
+              "explanation": "Dıştaki dört gezegen ikişerli iki gruba ayrılır; Plüton ise ayrı bir sınıftadır."
+            },
+            {
+              "type": "type",
+              "question": "Neptün’ün ötesindeki, buzlu cisimlerle dolu bölgenin adı nedir?",
+              "answer": "Kuiper Kuşağı",
+              "accept": [
+                "Kuiper",
+                "Kuiper Kuşağı bölgesi"
+              ],
+              "explanation": "Plüton da bu kuşağın bir üyesidir."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u3",
+      "title": "Küçük Cisimler",
+      "description": "Asteroitler, kuyruklu yıldızlar ve kayan yıldızlar.",
+      "emoji": "☄️",
+      "lessons": [
+        {
+          "id": "u3/l1",
+          "title": "Asteroit Kuşağı",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Mars ile Jüpiter arasında",
+              "body": "Mars ile Jüpiter’in yörüngeleri arasında milyonlarca kaya parçası döner: buna **Asteroit Kuşağı** denir. Kuşağın en büyük cismi **Ceres**’tir; o kadar büyüktür ki cüce gezegen sayılır.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "Asteroit Kuşağı hangi iki gezegenin arasındadır?",
+              "answer": "Mars ve Jüpiter",
+              "distractors": [
+                "Dünya ve Mars",
+                "Jüpiter ve Satürn",
+                "Venüs ve Dünya"
+              ],
+              "explanation": "Kuşak, kayalık gezegenlerle gaz devlerini birbirinden ayırır."
+            },
+            {
+              "type": "truefalse",
+              "statement": "Asteroitler çoğunlukla gazdan oluşur.",
+              "answer": false,
+              "explanation": "Asteroitler kaya ve metalden oluşur."
+            },
+            {
+              "type": "type",
+              "question": "Asteroit Kuşağı’nın en büyük cismi hangisidir?",
+              "answer": "Ceres",
+              "accept": [],
+              "explanation": "Ceres hem kuşağın en büyüğü hem de bir cüce gezegendir."
+            },
+            {
+              "type": "categorize",
+              "question": "Cüce gezegen mi, gezegen mi?",
+              "categories": [
+                {
+                  "name": "Cüce gezegen",
+                  "items": [
+                    "Ceres",
+                    "Plüton"
+                  ]
+                },
+                {
+                  "name": "Gezegen",
+                  "items": [
+                    "Mars",
+                    "Neptün",
+                    "Venüs"
+                  ]
+                }
+              ],
+              "explanation": "Ceres ve Plüton cüce gezegendir."
+            }
+          ]
+        },
+        {
+          "id": "u3/l2",
+          "title": "Kuyruklu Yıldızlar ve Kayan Yıldızlar",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Buzdan gezginler",
+              "body": "**Kuyruklu yıldızlar** buz ve tozdan oluşur. Güneş’e yaklaşınca buzları buharlaşır ve parlak bir kuyruk oluşur; kuyruk hep **Güneş’in tersini** gösterir. Atmosfere girip yanan küçük parçalara ise **kayan yıldız** deriz; yere ulaşabilen parçaya **göktaşı** denir.",
+              "example": ""
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "Kuyruklu yıldızın kuyruğu her zaman Güneş’in {{tersini}} gösterir.",
+              "distractors": [
+                "yönünü",
+                "altını"
+              ],
+              "explanation": "Güneş’ten gelen parçacıklar kuyruğu dışarı doğru iter."
+            },
+            {
+              "type": "choice",
+              "question": "Kuyruklu yıldızlar çoğunlukla neden oluşur?",
+              "answer": "Buz ve toz",
+              "distractors": [
+                "Erimiş lav",
+                "Yalnızca demir",
+                "Sıcak gaz"
+              ],
+              "explanation": "Bu yüzden onlara “kirli kartopu” da denir."
+            },
+            {
+              "type": "match",
+              "question": "Eşleştir.",
+              "pairs": [
+                [
+                  "Kayan yıldız",
+                  "Atmosferde yanan parça"
+                ],
+                [
+                  "Göktaşı",
+                  "Yere ulaşan parça"
+                ],
+                [
+                  "Kuyruklu yıldız",
+                  "Buz ve tozdan gezgin"
+                ]
+              ],
+              "explanation": "Üçü de Güneş Sistemi’nin küçük cisimleridir."
+            },
+            {
+              "type": "truefalse",
+              "statement": "Kayan yıldızlar gerçekten birer yıldızdır.",
+              "answer": false,
+              "explanation": "Atmosferde yanan küçük kaya ve toz parçalarıdır."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u4",
+      "title": "Uydular",
+      "description": "Başka gezegenlerin ilginç uyduları.",
+      "emoji": "🌙",
+      "lessons": [
+        {
+          "id": "u4/l1",
+          "title": "Jüpiter’in Uyduları",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Galileo’nun dört uydusu",
+              "body": "Jüpiter’in dört büyük uydusu vardır: **Io**, **Europa**, **Ganymede** ve **Callisto**. Ganymede, Güneş Sistemi’nin **en büyük uydusudur**. Io yanardağlarıyla, Europa ise buz kabuğunun altındaki okyanusuyla ünlüdür.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "Güneş Sistemi’nin en büyük uydusu hangisidir?",
+              "answer": "Ganymede",
+              "distractors": [
+                "Ay",
+                "Europa",
+                "Io"
+              ],
+              "explanation": "Ganymede, Merkür gezegeninden bile büyüktür."
+            },
+            {
+              "type": "match",
+              "question": "Uyduyu özelliğiyle eşleştir.",
+              "pairs": [
+                [
+                  "Io",
+                  "Yanardağlar"
+                ],
+                [
+                  "Europa",
+                  "Buz altında okyanus"
+                ],
+                [
+                  "Ganymede",
+                  "En büyük uydu"
+                ]
+              ],
+              "explanation": "Üçü de Jüpiter’in çevresinde döner."
+            },
+            {
+              "type": "truefalse",
+              "statement": "Europa’nın buz kabuğunun altında bir okyanus bulunduğu düşünülüyor.",
+              "answer": true,
+              "explanation": "Bu yüzden yaşam arayışında en merak edilen yerlerden biridir."
+            },
+            {
+              "type": "multi",
+              "question": "Hangileri Jüpiter’in uydusudur?",
+              "answers": [
+                "Io",
+                "Callisto"
+              ],
+              "distractors": [
+                "Ay",
+                "Ceres"
+              ],
+              "explanation": "Ay Dünya’nın uydusudur; Ceres ise bir cüce gezegendir."
+            }
+          ]
+        },
+        {
+          "id": "u4/l2",
+          "title": "Titan ve Mars’ın Uyduları",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Atmosferi olan uydu",
+              "body": "**Titan**, Satürn’ün en büyük uydusudur ve **kalın bir atmosferi** olan tek uydudur. Mars’ın ise iki küçük uydusu vardır: **Phobos** ve **Deimos**.",
+              "example": ""
+            },
+            {
+              "type": "type",
+              "question": "Kalın bir atmosferi olan uydunun adı nedir?",
+              "answer": "Titan",
+              "accept": [],
+              "explanation": "Titan’ın atmosferi Dünya’nınkinden bile yoğundur."
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "Mars’ın {{2}} uydusu vardır.",
+              "distractors": [
+                "1",
+                "4"
+              ],
+              "explanation": "Phobos ve Deimos."
+            },
+            {
+              "type": "categorize",
+              "question": "Bu uydu hangi gezegenin?",
+              "categories": [
+                {
+                  "name": "Jüpiter",
+                  "items": [
+                    "Io",
+                    "Europa"
+                  ]
+                },
+                {
+                  "name": "Satürn",
+                  "items": [
+                    "Titan"
+                  ]
+                },
+                {
+                  "name": "Mars",
+                  "items": [
+                    "Phobos",
+                    "Deimos"
+                  ]
+                }
+              ],
+              "explanation": "Jüpiter’in dört büyük uydusundan ikisi, Satürn’ün devi ve Mars’ın iki küçüğü."
+            },
+            {
+              "type": "flashcard",
+              "front": "Titan’ı diğer uydulardan ayıran özellik nedir?",
+              "back": "**Kalın bir atmosferinin** olması."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u5",
+      "title": "Güneş’in Sırları",
+      "description": "Güneş neden parlar; lekeleri ve rüzgârı nedir?",
+      "emoji": "🔥",
+      "lessons": [
+        {
+          "id": "u5/l1",
+          "title": "Güneş Neden Parlar?",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Dev bir füzyon fırını",
+              "body": "Güneş’in çekirdeğinde **hidrojen** atomları birleşerek **helyuma** dönüşür; buna **füzyon** denir. Açığa çıkan enerji bize ışık ve ısı olarak ulaşır. Çekirdek yaklaşık **15 milyon °C**, yüzey ise yaklaşık 5.500 °C’dir.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "Güneş’in enerjisini üreten olayın adı nedir?",
+              "answer": "Füzyon",
+              "distractors": [
+                "Yanma",
+                "Sürtünme",
+                "Buharlaşma"
+              ],
+              "explanation": "Güneş bir ateş gibi yanmaz; atomlar birleşir."
+            },
+            {
+              "type": "build",
+              "question": "Parçalardan doğru cümleyi kur.",
+              "answer": [
+                "Hidrojen",
+                "füzyonla",
+                "helyuma",
+                "dönüşür"
+              ],
+              "distractors": [
+                "demire",
+                "buza"
+              ],
+              "accept": [],
+              "explanation": "Füzyonun yakıtı hidrojen, ürünü helyumdur."
+            },
+            {
+              "type": "truefalse",
+              "statement": "Güneş’in çekirdeği yüzeyinden daha soğuktur.",
+              "answer": false,
+              "explanation": "Çekirdek milyonlarca derece, yüzey ise binlerce derecedir."
+            },
+            {
+              "type": "order",
+              "question": "En soğuktan en sıcağa doğru sırala.",
+              "items": [
+                "Dünya’nın yüzeyi",
+                "Venüs’ün yüzeyi",
+                "Güneş’in yüzeyi",
+                "Güneş’in çekirdeği"
+              ],
+              "explanation": "Yaklaşık 15 °C, 465 °C, 5.500 °C ve 15 milyon °C."
+            }
+          ]
+        },
+        {
+          "id": "u5/l2",
+          "title": "Lekeler ve Güneş Rüzgârı",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Lekeler ve rüzgâr",
+              "body": "**Güneş lekeleri**, çevresinden daha soğuk olduğu için koyu görünen bölgelerdir. Güneş ayrıca uzaya sürekli yüklü parçacıklar saçar: buna **güneş rüzgârı** denir. Bu parçacıklar Dünya’nın kutuplarına yakın yerlerde **kutup ışıklarını** oluşturur.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "Güneş lekeleri neden koyu görünür?",
+              "answer": "Çevrelerinden daha soğuk oldukları için",
+              "distractors": [
+                "Yüzeyde delik oldukları için",
+                "Üzerlerinde bulut olduğu için",
+                "Gölgede kaldıkları için"
+              ],
+              "explanation": "Daha soğuk bölge daha az ışık yayar."
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "Kutup ışıklarını {{güneş rüzgârı}} oluşturur.",
+              "distractors": [
+                "ay ışığı",
+                "asteroitler"
+              ],
+              "explanation": "Yüklü parçacıklar atmosferle çarpışınca gökyüzü ışıldar."
+            },
+            {
+              "type": "truefalse",
+              "statement": "Güneş rüzgârı, Güneş’ten uzaya yayılan yüklü parçacıklardır.",
+              "answer": true,
+              "explanation": "Bu rüzgâr kuyruklu yıldızların kuyruğunu da dışarı iter."
+            },
+            {
+              "type": "type",
+              "question": "Kutuplara yakın gökyüzünde görülen renkli ışıklara ne denir?",
+              "answer": "Kutup ışıkları",
+              "accept": [
+                "Aurora",
+                "Kuzey ışıkları"
+              ],
+              "explanation": "Kuzeyde görülenlere kuzey ışıkları da denir."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u6",
+      "title": "Ay’ın Evreleri ve Tutulmalar",
+      "description": "Ay neden şekil değiştirir, tutulma nasıl olur?",
+      "emoji": "🌗",
+      "lessons": [
+        {
+          "id": "u6/l1",
+          "title": "Ay’ın Evreleri",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Ay’ın şekli değişmez",
+              "body": "Ay’ın her zaman yarısı aydınlıktır; o aydınlık yarının ne kadarını görürsek Ay bize öyle görünür. Evreler sırayla: **yeni ay**, **ilk dördün**, **dolunay**, **son dördün**. Bir tur yaklaşık **29,5 gün** sürer.",
+              "example": ""
+            },
+            {
+              "type": "order",
+              "question": "Ay’ın evrelerini yeni aydan başlayarak sırala.",
+              "items": [
+                "Yeni ay",
+                "İlk dördün",
+                "Dolunay",
+                "Son dördün"
+              ],
+              "explanation": "Sonra yine yeni aya dönülür."
+            },
+            {
+              "type": "choice",
+              "question": "Ay’ın tamamen aydınlık göründüğü evre hangisidir?",
+              "answer": "Dolunay",
+              "distractors": [
+                "Yeni ay",
+                "İlk dördün",
+                "Son dördün"
+              ],
+              "explanation": "Dolunayda aydınlık yüzün tamamını görürüz."
+            },
+            {
+              "type": "truefalse",
+              "statement": "Evreler, Ay’ın gerçekten küçülüp büyümesiyle oluşur.",
+              "answer": false,
+              "explanation": "Değişen, aydınlık yarının bize görünen kısmıdır."
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "Ay’ın evrelerinin bir turu yaklaşık {{29,5}} gün sürer.",
+              "distractors": [
+                "7",
+                "365"
+              ],
+              "explanation": "Takvimdeki “ay” birimi buradan gelir."
+            }
+          ]
+        },
+        {
+          "id": "u6/l2",
+          "title": "Tutulmalar",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Gölge oyunu",
+              "body": "**Güneş tutulmasında** Ay, Güneş ile Dünya’nın arasına girer ve Güneş’i örter. **Ay tutulmasında** ise Dünya araya girer ve gölgesi Ay’ın üzerine düşer.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "Güneş tutulmasında araya giren hangisidir?",
+              "answer": "Ay",
+              "distractors": [
+                "Dünya",
+                "Mars",
+                "Venüs"
+              ],
+              "explanation": "Ay, Güneş ile Dünya’nın arasına girer."
+            },
+            {
+              "type": "match",
+              "question": "Tutulmayı açıklamasıyla eşleştir.",
+              "pairs": [
+                [
+                  "Güneş tutulması",
+                  "Ay, Güneş’i örter"
+                ],
+                [
+                  "Ay tutulması",
+                  "Dünya’nın gölgesi Ay’a düşer"
+                ]
+              ],
+              "explanation": "İkisinde de üç gök cismi aynı hizaya gelir."
+            },
+            {
+              "type": "truefalse",
+              "statement": "Ay tutulmasında Dünya, Güneş ile Ay’ın arasındadır.",
+              "answer": true,
+              "explanation": "Bu yüzden Ay tutulması yalnızca dolunayda olur."
+            },
+            {
+              "type": "build",
+              "question": "Parçalardan doğru cümleyi kur.",
+              "answer": [
+                "Güneş tutulmasında",
+                "Ay",
+                "Güneş’i",
+                "örter"
+              ],
+              "distractors": [
+                "Dünya",
+                "Mars’ı"
+              ],
+              "accept": [],
+              "explanation": "Örten Ay, örtülen Güneş’tir."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u7",
+      "title": "Keşif Yolculuğu",
+      "description": "Teleskoptan uzay araçlarına: Güneş Sistemi’ni nasıl tanıdık?",
+      "emoji": "🚀",
+      "lessons": [
+        {
+          "id": "u7/l1",
+          "title": "Teleskop",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Galileo gökyüzüne bakıyor",
+              "body": "**Galileo**, 1610’da teleskobunu gökyüzüne çevirdi ve Jüpiter’in çevresinde dönen dört uydu gördü. Bu, her şeyin Dünya’nın çevresinde dönmediğinin güçlü bir kanıtıydı.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "Jüpiter’in dört büyük uydusunu ilk kim gözlemledi?",
+              "answer": "Galileo",
+              "distractors": [
+                "Newton",
+                "Einstein",
+                "Kopernik"
+              ],
+              "explanation": "Bu yüzden onlara Galileo uyduları denir."
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "Galileo, Jüpiter’in uydularını {{1610}} yılında gözlemledi.",
+              "distractors": [
+                "1492",
+                "1969"
+              ],
+              "explanation": "Teleskop o yıllarda yeni icat edilmişti."
+            },
+            {
+              "type": "truefalse",
+              "statement": "Galileo’nun gözlemleri, her şeyin Dünya’nın çevresinde döndüğü fikrini destekledi.",
+              "answer": false,
+              "explanation": "Tam tersine: başka bir gezegenin çevresinde dönen cisimler olduğunu gösterdi."
+            },
+            {
+              "type": "flashcard",
+              "front": "Galileo 1610’da Jüpiter’in çevresinde ne gördü?",
+              "back": "Dört büyük uydu: **Io, Europa, Ganymede, Callisto**."
+            }
+          ]
+        },
+        {
+          "id": "u7/l2",
+          "title": "Uzay Araçları",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "İnsan ve robot kâşifler",
+              "body": "1969’da **Apollo 11** ile insanlar ilk kez Ay’a ayak bastı. 1977’de fırlatılan **Voyager 1**, insan yapımı en uzak araçtır ve yıldızlararası uzaya ulaşmıştır. Mars’ta ise **Perseverance** gibi robot gezginler dolaşır.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "İnsanlar Ay’a ilk kez hangi görevle ayak bastı?",
+              "answer": "Apollo 11",
+              "distractors": [
+                "Voyager 1",
+                "Perseverance",
+                "Apollo 1"
+              ],
+              "explanation": "Yıl 1969’du."
+            },
+            {
+              "type": "match",
+              "question": "Aracı başarısıyla eşleştir.",
+              "pairs": [
+                [
+                  "Apollo 11",
+                  "Ay’a ilk insanlar"
+                ],
+                [
+                  "Voyager 1",
+                  "En uzak insan yapımı araç"
+                ],
+                [
+                  "Perseverance",
+                  "Mars’ta robot gezgin"
+                ]
+              ],
+              "explanation": "Üçü de keşif tarihinin dönüm noktalarıdır."
+            },
+            {
+              "type": "order",
+              "question": "Olayları eskiden yeniye doğru sırala.",
+              "items": [
+                "Galileo Jüpiter’in uydularını görür",
+                "Apollo 11 Ay’a iner",
+                "Voyager 1 fırlatılır",
+                "Perseverance Mars’a iner"
+              ],
+              "explanation": "1610, 1969, 1977 ve 2021."
+            },
+            {
+              "type": "type",
+              "question": "İnsan yapımı en uzak uzay aracının adı nedir?",
+              "answer": "Voyager 1",
+              "accept": [
+                "Voyager"
+              ],
+              "explanation": "1977’den beri yol alıyor."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u8",
+      "title": "Sayılarla Uzay",
+      "description": "Hız, yol, süre, grafikler ve biraz da uzay İngilizcesi.",
+      "emoji": "🧮",
+      "lessons": [
+        {
+          "id": "u8/l1",
+          "title": "Işık Ne Kadar Hızlı?",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Yol, hız ve süre",
+              "body": "Sabit hızla giden bir cismin aldığı yol, hızı ile sürenin çarpımıdır: $x = v \\cdot t$\n\nSüreyi arıyorsan yolu hıza bölersin:\n\n$$t = \\frac{x}{v}$$\n\n**Işık** saniyede yaklaşık **300 000 km** yol alır; evrendeki en yüksek hız budur.",
+              "example": "Saatte 80 km hızla 2 saatte $80 \\cdot 2 = 160$ km gidersin."
+            },
+            {
+              "type": "choice",
+              "question": "Yolu ve hızı biliyorsun. Süreyi hangi formül verir?",
+              "answer": "$t = \\frac{x}{v}$",
+              "distractors": [
+                "$t = x \\cdot v$",
+                "$t = \\frac{v}{x}$",
+                "$t = x + v$"
+              ],
+              "explanation": "Yol = hız × süre olduğundan süre, yolun hıza bölümüdür."
+            },
+            {
+              "type": "number",
+              "question": "Işık saniyede 300 000 km yol alır. 2 saniyede kaç km gider?",
+              "answer": 600000,
+              "tolerance": 0,
+              "unit": "km",
+              "explanation": "Bu, Dünya ile Ay arasındaki uzaklığın bir buçuk katından fazla!",
+              "hint": "$x = v \\cdot t$ formülünde hız 300 000 km/s, süre 2 s.",
+              "solution": "1. Formül: $x = v \\cdot t$\n2. Değerleri yerine koy: $x = 300\\,000 \\cdot 2$\n3. Sonuç: **600 000 km**"
+            },
+            {
+              "type": "truefalse",
+              "statement": "Aynı yolu iki kat hızla giden bir araç, yolu yarı sürede tamamlar.",
+              "answer": true,
+              "explanation": "$t = \\frac{x}{v}$ formülünde payda iki katına çıkarsa sonuç yarıya iner."
+            },
+            {
+              "type": "number",
+              "question": "Güneş, Dünya’dan yaklaşık 150 milyon km uzaktadır. Işık bu yolu kaç saniyede alır?",
+              "answer": 500,
+              "tolerance": 5,
+              "unit": "s",
+              "explanation": "Yani şu an gördüğün Güneş ışığı yaklaşık 8 dakika önce yola çıktı.",
+              "hint": "Süre = yol ÷ hız. Önce sıfırları sadeleştirirsen işin kolaylaşır.",
+              "solution": "1. Formül: $t = \\frac{x}{v}$\n2. Yerine koy: $t = \\frac{150\\,000\\,000}{300\\,000}$\n3. Sıfırları sadeleştir: $t = \\frac{1500}{3} = 500$ s\n4. Dakikaya çevir: $500 \\div 60 \\approx 8{,}3$ dakika"
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "Işığın Güneş’ten Dünya’ya gelmesi yaklaşık {{8}} dakika sürer.",
+              "distractors": [
+                "1",
+                "80"
+              ],
+              "explanation": "500 saniye, 8 dakikadan biraz fazladır."
+            },
+            {
+              "type": "build",
+              "question": "Yol formülünü kur.",
+              "answer": [
+                "$x$",
+                "=",
+                "$v$",
+                "·",
+                "$t$"
+              ],
+              "distractors": [
+                "+",
+                "÷"
+              ],
+              "accept": [
+                "$x$ = $t$ · $v$"
+              ],
+              "explanation": "Yol, hız ile sürenin çarpımıdır."
+            }
+          ]
+        },
+        {
+          "id": "u8/l2",
+          "title": "Mars Günlüğü",
+          "context": "**Bir Mars keşif aracının günlüğünden**\n\nMars’ta bir gün, yani bir *sol*, yaklaşık **24 saat 40 dakika** sürer. Bir Mars yılı **687 Dünya günüdür**. Kütle çekimi Dünya’dakinin yaklaşık **%38**’i kadardır. Araç bir solda ortalama **100 metre** yol alır.",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Önce metni oku",
+              "body": "Sıradaki sorular bir Mars keşif aracının **günlüğüne** dayanıyor. Metin her sorunun üstünde durur; başlığına dokunarak kapatıp yeniden açabilirsin.\n\nTakılırsan **İpucu** düğmesine dokun; cevabından sonra **Çözümü gör** ile adım adım çözüme bakabilirsin.",
+              "example": ""
+            },
+            {
+              "type": "choice",
+              "question": "Metne göre Mars’ta bir güne ne ad verilir?",
+              "answer": "Sol",
+              "distractors": [
+                "Tur",
+                "Evre",
+                "Mars ayı"
+              ],
+              "explanation": "*Sol*, Latincede “güneş” demektir; Mars’taki bir güneş gününü anlatır."
+            },
+            {
+              "type": "truefalse",
+              "statement": "Metne göre bir Mars yılı, bir Dünya yılından kısadır.",
+              "answer": false,
+              "explanation": "687 gün, 365 günden uzundur: bir Mars yılı neredeyse iki Dünya yılı sürer."
+            },
+            {
+              "type": "number",
+              "question": "Araç 30 solda toplam kaç metre yol alır?",
+              "answer": 3000,
+              "tolerance": 0,
+              "unit": "m",
+              "explanation": "Mars araçları acele etmez: 3 km’lik yol bir aydan uzun sürer.",
+              "hint": "Bir solda alınan yolu sol sayısıyla çarp.",
+              "solution": "1. Bir solda: 100 m\n2. 30 solda: $100 \\cdot 30 = 3000$ m\n3. Yani **3 km**"
+            },
+            {
+              "type": "number",
+              "question": "Dünya’daki tartıda 50 kg gelen bir sporcu Mars’ta aynı tartıya çıksa tartı kaç kg gösterir?",
+              "answer": 19,
+              "tolerance": 0.5,
+              "unit": "kg",
+              "explanation": "Kütlen değişmez ama ağırlığın azalır; Mars’ta çok daha yükseğe zıplarsın.",
+              "hint": "Bir sayının %38’ini bulmak için onu 0,38 ile çarp.",
+              "solution": "1. Oran: $\\%38 = \\frac{38}{100} = 0{,}38$\n2. Çarp: $50 \\cdot 0{,}38 = 19$\n3. Tartı yaklaşık **19 kg** gösterir."
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "Bir Mars yılı {{687}} Dünya günü sürer.",
+              "distractors": [
+                "365",
+                "88"
+              ],
+              "explanation": "365 gün Dünya’nın, 88 gün ise Merkür’ün yılıdır."
+            },
+            {
+              "type": "match",
+              "question": "Metindeki bilgileri eşleştir.",
+              "pairs": [
+                [
+                  "Bir sol",
+                  "24 saat 40 dakika"
+                ],
+                [
+                  "Bir Mars yılı",
+                  "687 Dünya günü"
+                ],
+                [
+                  "Mars’ın kütle çekimi",
+                  "Dünya’dakinin %38’i"
+                ],
+                [
+                  "Bir solda alınan yol",
+                  "100 metre"
+                ]
+              ],
+              "explanation": "Günlüğü baştan sona okumuş oldun."
+            }
+          ]
+        },
+        {
+          "id": "u8/l3",
+          "title": "Grafik Okuma",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Sütun grafiği",
+              "body": "**Sütun grafiğinde** sütun ne kadar uzunsa değer o kadar büyüktür. Grafiğe dokunursan o sütunun tam değerini görürsün; sağ üstteki düğme aynı veriyi tablo olarak gösterir.",
+              "example": "",
+              "chart": {
+                "type": "bar",
+                "title": "Kayalık gezegenlerin çapı",
+                "labels": [
+                  "Merkür",
+                  "Venüs",
+                  "Dünya",
+                  "Mars"
+                ],
+                "values": [
+                  4879,
+                  12104,
+                  12742,
+                  6779
+                ],
+                "y": "km"
+              }
+            },
+            {
+              "type": "choice",
+              "question": "Grafiğe göre en küçük kayalık gezegen hangisidir?",
+              "answer": "Merkür",
+              "distractors": [
+                "Mars",
+                "Venüs",
+                "Dünya"
+              ],
+              "explanation": "En kısa sütun Merkür’ünkidir: çapı 5 bin km’den bile az.",
+              "chart": {
+                "type": "bar",
+                "title": "Kayalık gezegenlerin çapı",
+                "labels": [
+                  "Merkür",
+                  "Venüs",
+                  "Dünya",
+                  "Mars"
+                ],
+                "values": [
+                  4879,
+                  12104,
+                  12742,
+                  6779
+                ],
+                "y": "km"
+              }
+            },
+            {
+              "type": "truefalse",
+              "statement": "Grafiğe göre Venüs ile Dünya neredeyse aynı büyüklüktedir.",
+              "answer": true,
+              "explanation": "İki sütun neredeyse aynı boyda; bu yüzden Venüs’e Dünya’nın ikizi denir.",
+              "chart": {
+                "type": "bar",
+                "title": "Kayalık gezegenlerin çapı",
+                "labels": [
+                  "Merkür",
+                  "Venüs",
+                  "Dünya",
+                  "Mars"
+                ],
+                "values": [
+                  4879,
+                  12104,
+                  12742,
+                  6779
+                ],
+                "y": "km"
+              }
+            },
+            {
+              "type": "number",
+              "question": "Grafiğe göre Mars’ın çapı yaklaşık kaç **bin** km’dir?",
+              "answer": 7,
+              "tolerance": 1,
+              "unit": "bin km",
+              "explanation": "Mars’ın çapı 6 779 km’dir: Dünya’nın yaklaşık yarısı.",
+              "hint": "Mars’ın sütununa dokun ya da ucunun hangi çizgiler arasında kaldığına bak.",
+              "chart": {
+                "type": "bar",
+                "title": "Kayalık gezegenlerin çapı",
+                "labels": [
+                  "Merkür",
+                  "Venüs",
+                  "Dünya",
+                  "Mars"
+                ],
+                "values": [
+                  4879,
+                  12104,
+                  12742,
+                  6779
+                ],
+                "y": "km"
+              }
+            },
+            {
+              "type": "info",
+              "title": "Çizgi grafiği",
+              "body": "**Çizgi grafiği** bir değerin nasıl değiştiğini gösterir. Güneş’ten uzaklaştıkça gezegenler soğur; ama bir istisna var: **Venüs**! Kalın atmosferi ısıyı hapsettiği için Güneş’e daha yakın olan Merkür’den bile sıcaktır.",
+              "example": "",
+              "chart": {
+                "type": "line",
+                "title": "Ortalama sıcaklık",
+                "labels": [
+                  "Merkür",
+                  "Venüs",
+                  "Dünya",
+                  "Mars",
+                  "Jüpiter",
+                  "Satürn"
+                ],
+                "values": [
+                  167,
+                  464,
+                  15,
+                  -65,
+                  -110,
+                  -140
+                ],
+                "y": "°C"
+              }
+            },
+            {
+              "type": "choice",
+              "question": "Grafiğe göre en sıcak gezegen hangisidir?",
+              "answer": "Venüs",
+              "distractors": [
+                "Merkür",
+                "Dünya",
+                "Jüpiter"
+              ],
+              "explanation": "Çizginin tepe noktası Venüs’tedir: yaklaşık 460 °C.",
+              "chart": {
+                "type": "line",
+                "title": "Ortalama sıcaklık",
+                "labels": [
+                  "Merkür",
+                  "Venüs",
+                  "Dünya",
+                  "Mars",
+                  "Jüpiter",
+                  "Satürn"
+                ],
+                "values": [
+                  167,
+                  464,
+                  15,
+                  -65,
+                  -110,
+                  -140
+                ],
+                "y": "°C"
+              }
+            },
+            {
+              "type": "truefalse",
+              "statement": "Grafiğe göre Mars’ın ortalama sıcaklığı sıfırın altındadır.",
+              "answer": true,
+              "explanation": "Mars’ın noktası sıfır çizgisinin altında kalır: yaklaşık −65 °C.",
+              "chart": {
+                "type": "line",
+                "title": "Ortalama sıcaklık",
+                "labels": [
+                  "Merkür",
+                  "Venüs",
+                  "Dünya",
+                  "Mars",
+                  "Jüpiter",
+                  "Satürn"
+                ],
+                "values": [
+                  167,
+                  464,
+                  15,
+                  -65,
+                  -110,
+                  -140
+                ],
+                "y": "°C"
+              }
+            },
+            {
+              "type": "info",
+              "title": "Fonksiyon grafiği",
+              "body": "Sabit hızla giden bir şeyin yol–zaman grafiği **düz bir çizgidir**. Işık saniyede 300 bin km yol alır: $x = 300 \\cdot t$ (bin km). Grafiğin üzerinde parmağını gezdirerek her andaki yolu okuyabilirsin.",
+              "example": "",
+              "chart": {
+                "type": "function",
+                "title": "Işığın aldığı yol",
+                "fn": "300x",
+                "from": 0,
+                "to": 10,
+                "x": "Süre (s)",
+                "y": "Yol (bin km)"
+              }
+            },
+            {
+              "type": "number",
+              "question": "Grafiğe göre ışık 4 saniyede kaç **bin** km yol alır?",
+              "answer": 1200,
+              "tolerance": 0,
+              "unit": "bin km",
+              "explanation": "$300 \\cdot 4 = 1200$ bin km, yani 1,2 milyon km.",
+              "hint": "Grafikte x = 4’e dokun.",
+              "solution": "1. Grafikte $x = 4$ noktasını bul\n2. Çizgideki değer: **1200**\n3. Hesapla da doğrula: $300 \\cdot 4 = 1200$",
+              "chart": {
+                "type": "function",
+                "title": "Işığın aldığı yol",
+                "fn": "300x",
+                "from": 0,
+                "to": 10,
+                "x": "Süre (s)",
+                "y": "Yol (bin km)"
+              }
+            },
+            {
+              "type": "choice",
+              "question": "Grafiğe göre Dünya atmosferinin en büyük bölümünü hangi gaz oluşturur?",
+              "answer": "Azot",
+              "distractors": [
+                "Oksijen",
+                "Karbondioksit",
+                "Helyum"
+              ],
+              "explanation": "Soluduğumuz havanın yaklaşık %78’i azottur; oksijen %21’de kalır.",
+              "chart": {
+                "type": "pie",
+                "title": "Dünya’nın atmosferi",
+                "labels": [
+                  "Azot",
+                  "Oksijen",
+                  "Diğer gazlar"
+                ],
+                "values": [
+                  78,
+                  21,
+                  1
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "u8/l4",
+          "title": "Uzay İngilizcesi",
+          "exercises": [
+            {
+              "type": "info",
+              "title": "Dinleyerek öğren",
+              "body": "Uzay araştırmalarının ortak dili İngilizcedir. Bu derste dört gök cisminin İngilizce adını **dinleyerek** öğreneceksin. Büyük düğme sözcüğü okur, küçük düğme yavaş okur. Sesi açamıyorsan “Şu an dinleyemiyorum” ile soruyu geçebilirsin.",
+              "example": "Sun = Güneş · Moon = Ay · Earth = Dünya · Star = Yıldız",
+              "say": "Sun, Moon, Earth, Star"
+            },
+            {
+              "type": "match",
+              "question": "Sözcüğü anlamıyla eşleştir.",
+              "pairs": [
+                [
+                  "Sun",
+                  "Güneş"
+                ],
+                [
+                  "Moon",
+                  "Ay"
+                ],
+                [
+                  "Earth",
+                  "Dünya"
+                ],
+                [
+                  "Star",
+                  "Yıldız"
+                ]
+              ],
+              "explanation": "Dört sözcük de tek hecelidir."
+            },
+            {
+              "type": "choice",
+              "question": "Duyduğun sözcüğün anlamı nedir?",
+              "say": "Moon",
+              "answer": "Ay",
+              "distractors": [
+                "Güneş",
+                "Dünya",
+                "Yıldız"
+              ],
+              "explanation": "“Moon”, Ay demektir."
+            },
+            {
+              "type": "type",
+              "question": "Duyduğun sözcüğü yaz.",
+              "say": "Sun",
+              "answer": "Sun",
+              "accept": [],
+              "explanation": "“Sun”, Güneş demektir."
+            },
+            {
+              "type": "choice",
+              "question": "Duyduğun cümlenin anlamı nedir?",
+              "say": "The Earth is a planet.",
+              "answer": "Dünya bir gezegendir.",
+              "distractors": [
+                "Ay bir uydudur.",
+                "Güneş bir yıldızdır.",
+                "Mars kırmızıdır."
+              ],
+              "explanation": "*Earth* Dünya, *planet* gezegen demektir."
+            },
+            {
+              "type": "fill",
+              "question": "",
+              "text": "“Earth” sözcüğünün Türkçesi {{Dünya}}’dır.",
+              "distractors": [
+                "Ay",
+                "Güneş"
+              ],
+              "explanation": "Gezegenimizin adı İngilizcede büyük harfle yazılır: Earth."
+            },
+            {
+              "type": "type",
+              "question": "Duyduğun sözcüğü yaz.",
+              "say": "Star",
+              "answer": "Star",
+              "accept": [],
+              "explanation": "“Star”, yıldız demektir. Güneş de bir yıldızdır!"
+            },
+            {
+              "type": "flashcard",
+              "front": "Moon",
+              "back": "Ay",
+              "say": "Moon"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
