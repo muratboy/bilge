@@ -15,9 +15,12 @@ String lower(String s, {String locale = 'tr'}) {
   return s.toLowerCase();
 }
 
+final _bidi = RegExp('[\u202a-\u202e\u2066-\u2069]');
+
 /// Karşılaştırma için sadeleştirir: boşluklar, tırnaklar, büyük/küçük harf, sondaki nokta.
 String norm(String s, {String locale = 'tr'}) {
   var out = s
+      .replaceAll(_bidi, '')
       .replaceAll(RegExp('[“”„«»]'), '"')
       .replaceAll(RegExp('[‘’`´]'), "'")
       .replaceAllMapped(RegExp(r'(\d),(\d)'), (m) => '${m[1]}.${m[2]}')
@@ -113,7 +116,7 @@ List<double> _scalar(String s) {
 /// "1.500" gibi iki türlü okunabilen yazımlarda (bir buçuk ya da bin beş yüz) iki değer de döner.
 /// Sonuna [unit] yazılmışsa yok sayılır; "3/4" gibi kesirler de okunur.
 List<double> parseNumbers(String input, {String unit = ''}) {
-  String clean(String x) => x.toLowerCase().replaceAll(RegExp('[−–]'), '-').replaceAll(RegExp("[\\s  '’_]"), '');
+  String clean(String x) => x.toLowerCase().replaceAll(_bidi, '').replaceAll(RegExp('[−–]'), '-').replaceAll(RegExp("[\\s  '’_]"), '');
   var s = clean(input);
   final u = clean(unit);
   if (u.isNotEmpty && s.endsWith(u)) s = s.substring(0, s.length - u.length);

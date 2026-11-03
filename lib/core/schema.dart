@@ -203,11 +203,14 @@ class _Skip implements Exception {
 
 Never _fail(String message) => throw _Skip(message);
 
+final _bidi = RegExp('[\u202a-\u202e\u2066-\u2069]');
+
 String _str(dynamic v, [int max = _maxText]) {
   if (v is num) return '$v';
   if (v is! String) return '';
   // Sınırı çok aşan metin onarılmadan önce kesilir: dev bir alan ayrıştırmayı yavaşlatamaz
   var s = v;
+  if (s.contains(_bidi)) s = s.replaceAll(_bidi, '');
   if (s.length > max + 64) s = s.trimLeft();
   if (s.length > max + 64) s = s.substring(0, max + 64);
   return _cut(_repairMath(s).trim(), max);
@@ -221,11 +224,10 @@ String _cut(String s, int max) {
 }
 
 final _spaces = RegExp(r'[\s\u0000-\u001f\u007f]+');
-final _bidi = RegExp('[\u202a-\u202e\u2066-\u2069]');
 
 /// Tek satırlık alan (başlık, tanıtım, hazırlayan): satır sonları boşluğa çevrilir, yön değiştiren
 /// görünmez karakterler atılır.
-String _label(dynamic v, [int max = _maxTitle]) => _cut(_str(v, max * 2).replaceAll(_bidi, '').replaceAll(_spaces, ' ').trim(), max);
+String _label(dynamic v, [int max = _maxTitle]) => _cut(_str(v, max * 2).replaceAll(_spaces, ' ').trim(), max);
 
 // JSON'da "\frac", "\times" gibi komutlar tek ters eğik çizgiyle yazılırsa \f, \t, \n… denetim karakterine dönüşür.
 // Formül ($...$) içinde kalanları geri çevirir.

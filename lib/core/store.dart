@@ -411,6 +411,17 @@ class LessonItem {
   final String context; // sorunun üstünde gösterilecek ortak metin
   final Map<String, dynamic>? chart; // sorunun üstünde gösterilecek grafik
   final Course? from; // karışık oturumlarda (günün tekrarı) öğenin geldiği kurs; yoksa oturumun kursu
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is LessonItem &&
+          runtimeType == other.runtimeType &&
+          key == other.key &&
+          from?.id == other.from?.id;
+
+  @override
+  int get hashCode => Object.hash(key, from?.id);
 }
 
 /// Bir oturumda tek bir kursun öğelerine verilen cevaplar.
