@@ -1,7 +1,7 @@
 name: bilge
 description: "Her konuyu seviye seviye, oynayarak öğren."
 publish_to: 'none'
-version: 0.14.1-beta+1410
+version: 0.14.3-beta+1430
 
 environment:
   sdk: ^3.13.3

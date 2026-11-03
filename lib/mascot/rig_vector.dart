@@ -850,8 +850,18 @@ void _pasa(_C c) {
         c.inkOval(764, 730, 15, 21, c.flat(const Color(0xFF55607A)), w: 6);
       }));
 
-  // Osmanlı beyefendisi: lacivert İstanbulin ceket, bordo yelek, altın düğmeler ve köstekli saat zinciri
+  // Osmanlı beyefendisi: lacivert İstanbulin ceket, bordo yelek, altın düğmeler, köstekli saat zinciri ve pantolon
   const coat = Color(0xFF26335A), coatLight = Color(0xFF34467A), vest = Color(0xFF8C2F3F), gold = Color(0xFFE5B63E), trousers = Color(0xFF2C303C);
+
+  // Bacaklar: gövdenin arkasında kalır; kıyafet bacakların üst kısmını örter
+  _feet(c, sp, () {
+    c.shape('M379 730 L379 886 C379 902 392 908 404 908 L486 908 C498 908 504 902 504 886 L504 730 Z', skin);
+    c.shape('M379 730 L379 868 L504 868 L504 730 Z', trousers); // pantolon
+    c.line('M379 868 L504 868', _inkNow, 5);
+    c.line('M379 780 L379 886 C379 902 392 908 404 908 L486 908 C498 908 504 902 504 886 L504 780', _inkNow, 7);
+    c.inked('M392 908 q12 -20 24 0 Z M424 908 q12 -20 24 0 Z M456 908 q12 -20 24 0 Z', c.flat(nail), w: 4);
+  });
+
   c.art(sp, () {
     const torso = 'M404 586 C352 624 344 706 378 804 L646 804 C680 706 672 624 620 586 Z';
     c.inked(torso, c.flat(coat));
@@ -862,6 +872,7 @@ void _pasa(_C c) {
       c.line('M470 580 L512 650 L554 580', _inkNow, 5);
       c.line('M418 610 C404 680 404 740 414 800 M606 610 C620 680 620 740 610 800', coatLight, 7); // ceket yakası kıvrımı
     });
+    c.line(torso, _inkNow, 7);
     for (final y in const [676.0, 722.0, 768.0]) {
       c.inkOval(512, y, 9, 9, c.flat(gold), w: 4);
     }
@@ -871,15 +882,6 @@ void _pasa(_C c) {
       c.line('M512 722 C540 760 566 752 578 716', gold, 4);
       c.inkOval(580, 712, 8, 8, c.flat(gold), w: 3);
     }
-  });
-
-  // Bacaklar gövdenin üstüne, üst kenarı çizgisiz çizilir
-  _feet(c, sp, () {
-    c.shape('M379 770 L379 886 C379 902 392 908 404 908 L486 908 C498 908 504 902 504 886 L504 770 Z', skin);
-    c.shape('M379 770 L379 868 L504 868 L504 770 Z', trousers); // pantolon
-    c.line('M379 868 L504 868', _inkNow, 5);
-    c.line('M379 800 L379 886 C379 902 392 908 404 908 L486 908 C498 908 504 902 504 886 L504 800', _inkNow, 7);
-    c.inked('M392 908 q12 -20 24 0 Z M424 908 q12 -20 24 0 Z M456 908 q12 -20 24 0 Z', c.flat(nail), w: 4);
   });
 
   // Kollar. Telefonla konuşurken başın ve telefonun önünde çizilir (eller ahizeyi ve mikrofonu kavrar).
