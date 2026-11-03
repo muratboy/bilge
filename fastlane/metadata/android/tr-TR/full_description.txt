@@ -1,0 +1,18 @@
+İstediğin her konuyu seviye seviye, oynayarak öğrenmeni sağlayan Android uygulaması. Konuyu sen seçersin, içeriği bir yapay zekâ kalıba göre üretir, Bilge de onu oyuna çevirir.
+
+Özellikler:
+- Her konuda, kendi seviyene göre kurs.
+- Kursu istediğin yapay zekâ sohbetine kalıpla yazdırabilir ya da kendi API anahtarınla doğrudan uygulama içinden üretebilirsin. (API ile doğrudan üretim isteğe bağlıdır ve internet bağlantısı gerektirir.)
+- Çoktan seçmeli, doğru-yanlış, boşluk doldurma, eşleştirme, sıralama, ezber kartı gibi 12 alıştırma türü; formül, grafik ve sesli okuma desteği.
+- Seviyeler, XP, seri, rozetler ve bildiğin üniteleri sınavla atlama.
+- Aralıklı tekrar: zamanı gelen sorular ve geçmiş yanlışların günlük tekrarda yeniden karşına çıkar.
+- Dersler internetsiz çalışır; hesap, reklam ve takip yok.
+- Türkçe ve İngilizce arayüz, açık ve koyu tema.
+- Kursları tek dosya ya da paket olarak paylaşma.
+
+Nasıl kurs oluşturulur?
+1. Konuyu ve seviyeni yaz.
+2. Kalıbı kopyalayıp ChatGPT, Claude, Gemini gibi istediğin yapay zekâ sohbetine yapıştır ya da API anahtarınla doğrudan üret.
+3. Çıktıyı Bilge'ye ekle.
+
+Bilge'de sana öğrenme yolunda eşlik eden yedi kişilik bir maskot ekibi yer alır. İlerlemen yalnızca cihazında saklanır.

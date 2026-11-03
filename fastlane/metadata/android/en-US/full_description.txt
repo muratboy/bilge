@@ -1,0 +1,18 @@
+An Android app that lets you learn any topic level by level, through play. You choose the topic, an AI generates the content based on a template, and Bilge turns it into a game.
+
+Features:
+- Courses on any topic, tailored to your level.
+- Have any AI chat write a course from a template, or generate it directly within the app using your own API key. (Direct generation via API is optional and requires an internet connection.)
+- 12 exercise types such as multiple choice, true/false, fill-in-the-blank, matching, ordering, and flashcards; support for formulas, charts, and text-to-speech.
+- Levels, XP, streaks, badges, and the ability to test out of units you already know.
+- Spaced repetition: due questions and past mistakes resurface in daily reviews.
+- Lessons work completely offline; no accounts, ads, or tracking.
+- English and Turkish interface, light and dark themes.
+- Share courses as a single file or a bundle.
+
+How to create a course:
+1. Enter your topic and level.
+2. Copy the template and paste it into any AI chat (such as ChatGPT, Claude, or Gemini), or generate directly using your API key.
+3. Paste the output into Bilge.
+
+Bilge features a team of seven mascots to accompany you on your learning journey. Your progress is stored only on your device.

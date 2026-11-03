@@ -93,12 +93,24 @@ void main() {
         });
       }
     }
+    await tester.runAsync(() async {
+      const px = 512.0 / 48.0;
+      final image = await _legacy(px).toImage(512, 512);
+      final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
+      final file = File('fastlane/metadata/android/en-US/images/icon.png');
+      file.parent.createSync(recursive: true);
+      file.writeAsBytesSync(bytes!.buffer.asUint8List());
+    });
   });
 
   test('simge dosyaları yerinde ve doğru boyda', () {
     for (final MapEntry(key: name, value: px) in _densities.entries) {
       expect(_pngSize(File('$_res/mipmap-$name/ic_launcher_foreground.png')), ((_canvas * px).round(), (_canvas * px).round()), reason: name);
       expect(_pngSize(File('$_res/mipmap-$name/ic_launcher.png')), ((48 * px).round(), (48 * px).round()), reason: name);
+    }
+    final storeIcon = File('fastlane/metadata/android/en-US/images/icon.png');
+    if (storeIcon.existsSync()) {
+      expect(_pngSize(storeIcon), (512, 512), reason: 'mağaza simgesi 512x512 olmalı');
     }
     final adaptive = File('$_res/mipmap-anydpi-v26/ic_launcher.xml').readAsStringSync();
     expect(adaptive, contains('@mipmap/ic_launcher_foreground'));
