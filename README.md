@@ -252,3 +252,11 @@ lib/ui/                     tema, ortak bileşenler, grafik, ses ve sesli okuma,
 assets/                     yazı tipi, ses efektleri, örnek kurslar
 test/                       çekirdek, çeviri ve uçtan uca arayüz testleri; maskot önizlemesi ve uygulama simgesi üreticisi
 ```
+
+## Lisans
+
+© 2026 Murat Boy
+
+Bilge özgür yazılımdır: GNU Genel Kamu Lisansı'nın 3. sürümü ya da istersen daha sonraki bir sürümü (GPL-3.0-or-later) koşullarıyla kullanabilir, değiştirebilir ve dağıtabilirsin. Hiçbir garanti verilmez; ayrıntılar [LICENSE](LICENSE) dosyasında.
+
+Nunito yazı tipleri SIL Open Font License 1.1 ile dağıtılır: [assets/fonts/OFL.txt](assets/fonts/OFL.txt).
