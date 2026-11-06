@@ -516,6 +516,8 @@ final badges = <Badge>[
   Badge('early_bird', '🌅', (s) => s.profile.earlyLessons >= 1),
   Badge('all_types', '🎪', (s) => answerStepTypes.every(s.profile.stepTypes.contains)),
   Badge('comeback', '🪃', (s) => s.profile.breakReturns >= 1),
+  Badge('marathon', '🏃', (s) => s.profile.xpByDay.values.fold(0, math.max) >= 200),
+  Badge('mastered50', '🏰', (s) => s.progress.values.fold(0, (sum, p) => sum + p.memory.values.where((m) => m.box == reviewDays.length - 1).length) >= 50),
 ];
 
 /* ---------- Kurs listesi ---------- */
@@ -1488,6 +1490,8 @@ class AppState extends ChangeNotifier {
         'early_bird' => (cur: profile.earlyLessons >= 1 ? 1 : 0, max: 1, unit: null),
         'all_types' => (cur: math.min(profile.stepTypes.where(answerStepTypes.contains).length, answerStepTypes.length), max: answerStepTypes.length, unit: null),
         'comeback' => (cur: profile.breakReturns >= 1 ? 1 : 0, max: 1, unit: null),
+        'marathon' => (cur: math.min(profile.xpByDay.values.fold(0, math.max), 200), max: 200, unit: null),
+        'mastered50' => (cur: math.min(progress.values.fold(0, (sum, p) => sum + p.memory.values.where((m) => m.box == reviewDays.length - 1).length), 50), max: 50, unit: null),
         _ => null,
       };
 

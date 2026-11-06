@@ -610,7 +610,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 label: Text(t('profile.reset'), style: ts(14.5, w: FontWeight.w800, color: p.badInk)),
               ),
             ),
-            Center(child: Text('Bilge 0.15.0-beta', style: ts(12.5, w: FontWeight.w800, color: p.ink3))),
+            Center(child: Text('Bilge 0.16.0-beta', style: ts(12.5, w: FontWeight.w800, color: p.ink3))),
           ],
         ),
       ),

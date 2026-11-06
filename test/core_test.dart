@@ -1677,6 +1677,91 @@ void main() {
       }
     });
 
+    test('maraton rozeti tek günde yüksek XP koşulunu ve ilerlemesini doğru ölçer', () {
+      final app = AppState(MemoryStorage());
+      final marathonBadge = badges.firstWhere((b) => b.id == 'marathon');
+
+      expect(app.profile.badges.containsKey('marathon'), isFalse);
+      var prog = app.badgeProgress(marathonBadge)!;
+      expect(prog.cur, 0);
+      expect(prog.max, 200);
+      expect(prog.unit, isNull);
+
+      app.profile.xpByDay['2026-10-10'] = 120;
+      expect(marathonBadge.test(app), isFalse);
+      prog = app.badgeProgress(marathonBadge)!;
+      expect(prog.cur, 120);
+      expect(prog.max, 200);
+      expect(app.awardBadges().any((b) => b.id == 'marathon'), isFalse);
+
+      app.profile.xpByDay['2026-10-11'] = 180;
+      expect(marathonBadge.test(app), isFalse);
+      prog = app.badgeProgress(marathonBadge)!;
+      expect(prog.cur, 180);
+      expect(prog.max, 200);
+
+      app.profile.xpByDay['2026-10-12'] = 200;
+      expect(marathonBadge.test(app), isTrue);
+      prog = app.badgeProgress(marathonBadge)!;
+      expect(prog.cur, 200);
+      expect(prog.max, 200);
+
+      final fresh = app.awardBadges();
+      expect(fresh.any((b) => b.id == 'marathon'), isTrue);
+      expect(app.profile.badges.containsKey('marathon'), isTrue);
+
+      app.profile.xpByDay['2026-10-13'] = 250;
+      prog = app.badgeProgress(marathonBadge)!;
+      expect(prog.cur, 200);
+      expect(prog.max, 200);
+    });
+
+    test('hafıza sarayı rozeti en uzun tekrar aralığındaki öğe koşulunu ve ilerlemesini doğru ölçer', () {
+      final app = AppState(MemoryStorage());
+      final masteredBadge = badges.firstWhere((b) => b.id == 'mastered50');
+
+      expect(app.profile.badges.containsKey('mastered50'), isFalse);
+      var prog = app.badgeProgress(masteredBadge)!;
+      expect(prog.cur, 0);
+      expect(prog.max, 50);
+      expect(prog.unit, isNull);
+
+      final p1 = app.progressOf('kurs1');
+      for (var i = 0; i < 30; i++) {
+        p1.memory['u1/l1#$i'] = (box: 5, due: '2026-12-01');
+      }
+      for (var i = 30; i < 40; i++) {
+        p1.memory['u1/l1#$i'] = (box: 4, due: '2026-12-01');
+      }
+
+      final p2 = app.progressOf('kurs2');
+      for (var i = 0; i < 15; i++) {
+        p2.memory['u1/l1#$i'] = (box: 5, due: '2026-12-01');
+      }
+
+      expect(masteredBadge.test(app), isFalse);
+      prog = app.badgeProgress(masteredBadge)!;
+      expect(prog.cur, 45);
+      expect(prog.max, 50);
+      expect(app.awardBadges().any((b) => b.id == 'mastered50'), isFalse);
+
+      for (var i = 15; i < 20; i++) {
+        p2.memory['u1/l1#$i'] = (box: 5, due: '2026-12-01');
+      }
+      expect(masteredBadge.test(app), isTrue);
+      prog = app.badgeProgress(masteredBadge)!;
+      expect(prog.cur, 50);
+      expect(prog.max, 50);
+
+      final fresh = app.awardBadges();
+      expect(fresh.any((b) => b.id == 'mastered50'), isTrue);
+      expect(app.profile.badges.containsKey('mastered50'), isTrue);
+
+      p1.memory.clear();
+      expect(masteredBadge.test(app), isFalse);
+      expect(app.profile.badges.containsKey('mastered50'), isTrue);
+    });
+
     test('eski kayıt dosyası eksik alanlarla sorunsuz yüklenir ve geriye dönük rozetler verilir', () async {
       // Eski versiyon JSON: yeni alanlar (importedCourses, sectionsAdded, stepTypes vb.) hiç yok
       final allNodes = AppState(MemoryStorage()).nodes(c);
