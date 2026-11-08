@@ -5,6 +5,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 import '../app_scope.dart';
@@ -105,13 +106,31 @@ class LearnScreen extends StatefulWidget {
 
 class _LearnScreenState extends State<LearnScreen> {
   final _currentKey = GlobalKey();
+  final _scroll = ScrollController();
   String? _shownCourse;
 
-  /// Kurs açıldığında sıradaki derse kaydır.
-  void _scrollToCurrent() {
+  @override
+  void dispose() {
+    _scroll.dispose();
+    super.dispose();
+  }
+
+  /// Kurs açıldığında ya da ders/sınav bittiğinde sıradaki derse kaydır.
+  void _scrollToCurrent({bool animate = false}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       final ctx = _currentKey.currentContext;
-      if (ctx != null && mounted) Scrollable.ensureVisible(ctx, alignment: 0.45, duration: const Duration(milliseconds: 350));
+      if (ctx != null) {
+        Scrollable.ensureVisible(
+          ctx,
+          alignment: 0.45,
+          duration: animate ? const Duration(milliseconds: 250) : Duration.zero,
+        );
+      } else if (_scroll.hasClients && _scroll.position.pixels < _scroll.position.maxScrollExtent) {
+        final step = math.max(300.0, _scroll.position.viewportDimension * 0.8);
+        _scroll.jumpTo(math.min(_scroll.position.pixels + step, _scroll.position.maxScrollExtent));
+        _scrollToCurrent(animate: animate);
+      }
     });
   }
 
@@ -180,9 +199,9 @@ class _LearnScreenState extends State<LearnScreen> {
               color: color,
               onPressed: () {
                 Navigator.of(sheet).pop();
-                // Kısım bu dersle bittiyse yolun sonundaki "sıradaki kısım" kartı görünür olsun
+                // Sıradaki ders tamamlandığında ya da kısım bittiğinde yol yeni hedefe kayar
                 LessonScreen.open(context, course, node).then((_) {
-                  if (app.isFinished(course)) _scrollToCurrent();
+                  if (status == NodeStatus.current || app.isFinished(course)) _scrollToCurrent(animate: true);
                 });
               },
             ),
@@ -209,7 +228,7 @@ class _LearnScreenState extends State<LearnScreen> {
             context,
             course,
             PathNode(kind: NodeKind.exam, id: '${unit.id}/~sinav', title: '', unitIndex: unitIndex, unit: unit),
-          ).then((_) => _scrollToCurrent()),
+          ).then((_) => _scrollToCurrent(animate: true)),
         ),
         DialogAction(t('common.cancel'), kind: ButtonKind.ghost),
       ],
@@ -324,12 +343,15 @@ class _LearnScreenState extends State<LearnScreen> {
     final app = AppScope.of(context);
     final course = app.currentCourse;
     if (course == null) return _Empty(app: app);
-    if (_shownCourse != course.id) {
-      _shownCourse = course.id;
-      _scrollToCurrent();
-    }
     final p = context.p;
     final status = app.statusOf(course);
+    final curNode = status.entries.where((e) => e.value == NodeStatus.current).firstOrNull?.key;
+    final target = '${course.id}:${curNode ?? 'done'}';
+    if (_shownCourse != target) {
+      final animate = _shownCourse != null && _shownCourse!.startsWith('${course.id}:');
+      _shownCourse = target;
+      _scrollToCurrent(animate: animate);
+    }
     final prog = app.progressOf(course.id);
     final nodes = app.nodes(course);
     var serial = 0; // yol boyunca süren kıvrım için
@@ -510,7 +532,8 @@ class _LearnScreenState extends State<LearnScreen> {
                             child: ChunkyButton(
                               label: t('learn.resumeBtn'),
                               icon: Icons.play_arrow_rounded,
-                              onPressed: () => LessonScreen.open(context, course, resumeNode, resume: savedSession),
+                              onPressed: () => LessonScreen.open(context, course, resumeNode, resume: savedSession)
+                                  .then((_) => _scrollToCurrent(animate: true)),
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -528,6 +551,8 @@ class _LearnScreenState extends State<LearnScreen> {
               child: Stack(
                 children: [
                   ListView(
+                    controller: _scroll,
+                    scrollCacheExtent: const ScrollCacheExtent.pixels(10000),
                     padding: const EdgeInsets.fromLTRB(16, 4, 16, 96),
                     children: [
                       for (final (ui, unit) in course.units.indexed) ...[
@@ -547,6 +572,7 @@ class _LearnScreenState extends State<LearnScreen> {
                       if (app.percent(course) == 1) ...[
                         Center(child: _Buddy(app.buddy, mood: Mood.cheer, size: 184)),
                         Padding(
+                          key: next == null ? _currentKey : null,
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           child: Text(
                             groupDone ? t('learn.groupDone', {'group': course.group}) : t(next != null ? 'learn.sectionDone' : (planned.isEmpty ? 'learn.allDone' : 'learn.soFarDone')),

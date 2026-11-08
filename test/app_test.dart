@@ -1614,4 +1614,42 @@ void main() {
     await tester.scrollUntilVisible(find.text(t('profile.crew')), 250, scrollable: find.byType(Scrollable).first);
     expect(find.text(t('profile.crew')), findsOneWidget);
   });
+
+  testWidgets('uygulama yeniden açıldığında yol ilerideki sıradaki derse kendiliğinden konumlanır', (tester) async {
+    tester.view
+      ..physicalSize = const Size(412, 892)
+      ..devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    final course = parseCourse(File('assets/courses/gunes-sistemi.bilge.json').readAsStringSync()).course!;
+    final storage = MemoryStorage();
+    final saved = AppState(storage);
+    await saved.load();
+    saved
+      ..settings.lang = 'tr'
+      ..companion = MascotId.tarcin
+      ..putCourse(course);
+    // İlk 5 ünitenin tüm düğümleri tamamlanmış olsun; sıradaki ders 6. ünitedeki u6/l1
+    for (final n in saved.nodes(course).where((n) => n.unitIndex < 5)) {
+      saved.progressOf(course.id).lessons[n.id] = (stars: 3, plays: 1);
+    }
+    saved.commit();
+    await tester.pump();
+
+    // Uygulama kapatılıp diskten yeniden açılır
+    final reopened = AppState(storage);
+    await reopened.load();
+    expect(reopened.statusOf(reopened.currentCourse!)['u6/l1'], NodeStatus.current);
+
+    await tester.pumpWidget(BilgeApp(state: reopened));
+    await tester.pump();
+
+    final target = find.byKey(const ValueKey('node-u6/l1'));
+    expect(target.hitTestable(), findsOneWidget, reason: 'sıradaki ders ekranın içinde ve dokunulabilir');
+    final rect = tester.getRect(target);
+    expect(rect.top, greaterThan(0), reason: 'sıradaki ders ekranın içinde görünür');
+    expect(rect.bottom, lessThan(892), reason: 'sıradaki ders ekranın içinde görünür');
+    final scroll = tester.state<ScrollableState>(find.byType(Scrollable).first).position.pixels;
+    expect(scroll, greaterThan(1000), reason: 'yol en baştan değil, sıradaki dersin olduğu yerden açılır');
+  });
 }
