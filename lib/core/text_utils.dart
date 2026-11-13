@@ -6,7 +6,7 @@ import 'dart:math' as math;
 const _folds = {
   'ç': 'c', 'ğ': 'g', 'ı': 'i', 'ö': 'o', 'ş': 's', 'ü': 'u', 'â': 'a', 'î': 'i', 'û': 'u',
   'á': 'a', 'à': 'a', 'ä': 'a', 'ã': 'a', 'é': 'e', 'è': 'e', 'ê': 'e', 'ë': 'e', 'í': 'i', 'ì': 'i', 'ï': 'i',
-  'ó': 'o', 'ò': 'o', 'ô': 'o', 'õ': 'o', 'ú': 'u', 'ù': 'u', 'ñ': 'n',
+  'ó': 'o', 'ò': 'o', 'ô': 'o', 'õ': 'o', 'ú': 'u', 'ù': 'u', 'ñ': 'n', '\u0307': '',
 };
 
 /// Türkçede I→ı ve İ→i olur; diğer dillerde standart küçültme yeterli.
@@ -16,11 +16,31 @@ String lower(String s, {String locale = 'tr'}) {
 }
 
 final _bidi = RegExp('[\u202a-\u202e\u2066-\u2069]');
+final _invisible = RegExp('[\u200b-\u200d\u2060\ufeff\u00ad]');
+final _hasAlnum = RegExp(r'[\p{L}\p{N}]', unicode: true);
+
+/// Cevap anahtarı dıştan yalnızca `**kelime**`, `*kelime*` ya da `` `kelime` `` gibi biçimlenmişse
+/// dış işaretleri soyar; matematik/kod içindeki tekil `*` ya da kesme işaretlerine dokunmaz.
+String _unwrapFormat(String s) {
+  if (s.contains('\n')) return s;
+  for (final d in const ['**', '*', '`']) {
+    if (s.length > d.length * 2 && s.startsWith(d) && s.endsWith(d)) {
+      final inner = s.substring(d.length, s.length - d.length).trim();
+      if (inner.isNotEmpty && !inner.contains(d[0]) && _hasAlnum.hasMatch(inner)) return inner;
+    }
+  }
+  return s;
+}
 
 /// Karşılaştırma için sadeleştirir: boşluklar, tırnaklar, büyük/küçük harf, sondaki nokta.
 String norm(String s, {String locale = 'tr'}) {
-  var out = s
-      .replaceAll(_bidi, '')
+  var out = _unwrapFormat(
+    s
+        .replaceAll(_bidi, '')
+        .replaceAll(_invisible, '')
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .trim(),
+  )
       .replaceAll(RegExp('[“”„«»]'), '"')
       .replaceAll(RegExp('[‘’`´]'), "'")
       .replaceAllMapped(RegExp(r'(\d),(\d)'), (m) => '${m[1]}.${m[2]}')
@@ -28,7 +48,7 @@ String norm(String s, {String locale = 'tr'}) {
       .trim();
   out = lower(out, locale: locale);
   // Sondaki noktalama yalnızca dizede alfasayısal karakter varsa kırpılır; tek başına '?' veya '.' gibi noktalama cevapları korunur.
-  if (RegExp(r'[\p{L}\p{N}]', unicode: true).hasMatch(out)) {
+  if (_hasAlnum.hasMatch(out)) {
     var end = out.length;
     while (end > 0 && '.!?…'.contains(out[end - 1])) {
       end--;
@@ -116,7 +136,7 @@ List<double> _scalar(String s) {
 /// "1.500" gibi iki türlü okunabilen yazımlarda (bir buçuk ya da bin beş yüz) iki değer de döner.
 /// Sonuna [unit] yazılmışsa yok sayılır; "3/4" gibi kesirler de okunur.
 List<double> parseNumbers(String input, {String unit = ''}) {
-  String clean(String x) => x.toLowerCase().replaceAll(_bidi, '').replaceAll(RegExp('[−–]'), '-').replaceAll(RegExp("[\\s  '’_]"), '');
+  String clean(String x) => x.toLowerCase().replaceAll(_bidi, '').replaceAll(_invisible, '').replaceAll(RegExp('[−–]'), '-').replaceAll(RegExp("[\\s  '’_]"), '');
   var s = clean(input);
   final u = clean(unit);
   if (u.isNotEmpty && s.endsWith(u)) s = s.substring(0, s.length - u.length);

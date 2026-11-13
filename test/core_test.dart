@@ -1209,11 +1209,23 @@ void main() {
     });
     test('büyük/küçük harf, aksan, yazım hatası', () {
       expect(kind('  GÜNEŞ. ', ['Güneş']), MatchKind.exact);
+      expect(kind('merhaba', ['Merhaba']), MatchKind.exact);
       expect(kind('ISPARTA', ['Isparta']), MatchKind.exact);
       expect(kind('gunes', ['Güneş']), MatchKind.accent);
       expect(kind('Ankarra', ['Ankara']), MatchKind.typo);
       expect(kind('23.5', ['23,5']), MatchKind.exact);
       expect(compareAnswer('yerküre', ['Dünya', 'Yerküre'])!.match, 'Yerküre');
+    });
+    test('dış markdown biçimi, sıfır genişlikli görünmez karakter ve birleşik nokta', () {
+      expect(kind('merhaba', ['**Merhaba**']), MatchKind.exact);
+      expect(kind('merhaba', ['*Merhaba*']), MatchKind.exact);
+      expect(kind('hello', ['`Hello`']), MatchKind.exact);
+      expect(kind('su\u200B', ['Su\uFEFF']), MatchKind.exact);
+      expect(compareAnswer('iyi', ['İyi'], locale: 'en')?.kind, MatchKind.exact);
+      expect(compareAnswer('iyi', ['i\u0307yi'], locale: 'en')?.kind, MatchKind.accent);
+      expect(norm('2 * 3'), '2 * 3');
+      expect(norm('*args'), '*args');
+      expect(norm('**'), '**');
     });
     test('sayılarda, kısa cevaplarda ve boş cevapta hata payı yok', () {
       expect(kind('13', ['12']), isNull);
