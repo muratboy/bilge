@@ -717,8 +717,10 @@ class _MatchState extends ExerciseViewState {
     if (_matched.length == _pairs.length) {
       Future.delayed(const Duration(milliseconds: 350), () {
         if (!mounted) return;
+        final ok = _mistakes < 2;
         widget.onDone(ExResult(
-          correct: _mistakes < 2,
+          correct: ok,
+          answer: ok ? null : _pairs.map((p) => '${p[0]} → ${p[1]}').join('\n'),
           message: _mistakes >= 2 ? t('lesson.matchFail', {'n': _mistakes}) : null,
           note: _mistakes == 1 ? t('lesson.matchOne') : null,
         ));
@@ -902,8 +904,10 @@ class _CategorizeState extends ExerciseViewState {
     if (_at < _items.length) return;
     Future.delayed(Duration(milliseconds: ok ? 350 : 800), () {
       if (!mounted) return;
+      final passed = _mistakes < 2;
       widget.onDone(ExResult(
-        correct: _mistakes < 2,
+        correct: passed,
+        answer: passed ? null : _cats.map((c) => '${c.name}: ${c.items.join(', ')}').join('\n'),
         message: _mistakes >= 2 ? t('lesson.catFail', {'n': _mistakes}) : null,
         note: _mistakes == 1 ? t('lesson.catOne') : null,
       ));

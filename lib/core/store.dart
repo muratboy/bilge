@@ -286,14 +286,51 @@ class CourseProgress {
       };
   CourseProgress();
   CourseProgress.fromJson(Map j) {
-    last = j['last'] ?? 0;
-    lessons = {for (final e in (j['lessons'] as Map? ?? {}).entries) e.key as String: (stars: e.value['stars'] as int, plays: e.value['plays'] as int)};
-    mistakes = Map<String, int>.from(j['mistakes'] ?? {});
-    memory = {for (final e in (j['memory'] as Map? ?? {}).entries) e.key as String: (box: e.value[0] as int, due: e.value[1] as String)};
-    // 0.10.0 işaretleri izsiz, liste olarak yazıyordu
+    last = j['last'] is int ? j['last'] as int : 0;
+    final rawLessons = j['lessons'];
+    if (rawLessons is Map) {
+      for (final e in rawLessons.entries) {
+        final k = e.key;
+        final v = e.value;
+        if (k is String && v is Map) {
+          final stars = v['stars'];
+          final plays = v['plays'];
+          if (stars is int && plays is int) {
+            lessons[k] = (stars: stars, plays: plays);
+          }
+        }
+      }
+    }
+    final rawMistakes = j['mistakes'];
+    if (rawMistakes is Map) {
+      for (final e in rawMistakes.entries) {
+        if (e.key is String && e.value is int) {
+          mistakes[e.key as String] = e.value as int;
+        }
+      }
+    }
+    final rawMemory = j['memory'];
+    if (rawMemory is Map) {
+      for (final e in rawMemory.entries) {
+        final k = e.key;
+        final v = e.value;
+        if (k is String && v is List && v.length >= 2 && v[0] is int && v[1] is String) {
+          memory[k] = (box: v[0] as int, due: v[1] as String);
+        }
+      }
+    }
     final marks = j['flagged'];
-    flagged = marks is List ? {for (final k in marks) k as String: ''} : Map<String, String>.from(marks ?? const {});
-    // Eski kayıtlarda takvim yok: yanlışlar hemen tekrar edilecekler olarak başlar
+    if (marks is List) {
+      for (final k in marks) {
+        if (k is String) flagged[k] = '';
+      }
+    } else if (marks is Map) {
+      for (final e in marks.entries) {
+        if (e.key is String && e.value is String) {
+          flagged[e.key as String] = e.value as String;
+        }
+      }
+    }
     for (final k in mistakes.keys) {
       memory.putIfAbsent(k, () => (box: 0, due: ''));
     }
@@ -401,6 +438,29 @@ class SavedSession {
   }
 }
 
+class _ParsedState {
+  const _ParsedState({
+    required this.settings,
+    required this.profile,
+    required this.courses,
+    required this.order,
+    required this.progress,
+    required this.current,
+    required this.archived,
+    required this.companion,
+    required this.session,
+  });
+  final Settings settings;
+  final Profile profile;
+  final Map<String, Course> courses;
+  final List<String> order;
+  final Map<String, CourseProgress> progress;
+  final String? current;
+  final Set<String> archived;
+  final MascotId? companion;
+  final SavedSession? session;
+}
+
 class LessonItem {
   const LessonItem(this.exercise, this.key, {this.context = '', this.chart, this.from});
   LessonItem.of(Lesson lesson, int index, {Course? from})
@@ -453,12 +513,14 @@ class LessonResult {
 class LessonOutcome {
   const LessonOutcome({
     required this.levelUp, required this.streakUp, required this.goalMet, required this.newBadges,
-    this.courseDone = false, this.freezeUsed = false, this.freezeEarned = false,
+    this.courseDone = false, this.freezeUsed = false, this.freezesUsed = 0, this.freezeEarned = false,
   });
   final int levelUp, streakUp; // 0: değişmedi
   final bool goalMet;
   final bool courseDone; // kurs (kısım) bu dersle tamamlandı
-  final bool freezeUsed, freezeEarned;
+  final bool freezeUsed;
+  final int freezesUsed;
+  final bool freezeEarned;
   final List<Badge> newBadges;
 }
 
@@ -604,8 +666,14 @@ class AppState extends ChangeNotifier {
         final rawCourses = await _storage.readCourses();
         if (rawCourses != null) {
           _apply({...state, 'courses': (jsonDecode(rawCourses) as Map)['courses']});
-        } else {
+        } else if (state.containsKey('courses') && state['courses'] != null) {
           // Eski kayıt: kurslar durumla aynı dosyadaydı; ilk kayıtta ayrılır
+          _apply(state);
+          _coursesDirty = courses.isNotEmpty;
+        } else if (state['order'] is List && (state['order'] as List).isNotEmpty) {
+          // Yeni biçim: kurslar bilge-kurslar.json dosyasında olmalıydı; dosya yoksa bozuk kayıt
+          corrupt = true;
+        } else {
           _apply(state);
           _coursesDirty = courses.isNotEmpty;
         }
@@ -648,69 +716,132 @@ class AppState extends ChangeNotifier {
     unawaited(autoBackup());
   }
 
-  /// Önce her şey okunur, en sonda atanır: bozuk bir kayıt ya da yedek yarıda hata verirse eldeki durum olduğu gibi kalır.
-  void _apply(Map j) {
-    final settings = Settings.fromJson(j['settings'] ?? {});
-    // Yedekten geri yüklerken cihazdaki kayıtlı gizli anahtarlar korunur (yedek dosyasına girmedikleri için)
-    if (settings.aiKey.isEmpty && this.settings.aiKey.isNotEmpty) {
-      settings.aiKey = this.settings.aiKey;
+  void _validateBackupData(Map data) {
+    if (data['settings'] != null && data['settings'] is! Map) {
+      throw const FormatException('Bu yedek dosyası bozuk.');
     }
-    final profile = Profile.fromJson(j['profile'] ?? {});
-    final courses = <String, Course>{};
-    // Kimliği kayıttakinden farklı okunan kurslar (kayıttaki → şimdiki): ilerleme, sıra ve arşiv kursu izler
-    final renamed = <String, String>{};
-    for (final e in (j['courses'] as Map? ?? {}).entries) {
-      var c = e.value is Map ? courseFromMap(e.value as Map) : null;
-      if (c == null) continue;
-      // İki kayıt aynı kimliğe düşerse biri öbürünün üzerine yazılmaz, yeni bir kimlik alır
-      if (courses.containsKey(c.id)) c = c.copyWith(id: freeId(c.id, courses.containsKey));
-      if (e.key is String && e.key != c.id) renamed[e.key as String] = c.id;
-      courses[c.id] = c;
+    if (data['order'] != null && data['order'] is! List) {
+      throw const FormatException('Bu yedek dosyası bozuk.');
     }
-    String now(String id) => renamed[id] ?? id;
-    final order = List<String>.from(j['order'] ?? []).map(now).where(courses.containsKey).toSet().toList();
-    // Sırada adı geçmeyen kurs listede görünmez olurdu: sona eklenir
-    order.addAll(courses.keys.toSet().difference(order.toSet()));
-    final progress = {for (final e in (j['progress'] as Map? ?? {}).entries) now(e.key as String): CourseProgress.fromJson(e.value)};
-    final current = j['current'] is String ? now(j['current'] as String) : null;
-    final archived = List<String>.from(j['archived'] ?? []).map(now).where(courses.containsKey).toSet();
-    final companion = MascotId.values.where((m) => m.name == j['companion']).firstOrNull;
-    final sess = SavedSession.fromJson(j['session']);
+    if (data['profile'] is Map) {
+      final p = data['profile'] as Map;
+      if (p['xp'] != null && p['xp'] is! int) {
+        throw const FormatException('Bu yedek dosyası bozuk.');
+      }
+    }
+    if (data['progress'] != null) {
+      if (data['progress'] is! Map) {
+        throw const FormatException('Bu yedek dosyası bozuk.');
+      }
+      for (final entry in (data['progress'] as Map).values) {
+        if (entry is! Map) {
+          throw const FormatException('Bu yedek dosyası bozuk.');
+        }
+        final lessons = entry['lessons'];
+        if (lessons is Map) {
+          for (final l in lessons.values) {
+            if (l is! Map) {
+              throw const FormatException('Bu yedek dosyası bozuk.');
+            }
+          }
+        }
+      }
+    }
+  }
 
-    this.settings = settings;
-    this.profile = profile;
-    this.courses = courses;
-    this.order = order;
-    this.progress = progress;
-    this.current = current != null && courses.containsKey(current) ? current : order.firstOrNull;
-    this.archived = archived;
-    this.companion = companion;
-    session = sess != null && courses.containsKey(now(sess.courseId))
-        ? SavedSession(
-            courseId: now(sess.courseId),
-            nodeId: sess.nodeId,
-            nodeKind: sess.nodeKind,
-            nodeTitle: sess.nodeTitle,
-            unitIndex: sess.unitIndex,
-            lessonIndex: sess.lessonIndex,
-            queueKeys: sess.queueKeys,
-            done: sess.done,
-            total: sess.total,
-            questions: sess.questions,
-            hearts: sess.hearts,
-            combo: sess.combo,
-            maxCombo: sess.maxCombo,
-            firstTry: sess.firstTry,
-            wrongKeys: sess.wrongKeys,
-            rightKeys: sess.rightKeys,
-            cardWrong: sess.cardWrong,
-            cardRight: sess.cardRight,
-            rightStepTypes: sess.rightStepTypes,
-          )
-        : null;
+  _ParsedState _parseState(Map j) {
+    _validateBackupData(j);
+    try {
+      final settings = Settings.fromJson(j['settings'] is Map ? j['settings'] as Map : {});
+      // Yedekten geri yüklerken cihazdaki kayıtlı gizli anahtarlar korunur (yedek dosyasına girmedikleri için)
+      if (settings.aiKey.isEmpty && this.settings.aiKey.isNotEmpty) {
+        settings.aiKey = this.settings.aiKey;
+      }
+      final profile = Profile.fromJson(j['profile'] is Map ? j['profile'] as Map : {});
+      final courses = <String, Course>{};
+      // Kimliği kayıttakinden farklı okunan kurslar (kayıttaki → şimdiki): ilerleme, sıra ve arşiv kursu izler
+      final renamed = <String, String>{};
+      for (final e in (j['courses'] as Map? ?? {}).entries) {
+        var c = e.value is Map ? courseFromMap(e.value as Map) : null;
+        if (c == null) continue;
+        // İki kayıt aynı kimliğe düşerse biri öbürünün üzerine yazılmaz, yeni bir kimlik alır
+        if (courses.containsKey(c.id)) c = c.copyWith(id: freeId(c.id, courses.containsKey));
+        if (e.key is String && e.key != c.id) renamed[e.key as String] = c.id;
+        courses[c.id] = c;
+      }
+      String now(String id) => renamed[id] ?? id;
+      final rawOrder = j['order'];
+      final order = (rawOrder is List ? rawOrder : []).map((e) => now(e.toString())).where(courses.containsKey).toSet().toList();
+      // Sırada adı geçmeyen kurs listede görünmez olurdu: sona eklenir
+      order.addAll(courses.keys.toSet().difference(order.toSet()));
+      final rawProgress = j['progress'];
+      final progress = <String, CourseProgress>{};
+      if (rawProgress is Map) {
+        for (final e in rawProgress.entries) {
+          if (e.key is String && e.value is Map) {
+            progress[now(e.key as String)] = CourseProgress.fromJson(e.value as Map);
+          }
+        }
+      }
+      final current = j['current'] is String ? now(j['current'] as String) : null;
+      final rawArchived = j['archived'];
+      final archived = (rawArchived is List ? rawArchived : []).map((e) => now(e.toString())).where(courses.containsKey).toSet();
+      final companion = MascotId.values.where((m) => m.name == j['companion']).firstOrNull;
+      final sess = SavedSession.fromJson(j['session']);
+      return _ParsedState(
+        settings: settings,
+        profile: profile,
+        courses: courses,
+        order: order,
+        progress: progress,
+        current: current != null && courses.containsKey(current) ? current : order.firstOrNull,
+        archived: archived,
+        companion: companion,
+        session: sess != null && courses.containsKey(now(sess.courseId))
+            ? SavedSession(
+                courseId: now(sess.courseId),
+                nodeId: sess.nodeId,
+                nodeKind: sess.nodeKind,
+                nodeTitle: sess.nodeTitle,
+                unitIndex: sess.unitIndex,
+                lessonIndex: sess.lessonIndex,
+                queueKeys: sess.queueKeys,
+                done: sess.done,
+                total: sess.total,
+                questions: sess.questions,
+                hearts: sess.hearts,
+                combo: sess.combo,
+                maxCombo: sess.maxCombo,
+                firstTry: sess.firstTry,
+                wrongKeys: sess.wrongKeys,
+                rightKeys: sess.rightKeys,
+                cardWrong: sess.cardWrong,
+                cardRight: sess.cardRight,
+                rightStepTypes: sess.rightStepTypes,
+              )
+            : null,
+      );
+    } catch (_) {
+      throw const FormatException('Bu yedek dosyası bozuk.');
+    }
+  }
+
+  void _applyParsed(_ParsedState p) {
+    settings = p.settings;
+    profile = p.profile;
+    courses = p.courses;
+    order = p.order;
+    progress = p.progress;
+    current = p.current;
+    archived = p.archived;
+    companion = p.companion;
+    session = p.session;
     courses.values.forEach(_settleFlags);
     awardBadges();
   }
+
+  /// Önce her şey okunur, en sonda atanır: bozuk bir kayıt ya da yedek yarıda hata verirse eldeki durum olduğu gibi kalır.
+  void _apply(Map j) => _applyParsed(_parseState(j));
 
   Map<String, dynamic> _stateJson({bool includeSecrets = true}) => {
         'v': 3,
@@ -742,7 +873,9 @@ class AppState extends ChangeNotifier {
     if (_autoCheckedOn != today || backups.isEmpty) unawaited(autoBackup());
     if (_coursesDirty) {
       _coursesDirty = false;
-      unawaited(_storage.writeCourses(jsonEncode({'courses': _coursesJson()})).catchError((_) {}));
+      unawaited(_storage.writeCourses(jsonEncode({'courses': _coursesJson()})).catchError((_) {
+        _coursesDirty = true;
+      }));
     }
     unawaited(_storage.write(jsonEncode(_stateJson(includeSecrets: true))).catchError((_) {}));
   }
@@ -757,13 +890,25 @@ class AppState extends ChangeNotifier {
     return (level: lv, from: from, to: to, fraction: (cur - from) / (to - from));
   }
 
-  /// Dün ya da bugün ders yapıldıysa (veya dondurma 1 günlük boşluğu koruyorsa) seri sürüyor demektir.
-  int get streak {
-    if (profile.lastActive != null && today.compareTo(profile.lastActive!) < 0) return profile.streak;
-    if (profile.lastActive == today || profile.lastActive == addDays(today, -1)) return profile.streak;
-    if (profile.freezes > 0 && profile.lastActive == addDays(today, -2)) return profile.streak;
-    return 0;
+  /// Son aktif olunan gün ile [curDay] arasındaki seriyi korumak için gereken dondurma sayısı.
+  /// Dondurma gerekmiyorsa 0, dondurmalarla korunuyorsa harcanacak dondurma sayısı (1..[maxFreezes]),
+  /// dondurma yetmiyorsa veya seri koptuysa null döner.
+  int? freezesNeededForStreak([String? curDay]) {
+    final t = curDay ?? today;
+    final last = profile.lastActive;
+    if (last == null) return null;
+    if (t.compareTo(last) < 0) return 0;
+    if (last == t || last == addDays(t, -1)) return 0;
+    for (var k = 1; k <= maxFreezes; k++) {
+      if (last == addDays(t, -(k + 1))) {
+        return profile.freezes >= k ? k : null;
+      }
+    }
+    return null;
   }
+
+  /// Dün ya da bugün ders yapıldıysa (veya dondurmalar boş günleri koruyorsa) seri sürüyor demektir.
+  int get streak => freezesNeededForStreak() != null ? profile.streak : 0;
 
   int get todayXp => profile.xpByDay[today] ?? 0;
 
@@ -1535,17 +1680,18 @@ class AppState extends ChangeNotifier {
     p.maxCombo = math.max(p.maxCombo, r.maxCombo);
     p.answered += r.questions;
     p.correct += r.firstTry;
-    var freezeUsed = false, freezeEarned = false;
+    var freezeUsed = 0, freezeEarned = false;
     if (!wasActive) {
       if (p.lastActive != null && t.compareTo(p.lastActive!) < 0) {
         // Cihaz saati geriye alınmış: bugün lastActive tarihinden önceyse seri korunur, lastActive geriye çekilmez.
       } else {
-        if (p.lastActive == addDays(t, -1)) {
+        final needed = freezesNeededForStreak(t);
+        if (needed != null) {
+          if (needed > 0) {
+            p.freezes -= needed;
+            freezeUsed = needed;
+          }
           p.streak++;
-        } else if (p.freezes > 0 && p.lastActive == addDays(t, -2)) {
-          p.freezes--;
-          p.streak++;
-          freezeUsed = true;
         } else {
           p.streak = 1;
         }
@@ -1595,7 +1741,8 @@ class AppState extends ChangeNotifier {
       goalMet: !beforeGoal && todayXp >= settings.dailyGoal,
       newBadges: fresh,
       courseDone: course != null && !wasFinished && isFinished(course),
-      freezeUsed: freezeUsed,
+      freezeUsed: freezeUsed > 0,
+      freezesUsed: freezeUsed,
       freezeEarned: freezeEarned,
     );
   }
@@ -1685,8 +1832,11 @@ class AppState extends ChangeNotifier {
   /// Bir yedek metnini (cihazdan ya da dosyadan) yükler; önce şimdiki durumun yedeğini alır.
   Future<void> restoreFrom(String text) async {
     final data = _backupData(text);
+    final parsed = _parseState(data);
     await autoBackup(force: true);
-    _applyBackup(data);
+    _applyParsed(parsed);
+    _coursesDirty = true;
+    commit();
   }
 
   /// Her şeyi siler ama önce şimdiki durumun yedeğini alır; cihazdaki yedekler silinmez.
@@ -1704,12 +1854,8 @@ class AppState extends ChangeNotifier {
   }
 
   void _applyBackup(Map data) {
-    try {
-      _apply(data);
-    } on Error {
-      // Alanlardan biri beklenen türde değil (elle değiştirilmiş ya da bozulmuş yedek)
-      throw const FormatException('Bu yedek dosyası bozuk.');
-    }
+    final parsed = _parseState(data);
+    _applyParsed(parsed);
     _coursesDirty = true;
     commit();
   }

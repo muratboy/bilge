@@ -249,6 +249,8 @@ class _LessonScreenState extends State<LessonScreen> with SingleTickerProviderSt
   /// Uzun süre dokunulmazsa dersteki maskot uyur; ekrana dokununca uyanır.
   static const _sleepAfter = Duration(seconds: 30);
   Timer? _idle;
+  Timer? _feedbackLock;
+  bool _feedbackLocked = false;
 
   void _awake() {
     MascotView.drowsy.value = false;
@@ -267,6 +269,7 @@ class _LessonScreenState extends State<LessonScreen> with SingleTickerProviderSt
 
   @override
   void dispose() {
+    _feedbackLock?.cancel();
     WidgetsBinding.instance.removeObserver(this);
     _idle?.cancel();
     _shake.dispose();
@@ -364,6 +367,8 @@ class _LessonScreenState extends State<LessonScreen> with SingleTickerProviderSt
 
   void _next() {
     _awake(); // yeni adım: uyku sayacı baştan başlar
+    _feedbackLock?.cancel();
+    _feedbackLocked = false;
     if (_queue.isEmpty) return _finish();
     setState(() {
       _cur = _queue.removeAt(0);
@@ -377,7 +382,10 @@ class _LessonScreenState extends State<LessonScreen> with SingleTickerProviderSt
   }
 
   void _onMain() {
-    if (_phase == _Phase.feedback) return _countHearts && _hearts <= 0 ? _fail() : _next();
+    if (_phase == _Phase.feedback) {
+      if (_feedbackLocked) return;
+      return _countHearts && _hearts <= 0 ? _fail() : _next();
+    }
     if (_phase != _Phase.answer) return;
     if (_mode == ExMode.info) {
       Sfx.play('tap');
@@ -436,6 +444,13 @@ class _LessonScreenState extends State<LessonScreen> with SingleTickerProviderSt
       _phase = _Phase.feedback;
       _result = r;
       _line = _host.pick(r.correct ? _host.voice.praise : _host.voice.oops, _app.random);
+      _feedbackLocked = true;
+    });
+    _feedbackLock?.cancel();
+    _feedbackLock = Timer(const Duration(milliseconds: 400), () {
+      if (mounted) {
+        setState(() => _feedbackLocked = false);
+      }
     });
   }
 
@@ -485,6 +500,16 @@ class _LessonScreenState extends State<LessonScreen> with SingleTickerProviderSt
         }
       }
       _flaggedNow = false;
+      if (_result != null) {
+        _result = ExResult(
+          correct: _result!.correct,
+          answer: next.formattedAnswer(locale: _course.language),
+          message: _result!.message,
+          note: null,
+          soft: _result!.soft,
+          skipped: _result!.skipped,
+        );
+      }
     });
     toast(context, t('edit.saved'), floating: true);
   }
@@ -1055,7 +1080,7 @@ class _FinishView extends StatelessWidget {
                           if (o.courseDone)
                             note('🎓', s._nextSection == null ? t('learn.allDone') : t('finish.sectionDone', {'title': sectionTitle(s._nextSection!)})),
                           if (o.streakUp > 0) note('🔥', t('finish.streak', {'n': o.streakUp})),
-                          if (o.freezeUsed) note('🧊', t('finish.freezeUsed')),
+                          if (o.freezeUsed) note('🧊', o.freezesUsed > 1 ? t('finish.freezesUsed', {'n': o.freezesUsed}) : t('finish.freezeUsed')),
                           if (o.freezeEarned) note('🧊', t('finish.freezeEarned')),
                           if (o.goalMet) note('🎯', t('finish.goal')),
                           if (o.levelUp > 0) note('⭐', t('finish.level', {'n': o.levelUp})),

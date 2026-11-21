@@ -61,8 +61,38 @@ class Exercise {
   /// Adımı bir listede tanıtan kısa metin: sorunun kendisi (boşluk doldurmada boşluklar çizgiyle gösterilir).
   String get headline {
     if (type == 'fill') return [text('question'), fillParts(text('text')).map((p) => p.blank ? '_____' : p.text).join()].where((s) => s.isNotEmpty).join(' ');
-    return ['question', 'statement', 'front', 'title', 'body'].map(text).firstWhere((s) => s.isNotEmpty, orElse: () => '');
+    final primary = ['question', 'statement', 'front', 'title', 'body'].map(text).firstWhere((s) => s.isNotEmpty, orElse: () => '');
+    if (primary.isNotEmpty) return primary;
+    return switch (type) {
+      'order' => list('items').join(' → '),
+      'build' => list('answer').join(' '),
+      'match' => pairs.take(3).map((p) => '${p[0]} ↔ ${p[1]}').join(' · '),
+      'categorize' => categories.map((c) => c.name).where((s) => s.isNotEmpty).join(', '),
+      _ => '',
+    };
   }
+
+  /// Geri bildirim panelinde ve soru düzenlemede doğru cevabın biçimlendirilmiş gösterimi.
+  String formattedAnswer({String? locale}) => switch (type) {
+        'choice' || 'type' => text('answer'),
+        'multi' => list('answers').join(' · '),
+        'truefalse' => t(data['answer'] == true ? 'lesson.true' : 'lesson.false'),
+        'fill' => fillParts(text('text')).map((p) => p.text).join(),
+        'number' => () {
+          final ans = (data['answer'] as num?) ?? 0;
+          final unit = text('unit');
+          final tol = _num(data['tolerance']) ?? 0;
+          final s = formatNumber(ans, locale: locale ?? 'tr');
+          final withUnit = unit.isEmpty ? s : '$s $unit';
+          return tol > 0 ? '$withUnit  (± ${formatNumber(tol, locale: locale ?? 'tr')})' : withUnit;
+        }(),
+        'match' => pairs.map((p) => '${p[0]} → ${p[1]}').join('\n'),
+        'order' => [for (final (i, x) in list('items').indexed) '${i + 1}. $x'].join('\n'),
+        'build' => list('answer').join(' '),
+        'categorize' => categories.map((c) => '${c.name}: ${c.items.join(', ')}').join('\n'),
+        'flashcard' => text('back'),
+        _ => '',
+      };
 
   /// Cevap anahtarının tek satırlık özeti (hatalı işaretlenen soruyu listede tanımak için).
   String get answerText => switch (type) {

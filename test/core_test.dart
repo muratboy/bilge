@@ -805,6 +805,27 @@ void main() {
       expect(ex({'type': 'match', 'pairs': [['a', '1'], ['b', '2']]}).answerText, 'a → 1 · b → 2');
       expect(ex({'type': 'order', 'question': 'Sırala', 'items': ['bir', 'iki']}).answerText, 'bir → iki');
     });
+
+    test('boş sorulu order/build/match/categorize için headline boş değildir', () {
+      final orderEx = Exercise({'type': 'order', 'items': ['bir', 'iki', 'üç']});
+      expect(orderEx.headline, 'bir → iki → üç');
+      expect(orderEx.headline.isNotEmpty, isTrue);
+
+      final buildEx = Exercise({'type': 'build', 'answer': ['Ben', 'kitap', 'okuyorum']});
+      expect(buildEx.headline, 'Ben kitap okuyorum');
+      expect(buildEx.headline.isNotEmpty, isTrue);
+
+      final matchEx = Exercise({'type': 'match', 'pairs': [['a', '1'], ['b', '2']]});
+      expect(matchEx.headline, 'a ↔ 1 · b ↔ 2');
+      expect(matchEx.headline.isNotEmpty, isTrue);
+
+      final catEx = Exercise({'type': 'categorize', 'categories': [
+        {'name': 'Meyveler', 'items': ['Elma']},
+        {'name': 'Sebzeler', 'items': ['Pırasa']}
+      ]});
+      expect(catEx.headline, 'Meyveler, Sebzeler');
+      expect(catEx.headline.isNotEmpty, isTrue);
+    });
   });
 
   group('güvenilmeyen içerik', () {
@@ -1839,4 +1860,278 @@ void main() {
     });
   });
 
+  group('veri bütünlüğü ve seri dondurma', () {
+    final fixedTime = DateTime(2026, 10, 10, 12);
+    final sampleCourse = parseCourse(course(unit('u1', 'Bir'))).course!.copyWith(id: 'c1');
+    AppState makeApp([Storage? storage]) => AppState(storage ?? MemoryStorage(), clock: () => fixedTime);
+
+    test('2 dondurmayla 2 günlük boşlukta seri korunur ve 2 dondurma harcanır', () {
+      final app = makeApp();
+      final t = app.today;
+      app.profile.streak = 4;
+      app.profile.freezes = 2;
+      app.profile.lastActive = addDays(t, -3);
+
+      expect(app.streak, 4);
+
+      final res = LessonResult(
+        courseId: 'c1',
+        node: const PathNode(id: 'l1', title: 'L1', kind: NodeKind.lesson, unitIndex: 0),
+        stars: 3,
+        xp: 10,
+        perfect: true,
+        questions: 1,
+        firstTry: 1,
+        maxCombo: 1,
+        wrongKeys: const {},
+        rightKeys: const {'l1#0'},
+      );
+      final outcome = app.completeLesson(res);
+      expect(outcome.freezeUsed, isTrue);
+      expect(outcome.freezesUsed, 2);
+      expect(app.profile.freezes, 0);
+      expect(app.profile.streak, 5);
+      expect(app.streak, 5);
+    });
+
+    test('1 dondurmayla 2 günlük boşlukta seri sıfırlanır', () {
+      final app = makeApp();
+      final t = app.today;
+      app.profile.streak = 5;
+      app.profile.freezes = 1;
+      app.profile.lastActive = addDays(t, -3);
+
+      expect(app.streak, 0);
+
+      final res = LessonResult(
+        courseId: 'c1',
+        node: const PathNode(id: 'l1', title: 'L1', kind: NodeKind.lesson, unitIndex: 0),
+        stars: 3,
+        xp: 10,
+        perfect: true,
+        questions: 1,
+        firstTry: 1,
+        maxCombo: 1,
+        wrongKeys: const {},
+        rightKeys: const {'l1#0'},
+      );
+      final outcome = app.completeLesson(res);
+      expect(outcome.freezeUsed, isFalse);
+      expect(outcome.freezesUsed, 0);
+      expect(app.profile.freezes, 1);
+      expect(app.profile.streak, 1);
+      expect(app.streak, 1);
+    });
+
+    test('streak getterı ile ders bitişi aynı sonucu verir', () {
+      final scenarios = [
+        (0, 0, true),
+        (0, -1, true),
+        (0, -2, false),
+        (1, -2, true),
+        (2, -2, true),
+        (1, -3, false),
+        (2, -3, true),
+        (2, -4, false),
+      ];
+
+      for (final (freezes, offset, expectedAlive) in scenarios) {
+        final app = makeApp();
+        final t = app.today;
+        app.profile.streak = 7;
+        app.profile.freezes = freezes;
+        app.profile.lastActive = addDays(t, offset);
+
+        final getterStreak = app.streak;
+        if (expectedAlive) {
+          expect(getterStreak, 7);
+        } else {
+          expect(getterStreak, 0);
+        }
+
+        final res = LessonResult(
+          courseId: 'c1',
+          node: const PathNode(id: 'l1', title: 'L1', kind: NodeKind.lesson, unitIndex: 0),
+          stars: 3,
+          xp: 10,
+          perfect: true,
+          questions: 1,
+          firstTry: 1,
+          maxCombo: 1,
+          wrongKeys: const {},
+          rightKeys: const {'l1#0'},
+        );
+        final outcome = app.completeLesson(res);
+        if (offset == 0) {
+          expect(app.profile.streak, 7);
+        } else if (expectedAlive) {
+          expect(outcome.streakUp, app.profile.streak);
+          expect(app.profile.streak, 8);
+        } else {
+          expect(app.profile.streak, 1);
+        }
+      }
+    });
+
+    test('order dolu ve kurs dosyası yok: yedekten dönülür', () async {
+      final storage = MemoryStorage();
+      final c1 = sampleCourse;
+      final backupState = {
+        'v': 3,
+        'profile': {'xp': 50, 'streak': 2},
+        'order': ['c1'],
+        'courses': {'c1': c1.toJson()},
+        'progress': {},
+      };
+      final backupName = BackupInfo.nameFor(manual: false, time: fixedTime, signature: 'aabbccdd');
+      await storage.writeBackup(backupName, jsonEncode(backupState));
+
+      await storage.write(jsonEncode({
+        'v': 3,
+        'order': ['c1'],
+        'profile': {'xp': 50, 'streak': 2},
+        'progress': {},
+      }));
+
+      final app = makeApp(storage);
+      await app.load();
+
+      expect(app.recoveryNotice, 'backup.corruptRestored');
+      expect(app.courses.containsKey('c1'), isTrue);
+      expect(app.order, ['c1']);
+    });
+
+    test('order boş ve kurs dosyası yok: uyarı yok, ayarlar okunur', () async {
+      final storage = MemoryStorage();
+      await storage.write(jsonEncode({
+        'v': 3,
+        'order': [],
+        'settings': {'theme': 'dark', 'lang': 'en'},
+        'profile': {'xp': 0, 'streak': 0},
+      }));
+
+      final app = makeApp(storage);
+      await app.load();
+
+      expect(app.recoveryNotice, isNull);
+      expect(app.settings.theme, 'dark');
+      expect(app.settings.lang, 'en');
+      expect(app.order, isEmpty);
+      expect(app.courses, isEmpty);
+    });
+
+    test('eski tek dosya biçimi hâlâ yüklenir', () async {
+      final c1 = sampleCourse;
+      final legacyState = {
+        'profile': {'xp': 20, 'streak': 1},
+        'order': ['c1'],
+        'courses': {'c1': c1.toJson()},
+        'progress': {},
+      };
+      final storage = MemoryStorage(jsonEncode(legacyState));
+      final app = makeApp(storage);
+      await app.load();
+
+      expect(app.recoveryNotice, isNull);
+      expect(app.courses.containsKey('c1'), isTrue);
+      expect(app.order, ['c1']);
+    });
+
+    test('kurs yazımı bir kez başarısız olunca sonraki commit yeniden yazar', () async {
+      final failingStorage = _FailingCourseStorage();
+      final app = makeApp(failingStorage);
+      final c1 = sampleCourse;
+
+      failingStorage.failCoursesWrite = true;
+      app.putCourse(c1);
+      await Future<void>.delayed(Duration.zero);
+
+      expect(failingStorage.courseData, isNull);
+
+      failingStorage.failCoursesWrite = false;
+      app.commit();
+      await Future<void>.delayed(Duration.zero);
+
+      expect(failingStorage.courseData, isNotNull);
+      final decoded = jsonDecode(failingStorage.courseData!) as Map;
+      expect((decoded['courses'] as Map).containsKey('c1'), isTrue);
+    });
+
+    test('tipi bozuk ilerleme girdisi atlanır, geri kalanı okunur', () {
+      final malformedJson = {
+        'last': 12345,
+        'lessons': {
+          'u1/l1': {'stars': 3, 'plays': 2},
+          'u1/l2': 'corrupted_lesson',
+          'u1/l3': {'stars': 'three', 'plays': 1},
+          'u1/l4': {'stars': 2},
+        },
+        'mistakes': {
+          'u1/l1#0': 2,
+          'u1/l2#0': 'two',
+        },
+        'memory': {
+          'u1/l1#0': [3, '2026-11-20'],
+          'u1/l2#0': [1],
+          'u1/l3#0': 'corrupted_memory',
+          'u1/l4#0': ['two', '2026-11-20'],
+        },
+        'flagged': {
+          'u1/l1#0': 'fingerprint1',
+          'u1/l2#0': 12345,
+        },
+      };
+
+      final prog = CourseProgress.fromJson(malformedJson);
+      expect(prog.last, 12345);
+      expect(prog.lessons.length, 1);
+      expect(prog.lessons['u1/l1'], (stars: 3, plays: 2));
+      expect(prog.mistakes['u1/l1#0'], 2);
+      expect(prog.mistakes.containsKey('u1/l2#0'), isFalse);
+      expect(prog.memory['u1/l1#0'], (box: 3, due: '2026-11-20'));
+      expect(prog.memory.containsKey('u1/l3#0'), isFalse);
+      expect(prog.flagged['u1/l1#0'], 'fingerprint1');
+      expect(prog.flagged.containsKey('u1/l2#0'), isFalse);
+    });
+
+    test('bozuk yedek dosyası durumu değiştirmez', () async {
+      final storage = MemoryStorage();
+      final app = makeApp(storage);
+      final c1 = sampleCourse;
+      app.putCourse(c1);
+      app.profile.xp = 150;
+      app.profile.streak = 4;
+      await Future<void>.delayed(Duration.zero);
+
+      final initialBackupsCount = app.backups.length;
+
+      // 1. JSON olmayan metin
+      expect(() => app.importBackup('not json'), throwsA(isA<FormatException>()));
+      expect(app.profile.xp, 150);
+      expect(app.courses.containsKey('c1'), isTrue);
+
+      // 2. Eksik alanlar (courses veya profile yok)
+      expect(() => app.importBackup('{"invalid": true}'), throwsA(isA<FormatException>()));
+      expect(app.profile.xp, 150);
+
+      // 3. İç yapısı bozuk yedek ile restoreFrom
+      expect(() => app.restoreFrom('{"courses": "not-map", "profile": {}}'), throwsA(isA<FormatException>()));
+      expect(app.profile.xp, 150);
+      expect(app.profile.streak, 4);
+      expect(app.courses.containsKey('c1'), isTrue);
+      expect(app.backups.length, initialBackupsCount);
+    });
+  });
+}
+
+class _FailingCourseStorage extends MemoryStorage {
+  bool failCoursesWrite = false;
+
+  @override
+  Future<void> writeCourses(String d) async {
+    if (failCoursesWrite) {
+      throw const FileSystemException('disk full');
+    }
+    await super.writeCourses(d);
+  }
 }

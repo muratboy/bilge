@@ -1,15 +1,34 @@
 import 'dart:convert';
 
+import 'package:bilge/app_scope.dart';
 import 'package:bilge/core/schema.dart';
 import 'package:bilge/core/store.dart';
 import 'package:bilge/core/text_utils.dart';
+import 'package:bilge/l10n/l10n.dart';
+import 'package:bilge/lesson/lesson_screen.dart';
+import 'package:bilge/mascot/mascot_art.dart';
+import 'package:bilge/ui/theme.dart';
+import 'package:bilge/ui/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+Widget _testApp({required Widget child, AppState? state}) {
+  final s = state ?? AppState(MemoryStorage());
+  return AppScope(
+    state: s,
+    child: MaterialApp(
+      theme: buildTheme(Palette.light),
+      home: child,
+    ),
+  );
+}
 
 void main() {
   group('streak getter ve saveResult dondurma tutarlılığı', () {
     test('bugün veya dün aktif olunduğunda seri sürer', () {
+      final fixed = DateTime(2026, 10, 4, 12);
       final storage = MemoryStorage();
-      final app = AppState(storage);
+      final app = AppState(storage, clock: () => fixed);
       final t = app.today;
 
       // Dün ders yapılmış
@@ -36,8 +55,9 @@ void main() {
     });
 
     test('1 gün boşlukta dondurma hakkı varsa ekranda görünür ve ders yapılınca harcanır', () {
+      final fixed = DateTime(2026, 10, 4, 12);
       final storage = MemoryStorage();
-      final app = AppState(storage);
+      final app = AppState(storage, clock: () => fixed);
       final t = app.today;
 
       // 2 gün önce aktif olunmuş, 1 dondurma hakkı var
@@ -69,8 +89,9 @@ void main() {
     });
 
     test('1 gün boşlukta dondurma hakkı yoksa ekran seriyi kopmuş (0) gösterir, ders yapılınca 1 olur', () {
+      final fixed = DateTime(2026, 10, 4, 12);
       final storage = MemoryStorage();
-      final app = AppState(storage);
+      final app = AppState(storage, clock: () => fixed);
       final t = app.today;
 
       // 2 gün önce aktif olunmuş, dondurma hakkı yok
@@ -263,6 +284,257 @@ void main() {
       final arabicMatch = compareAnswer('عربي$lrm', ['عربي$lrm']);
       expect(arabicMatch, isNotNull);
       expect(arabicMatch!.kind, MatchKind.exact);
+    });
+  });
+
+  group('ders deneyimi düzeltmeleri', () {
+    testWidgets('hızlı çift dokunuşta geri bildirim paneli açık kalır ve 400 ms sonra Devam çalışır', (tester) async {
+      final course = parseCourse(jsonEncode({
+        'id': 'test-course',
+        'title': 'Test Kursu',
+        'units': [
+          {
+            'id': 'u1',
+            'title': 'Ünite 1',
+            'lessons': [
+              {
+                'id': 'l1',
+                'title': 'Ders 1',
+                'exercises': [
+                  {'type': 'truefalse', 'statement': 'Soru 1', 'answer': true},
+                  {'type': 'truefalse', 'statement': 'Soru 2', 'answer': true},
+                ]
+              }
+            ]
+          }
+        ]
+      })).course!;
+
+      final app = AppState(MemoryStorage());
+      await app.load();
+      app.companion = MascotId.tarcin;
+      app.putCourse(course);
+      final node = app.nodes(course).first;
+
+      await tester.pumpWidget(_testApp(state: app, child: LessonScreen(course: course, node: node)));
+      await tester.pumpAndSettle();
+
+      // Soru 1 ekranda
+      expect(find.text('Soru 1'), findsOneWidget);
+
+      // Doğru seçeneğine tıkla
+      await tester.tap(find.text(t('lesson.true')));
+      await tester.pumpAndSettle();
+
+      // Kontrol et butonuna tıkla
+      await tester.tap(find.text(upper(t('lesson.check'))));
+      await tester.pump(const Duration(milliseconds: 50));
+
+      // Geri bildirim aşamasına geçildi, buton 'DEVAM' oldu
+      expect(find.text(upper(t('common.continue'))), findsOneWidget);
+
+      // 400 ms dolmadan hemen ikinci kez bas (hızlı çift dokunuş)
+      await tester.tap(find.text(upper(t('common.continue'))));
+      await tester.pump(const Duration(milliseconds: 50));
+
+      // Kilit devrede: panel açık kalmalı, sonraki soruya geçilmemeli
+      expect(find.text(upper(t('common.continue'))), findsOneWidget);
+      expect(find.text('Soru 2'), findsNothing);
+
+      // 400 ms kilidin dolmasını bekle
+      await tester.pump(const Duration(milliseconds: 350));
+
+      // Şimdi Devam butonuna bas
+      await tester.tap(find.text(upper(t('common.continue'))));
+      await tester.pumpAndSettle();
+
+      // Sonraki soruya başarıyla geçildi
+      expect(find.text('Soru 2'), findsOneWidget);
+    });
+
+    testWidgets('eşleştirmede ve kategoride kaybedince doğru cevap panelde görünür', (tester) async {
+      // 1. Eşleştirme adımı
+      final matchCourse = parseCourse(jsonEncode({
+        'id': 'match-c',
+        'title': 'Eşleştirme',
+        'units': [
+          {
+            'id': 'u1',
+            'title': 'U1',
+            'lessons': [
+              {
+                'id': 'l1',
+                'title': 'L1',
+                'exercises': [
+                  {
+                    'type': 'match',
+                    'pairs': [
+                      ['A', '1'],
+                      ['B', '2']
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      })).course!;
+
+      final app1 = AppState(MemoryStorage());
+      await app1.load();
+      app1.companion = MascotId.tarcin;
+      app1.putCourse(matchCourse);
+      final matchNode = app1.nodes(matchCourse).first;
+
+      await tester.pumpWidget(_testApp(state: app1, child: LessonScreen(key: const ValueKey('match'), course: matchCourse, node: matchNode)));
+      await tester.pumpAndSettle();
+
+      // 2 kez hatalı eşleştir
+      await tester.tap(find.text('A'));
+      await tester.pump(const Duration(milliseconds: 50));
+      await tester.tap(find.text('2'));
+      await tester.pump(const Duration(milliseconds: 50));
+
+      await tester.tap(find.text('A'));
+      await tester.pump(const Duration(milliseconds: 50));
+      await tester.tap(find.text('2'));
+      await tester.pump(const Duration(milliseconds: 50));
+
+      // Doğru eşleştirerek bitir
+      await tester.tap(find.text('A'));
+      await tester.pump(const Duration(milliseconds: 50));
+      await tester.tap(find.text('1'));
+      await tester.pump(const Duration(milliseconds: 50));
+
+      await tester.tap(find.text('B'));
+      await tester.pump(const Duration(milliseconds: 50));
+      await tester.tap(find.text('2'));
+      await tester.pump(const Duration(milliseconds: 400));
+      await tester.pumpAndSettle();
+
+      // 2 hata ile kaybedildi: doğru cevap paneli görünmeli
+      expect(find.text(upper(t('lesson.correctAnswer'))), findsOneWidget);
+      expect(find.textContaining('A → 1'), findsOneWidget);
+      expect(find.textContaining('B → 2'), findsOneWidget);
+
+      // 2. Kategori adımı
+      final catCourse = parseCourse(jsonEncode({
+        'id': 'cat-c',
+        'title': 'Kategori',
+        'units': [
+          {
+            'id': 'u1',
+            'title': 'U1',
+            'lessons': [
+              {
+                'id': 'l1',
+                'title': 'L1',
+                'exercises': [
+                  {
+                    'type': 'categorize',
+                    'categories': [
+                      {'name': 'Meyve', 'items': ['Elma', 'Armut']},
+                      {'name': 'Sebze', 'items': ['Pırasa']}
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      })).course!;
+
+      final app2 = AppState(MemoryStorage());
+      await app2.load();
+      app2.companion = MascotId.tarcin;
+      app2.putCourse(catCourse);
+      final catNode = app2.nodes(catCourse).first;
+
+      await tester.pumpWidget(_testApp(state: app2, child: LessonScreen(key: const ValueKey('cat'), course: catCourse, node: catNode)));
+      await tester.pumpAndSettle();
+
+      // İlk 2 öğeyi ters kovaya at (2 hata)
+      await tester.tap(find.byWidgetPredicate((w) => w is MdInline && w.text == 'Sebze'));
+      await tester.pump(const Duration(milliseconds: 100));
+
+      await tester.tap(find.byWidgetPredicate((w) => w is MdInline && w.text == 'Sebze'));
+      await tester.pump(const Duration(milliseconds: 100));
+
+      // 3. öğeyi de atarak tamamla
+      await tester.tap(find.byWidgetPredicate((w) => w is MdInline && w.text == 'Sebze'));
+      await tester.pump(const Duration(milliseconds: 900));
+      await tester.pumpAndSettle();
+
+      // 2 hata ile kaybedildi: doğru kategoriler panelde görünmeli
+      expect(find.text(upper(t('lesson.correctAnswer'))), findsOneWidget);
+      expect(find.textContaining('Meyve: Elma, Armut'), findsOneWidget);
+      expect(find.textContaining('Sebze: Pırasa'), findsOneWidget);
+    });
+
+    testWidgets('düzenlenen sorunun paneli yeni cevabı gösterir', (tester) async {
+      final course = parseCourse(jsonEncode({
+        'id': 'edit-c',
+        'title': 'Düzenleme',
+        'units': [
+          {
+            'id': 'u1',
+            'title': 'U1',
+            'lessons': [
+              {
+                'id': 'l1',
+                'title': 'L1',
+                'exercises': [
+                  {
+                    'type': 'type',
+                    'question': 'Soru?',
+                    'answer': 'EskiCevap',
+                    'explanation': 'EskiAciklama'
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      })).course!;
+
+      final app = AppState(MemoryStorage());
+      await app.load();
+      app.companion = MascotId.tarcin;
+      app.putCourse(course);
+      final node = app.nodes(course).first;
+
+      await tester.pumpWidget(_testApp(state: app, child: LessonScreen(course: course, node: node)));
+      await tester.pumpAndSettle();
+
+      // Yanlış cevap yazıp gönder
+      await tester.enterText(find.byType(TextField), 'Yanlis');
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(upper(t('lesson.check'))));
+      await tester.pumpAndSettle();
+
+      // Panelde eski doğru cevap ve eski açıklama görünür
+      expect(find.text('EskiCevap'), findsOneWidget);
+      expect(find.text('EskiAciklama'), findsOneWidget);
+
+      // Soruyu düzenle simgesine tıkla
+      await tester.tap(find.byIcon(Icons.edit_outlined));
+      await tester.pumpAndSettle();
+
+      // Düzenleme penceresinde cevabı ve açıklamayı değiştir
+      final textFields = find.byType(TextField);
+      await tester.enterText(textFields.at(2), 'YeniCevap');
+      await tester.enterText(textFields.at(3), 'YeniAciklama');
+      await tester.pumpAndSettle();
+
+      // Kaydet butonuna bas
+      await tester.tap(find.text(upper(t('edit.save'))));
+      await tester.pumpAndSettle();
+
+      // Panel güncellenmiş yeni cevabı ve açıklamayı gösterir, eskiler kalkar
+      expect(find.text('YeniCevap'), findsOneWidget);
+      expect(find.text('YeniAciklama'), findsOneWidget);
+      expect(find.text('EskiCevap'), findsNothing);
+      expect(find.text('EskiAciklama'), findsNothing);
     });
   });
 }
