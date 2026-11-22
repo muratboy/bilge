@@ -71,15 +71,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (text != null) await shareFile('bilge-yedek-${dayKey(backup.time)}.json', text);
   }
 
-  void _syncReminder(AppState app) {
+  Future<void> _syncReminder(AppState app) async {
     final s = app.settings;
-    scheduleReminder(
+    final ok = await scheduleReminder(
       enabled: s.reminder,
       hour: s.reminderHour,
       title: t('reminder.notifTitle'),
       body: t('reminder.notifBody'),
       lastActive: app.profile.lastActive,
     );
+    if (!ok && s.reminder) {
+      s.reminder = false;
+      app.commit();
+      if (mounted) {
+        setState(() {});
+        toast(context, t('reminder.permissionDenied'));
+      }
+    }
   }
 
   void _showBadgeDetail(AppState app, Badge b) {
@@ -610,7 +618,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 label: Text(t('profile.reset'), style: ts(14.5, w: FontWeight.w800, color: p.badInk)),
               ),
             ),
-            Center(child: Text('Bilge 0.17.0-beta', style: ts(12.5, w: FontWeight.w800, color: p.ink3))),
+            Center(child: Text('Bilge 0.17.1-beta', style: ts(12.5, w: FontWeight.w800, color: p.ink3))),
           ],
         ),
       ),

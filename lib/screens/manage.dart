@@ -102,6 +102,7 @@ void _offerClash(
 
 /// Dışarıdan gelen bir kurs dosyasını (paylaşım, dosyaya dokunma) kullanıcıya sorarak ekler.
 void offerIncomingCourse(BuildContext context, String text) {
+  if (text == Incoming.readFailed) return toast(context, t('import.fileFailed'));
   final app = AppScope.read(context);
   if (text == Incoming.tooBig || text.length > maxImportChars) return toast(context, t('err.tooBig', {'mb': maxCourseBytes ~/ (1024 * 1024)}));
   // Hatalı işaretlenen sorular için yapay zekânın verdiği düzeltme

@@ -95,7 +95,13 @@ class _RootState extends State<_Root> {
       });
     }
     final text = _incoming;
-    if (ready && text != null) {
+    if (text == Incoming.readFailed && !ready) {
+      _incoming = null;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        toast(context, t('import.fileFailed'));
+      });
+    } else if (ready && text != null) {
       _incoming = null;
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;

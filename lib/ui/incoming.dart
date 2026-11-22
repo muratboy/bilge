@@ -8,6 +8,9 @@ class Incoming {
   /// Dosya boyut sınırını aşıyorsa Android tarafı içeriği okumaz, bunu gönderir (MainActivity.kt ile aynı olmalı).
   static const tooBig = 'bilge:too-big';
 
+  /// Dosya veya metin okunamazsa Android tarafı bunu gönderir (MainActivity.kt ile aynı olmalı).
+  static const readFailed = 'bilge:read-failed';
+
   /// Uygulama bir dosyayla açıldıysa ve açıkken yeni dosya gelirse [onText] çağrılır.
   static Future<void> listen(void Function(String text) onText) async {
     _channel.setMethodCallHandler((call) async {

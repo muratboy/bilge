@@ -11,6 +11,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.speech.tts.TextToSpeech
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
@@ -20,6 +22,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import java.util.concurrent.Executors
 
 /**
  * Üç iş yapar:
@@ -34,19 +37,47 @@ import java.util.Locale
 class MainActivity : FlutterActivity() {
     private var channel: MethodChannel? = null
     private var pending: String? = null
+    private var pendingTakeResult: MethodChannel.Result? = null
+    private var initialReadDone = false
+
+    private val executor = Executors.newSingleThreadExecutor()
+    private val mainHandler = Handler(Looper.getMainLooper())
 
     private var tts: TextToSpeech? = null
     private var ttsReady = false
     private val ttsWaiting = mutableListOf<(Boolean) -> Unit>()
 
+    private data class ReminderParams(val hour: Int, val title: String, val body: String, val lastActive: String?)
+    private var pendingReminderResult: MethodChannel.Result? = null
+    private var pendingReminderParams: ReminderParams? = null
+
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
-        pending = read(intent)
+
+        // Dışarıdan gelen dosya/metin okuma ana iş parçacığını bloke etmemesi için tek iş parçacıklı executor'da yapılır
+        executor.execute {
+            val content = read(intent)
+            mainHandler.post {
+                initialReadDone = true
+                val takeResult = pendingTakeResult
+                if (takeResult != null) {
+                    pendingTakeResult = null
+                    takeResult.success(content)
+                } else {
+                    pending = content
+                }
+            }
+        }
+
         channel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "bilge/incoming").also {
             it.setMethodCallHandler { call, result ->
                 if (call.method == "take") {
-                    result.success(pending)
-                    pending = null
+                    if (initialReadDone) {
+                        result.success(pending)
+                        pending = null
+                    } else {
+                        pendingTakeResult = result
+                    }
                 } else {
                     result.notImplemented()
                 }
@@ -74,13 +105,40 @@ class MainActivity : FlutterActivity() {
                 val title = call.argument<String>("title") ?: "Bilge"
                 val body = call.argument<String>("body") ?: ""
                 val lastActive = call.argument<String>("lastActive")
-                if (enabled && Build.VERSION.SDK_INT >= 33 && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1002)
+
+                if (!enabled) {
+                    scheduleAlarm(applicationContext, false, hour, title, body, lastActive)
+                    result.success(true)
+                } else if (Build.VERSION.SDK_INT >= 33 && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                    pendingReminderResult?.success(false)
+                    pendingReminderResult = result
+                    pendingReminderParams = ReminderParams(hour, title, body, lastActive)
+                    requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), REQ_POST_NOTIFICATIONS)
+                } else {
+                    scheduleAlarm(applicationContext, true, hour, title, body, lastActive)
+                    result.success(true)
                 }
-                scheduleAlarm(applicationContext, enabled, hour, title, body, lastActive)
-                result.success(null)
             } else {
                 result.notImplemented()
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQ_POST_NOTIFICATIONS) {
+            val res = pendingReminderResult
+            val params = pendingReminderParams
+            pendingReminderResult = null
+            pendingReminderParams = null
+            if (res != null) {
+                val granted = grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                if (granted && params != null) {
+                    scheduleAlarm(applicationContext, true, params.hour, params.title, params.body, params.lastActive)
+                    res.success(true)
+                } else {
+                    res.success(false)
+                }
             }
         }
     }
@@ -113,7 +171,17 @@ class MainActivity : FlutterActivity() {
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        tts?.stop()
+    }
+
     override fun onDestroy() {
+        executor.shutdown()
+        pendingReminderResult = null
+        pendingReminderParams = null
+        pendingTakeResult = null
+        channel = null
         tts?.shutdown()
         tts = null
         ttsReady = false
@@ -122,45 +190,70 @@ class MainActivity : FlutterActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        read(intent)?.let { channel?.invokeMethod("incoming", it) }
+        setIntent(intent)
+        executor.execute {
+            val content = read(intent)
+            if (content != null) {
+                mainHandler.post {
+                    channel?.invokeMethod("incoming", content)
+                }
+            }
+        }
     }
 
     private fun read(intent: Intent?): String? {
         if (intent == null) return null
-        val uri: Uri? = when (intent.action) {
+        val action = intent.action
+        if (action != Intent.ACTION_VIEW && action != Intent.ACTION_SEND) return null
+
+        val uri: Uri? = when (action) {
             Intent.ACTION_VIEW -> intent.data
             Intent.ACTION_SEND ->
                 if (Build.VERSION.SDK_INT >= 33) intent.getParcelableExtra(Intent.EXTRA_STREAM, Uri::class.java)
                 else @Suppress("DEPRECATION") intent.getParcelableExtra(Intent.EXTRA_STREAM)
-            else -> return null
+            else -> null
         }
-        if (uri == null) {
-            val text = intent.getStringExtra(Intent.EXTRA_TEXT) ?: return null
+        if (uri != null) {
+            return try {
+                contentResolver.openInputStream(uri)?.use { stream ->
+                    // Sınır aşılınca okuma kesilir: dev bir dosya belleğe alınmaz
+                    val out = ByteArrayOutputStream()
+                    val buffer = ByteArray(64 * 1024)
+                    while (out.size() <= MAX_BYTES) {
+                        val n = stream.read(buffer)
+                        if (n < 0) break
+                        out.write(buffer, 0, n)
+                    }
+                    if (out.size() > MAX_BYTES) TOO_BIG else String(out.toByteArray(), Charsets.UTF_8)
+                } ?: READ_FAILED
+            } catch (t: Throwable) {
+                READ_FAILED
+            }
+        }
+
+        val text = intent.getStringExtra(Intent.EXTRA_TEXT)
+        if (text != null) {
             return if (text.length > MAX_BYTES) TOO_BIG else text
         }
-        return try {
-            contentResolver.openInputStream(uri)?.use { stream ->
-                // Sınır aşılınca okuma kesilir: dev bir dosya belleğe alınmaz
-                val out = ByteArrayOutputStream()
-                val buffer = ByteArray(64 * 1024)
-                while (out.size() <= MAX_BYTES) {
-                    val n = stream.read(buffer)
-                    if (n < 0) break
-                    out.write(buffer, 0, n)
-                }
-                if (out.size() > MAX_BYTES) TOO_BIG else String(out.toByteArray(), Charsets.UTF_8)
-            }
-        } catch (e: Exception) {
-            null
+
+        // VIEW veya SEND olup dosya/metin taşıması beklenip de içeriğe ulaşılamadıysa
+        if (action == Intent.ACTION_VIEW || intent.hasExtra(Intent.EXTRA_STREAM)) {
+            return READ_FAILED
         }
+        return null
     }
 
     companion object {
+        private const val REQ_POST_NOTIFICATIONS = 1002
+
         /** Dart tarafındaki sınırla aynı (lib/ui/io.dart, maxCourseBytes). */
         const val MAX_BYTES = 8 * 1024 * 1024
 
         /** Dosya çok büyükse içerik yerine bu gönderilir (lib/ui/incoming.dart, Incoming.tooBig). */
         const val TOO_BIG = "bilge:too-big"
+
+        /** Dosya veya metin okunamazsa içerik yerine bu gönderilir (lib/ui/incoming.dart, Incoming.readFailed). */
+        const val READ_FAILED = "bilge:read-failed"
 
         const val PREFS_NAME = "bilge_reminder"
         const val KEY_ENABLED = "enabled"
@@ -247,4 +340,3 @@ class ReminderReceiver : BroadcastReceiver() {
         nm.notify(1001, notif)
     }
 }
-

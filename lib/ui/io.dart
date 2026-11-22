@@ -206,17 +206,20 @@ Future<String> callAi({required String provider, required String apiKey, String 
 const _reminderChannel = MethodChannel('bilge/reminder');
 
 /// Yerel günlük hatırlatıcıyı kurar ya da iptal eder (Android AlarmManager + NotificationManager).
-Future<void> scheduleReminder({required bool enabled, required int hour, required String title, required String body, String? lastActive}) async {
+Future<bool> scheduleReminder({required bool enabled, required int hour, required String title, required String body, String? lastActive}) async {
   try {
-    await _reminderChannel.invokeMethod<void>('schedule', {
+    final ok = await _reminderChannel.invokeMethod<bool>('schedule', {
       'enabled': enabled,
       'hour': hour,
       'title': title,
       'body': body,
       'lastActive': ?lastActive,
     });
+    return ok ?? true;
+  } on MissingPluginException {
+    return true;
   } catch (_) {
-    // Masaüstü / test ortamında bildirim köprüsü yoktur
+    return false;
   }
 }
 
