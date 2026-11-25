@@ -4,7 +4,7 @@
   <p><b>Türkçe</b> · <a href="README.en.md">English</a></p>
 </div>
 
-İstediğin her konuyu seviye seviye, oynayarak öğrenmeni sağlayan Android uygulaması.
+İstediğin her konuyu seviye seviye, oynayarak öğrenmeni sağlayan Android ve Linux uygulaması.
 Konuyu sen seçersin, içeriği bir yapay zekâ **kalıba** göre üretir, Bilge de onu oyuna çevirir.
 
 <p align="center">
@@ -61,6 +61,15 @@ Uygulamayı derlemek ve çalıştırmak için Flutter gereklidir.
 flutter pub get
 flutter run
 flutter build apk --release
+flutter build linux --release
+```
+
+Linux'ta sesli okuma: AppImage içinde Piper motoru gelir; sesli okuma uygulama içinden (Profil › Doğal sesler) indirilen Piper doğal sesleriyle yapılır, sesi indirilmemiş dillerde dinleme adımları atlanabilir. Üçüncü taraf lisansları AppImage içinde `usr/share/doc/bilge/` altındadır.
+
+Linux için tek dosya AppImage üretmek için (`cmake` ve `appimagetool` gerekir):
+
+```sh
+./linux/packaging/build-appimage.sh
 ```
 
 ## Lisans

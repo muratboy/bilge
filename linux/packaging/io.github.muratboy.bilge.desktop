@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Bilge
+GenericName=Interactive Learning Game
+GenericName[tr]=Etkileşimli Öğrenme Oyunu
+Comment=Learn any topic level by level, through play
+Comment[tr]=Her konuyu seviye seviye, oynayarak öğren
+Exec=bilge %f
+Icon=io.github.muratboy.bilge
+Terminal=false
+Categories=Education;
+MimeType=application/json;
+StartupWMClass=io.github.muratboy.bilge

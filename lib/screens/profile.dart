@@ -3,6 +3,7 @@ library;
 
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Badge;
 
 import '../app_scope.dart';
@@ -13,6 +14,8 @@ import '../mascot/cast.dart';
 import '../mascot/mascot_art.dart';
 import '../mascot/mascot_view.dart';
 import '../ui/io.dart';
+import '../ui/natural_voices_sheet.dart';
+import '../ui/speech.dart';
 import '../ui/theme.dart';
 import '../ui/widgets.dart';
 import 'manage.dart' show Segments;
@@ -170,6 +173,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       useSafeArea: true,
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
       builder: (_) => _AiSettingsSheet(app: app),
+    );
+  }
+
+  void _showNaturalVoices(AppState app) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+      builder: (_) => NaturalVoicesSheet(app: app),
     );
   }
 
@@ -514,27 +527,53 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 toggle(t('set.hearts'), set.hearts, (v) => set.hearts = v, hint: t('set.heartsHint')),
                 divider,
                 toggle(t('set.free'), set.freeMode, (v) => set.freeMode = v, hint: t('set.freeHint')),
-                divider,
-                toggle(
-                  t('set.reminder'),
-                  set.reminder,
-                  (v) {
-                    set.reminder = v;
-                    _syncReminder(app);
-                  },
-                  hint: t('set.reminderHint'),
-                  key: const ValueKey('set-reminder-toggle'),
-                ),
-                if (set.reminder)
-                  choice<int>(
-                    t('set.reminderTime'),
-                    set.reminderHour,
-                    {for (final h in [8, 12, 18, 20, 22]) h: '${h.toString().padLeft(2, '0')}:00'},
+                if (defaultTargetPlatform == TargetPlatform.android) ...[
+                  divider,
+                  toggle(
+                    t('set.reminder'),
+                    set.reminder,
                     (v) {
-                      set.reminderHour = v;
+                      set.reminder = v;
                       _syncReminder(app);
                     },
+                    hint: t('set.reminderHint'),
+                    key: const ValueKey('set-reminder-toggle'),
                   ),
+                  if (set.reminder)
+                    choice<int>(
+                      t('set.reminderTime'),
+                      set.reminderHour,
+                      {for (final h in [8, 12, 18, 20, 22]) h: '${h.toString().padLeft(2, '0')}:00'},
+                      (v) {
+                        set.reminderHour = v;
+                        _syncReminder(app);
+                      },
+                    ),
+                ],
+                if (defaultTargetPlatform == TargetPlatform.linux && Speech.hasPiperEngine) ...[
+                  divider,
+                  InkWell(
+                    key: const ValueKey('set-natural-voices-row'),
+                    onTap: () => _showNaturalVoices(app),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(t('set.naturalVoices'), style: ts(16, w: FontWeight.w800, color: p.ink)),
+                                Text(t('set.naturalVoicesHint'), style: ts(13.5, color: p.ink2)),
+                              ],
+                            ),
+                          ),
+                          Icon(Icons.chevron_right_rounded, color: p.ink3),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
                 divider,
                 InkWell(
                   key: const ValueKey('set-ai-row'),
@@ -618,7 +657,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 label: Text(t('profile.reset'), style: ts(14.5, w: FontWeight.w800, color: p.badInk)),
               ),
             ),
-            Center(child: Text('Bilge 0.17.1-beta', style: ts(12.5, w: FontWeight.w800, color: p.ink3))),
+            Center(child: Text('Bilge 0.18.0-beta', style: ts(12.5, w: FontWeight.w800, color: p.ink3))),
           ],
         ),
       ),

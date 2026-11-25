@@ -97,9 +97,12 @@ void main() {
       const px = 512.0 / 48.0;
       final image = await _legacy(px).toImage(512, 512);
       final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
-      final file = File('fastlane/metadata/android/en-US/images/icon.png');
-      file.parent.createSync(recursive: true);
-      file.writeAsBytesSync(bytes!.buffer.asUint8List());
+      final data = bytes!.buffer.asUint8List();
+      for (final path in ['fastlane/metadata/android/en-US/images/icon.png', 'linux/packaging/io.github.muratboy.bilge.png']) {
+        final file = File(path);
+        file.parent.createSync(recursive: true);
+        file.writeAsBytesSync(data);
+      }
     });
   });
 
@@ -112,6 +115,9 @@ void main() {
     if (storeIcon.existsSync()) {
       expect(_pngSize(storeIcon), (512, 512), reason: 'mağaza simgesi 512x512 olmalı');
     }
+    final linuxIcon = File('linux/packaging/io.github.muratboy.bilge.png');
+    expect(linuxIcon.existsSync(), isTrue, reason: 'Linux masaüstü simgesi yerinde olmalı');
+    expect(_pngSize(linuxIcon), (512, 512), reason: 'Linux masaüstü simgesi 512x512 olmalı');
     final adaptive = File('$_res/mipmap-anydpi-v26/ic_launcher.xml').readAsStringSync();
     expect(adaptive, contains('@mipmap/ic_launcher_foreground'));
     expect(adaptive, contains('@color/ic_launcher_background'));

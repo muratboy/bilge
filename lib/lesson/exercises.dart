@@ -4,6 +4,7 @@ library;
 
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -86,6 +87,7 @@ abstract class ExerciseViewState extends State<ExerciseView> {
   Exercise get ex => widget.exercise;
   bool locked = false;
   bool _noVoice = false;
+  int _sayGeneration = 0;
 
   @override
   void initState() {
@@ -101,8 +103,12 @@ abstract class ExerciseViewState extends State<ExerciseView> {
   }
 
   Future<void> say({bool slow = false}) async {
+    final gen = ++_sayGeneration;
     final ok = await Speech.speak(ex.say, lang: widget.speechLang, slow: slow);
-    if (mounted && _noVoice == ok) setState(() => _noVoice = !ok);
+    if (!mounted || gen != _sayGeneration) return;
+    setState(() {
+      _noVoice = !ok;
+    });
   }
 
   /// Dinleme düğmeleri: normal ve yavaş okuma. Dinleyemeyen kullanıcı soruyu puanı etkilenmeden geçebilir.
@@ -143,7 +149,16 @@ abstract class ExerciseViewState extends State<ExerciseView> {
               ),
           ],
         ),
-        if (_noVoice) Padding(padding: const EdgeInsets.only(top: 6), child: Text(t('lesson.noVoice', {'lang': widget.speechLang}), style: ts(13.5, color: p.badInk))),
+        if (_noVoice)
+          Padding(
+            padding: const EdgeInsets.only(top: 6),
+            child: Text(
+              defaultTargetPlatform == TargetPlatform.linux && Speech.hasPiperEngine
+                  ? '${t('lesson.noVoice', {'lang': widget.speechLang})} ${t('lesson.naturalVoiceHint')}'
+                  : t('lesson.noVoice', {'lang': widget.speechLang}),
+              style: ts(13.5, color: p.badInk),
+            ),
+          ),
       ],
     );
   }

@@ -12,8 +12,32 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+/// Testlerde Linux "Farklı Kaydet" penceresini taklit etmek için kanca.
+@visibleForTesting
+Future<String?> Function(String suggestedName)? savePathPicker;
+
 /// Metni geçici bir dosyaya yazıp sistemin paylaşım penceresini açar.
+/// Linux'ta dosya paylaşım penceresi bulunmadığından "Farklı Kaydet" penceresiyle dosyaya yazar.
 Future<void> shareFile(String name, String content, {String? subject, String? text, String? mimeType}) async {
+  if (!kIsWeb && Platform.isLinux) {
+    final String? path;
+    if (savePathPicker != null) {
+      path = await savePathPicker!(name);
+    } else {
+      final dot = name.lastIndexOf('.');
+      final ext = dot >= 0 && dot + 1 < name.length ? name.substring(dot + 1) : '';
+      final location = await selector.getSaveLocation(
+        suggestedName: name,
+        acceptedTypeGroups: [
+          if (ext.isNotEmpty) selector.XTypeGroup(label: ext.toUpperCase(), extensions: [ext]),
+        ],
+      );
+      path = location?.path;
+    }
+    if (path == null || path.isEmpty) return;
+    await File(path).writeAsString(content, flush: true);
+    return;
+  }
   final file = File('${(await getTemporaryDirectory()).path}/$name');
   await file.writeAsString(content);
   final type = mimeType ?? (name.endsWith('.md') ? 'text/markdown' : 'application/json');

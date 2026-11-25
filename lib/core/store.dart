@@ -187,6 +187,7 @@ class Settings {
   String lang = 'auto'; // auto | tr | en
   int dailyGoal = 30, reminderHour = 20;
   String aiProvider = 'gemini', aiKey = '', aiModel = '';
+  Map<String, String> selectedVoices = {};
 
   Map<String, dynamic> toJson({bool includeSecrets = true}) => {
         'sound': sound, 'hearts': hearts, 'freeMode': freeMode, 'theme': theme, 'lang': lang, 'dailyGoal': dailyGoal,
@@ -195,6 +196,7 @@ class Settings {
         if (aiProvider != 'gemini') 'aiProvider': aiProvider,
         if (includeSecrets && aiKey.isNotEmpty) 'aiKey': aiKey,
         if (aiModel.isNotEmpty) 'aiModel': aiModel,
+        if (selectedVoices.isNotEmpty) 'selectedVoices': selectedVoices,
       };
   Settings();
   Settings.fromJson(Map j) {
@@ -209,6 +211,12 @@ class Settings {
     aiProvider = j['aiProvider'] is String ? j['aiProvider'] as String : 'gemini';
     aiKey = j['aiKey'] is String ? j['aiKey'] as String : '';
     aiModel = j['aiModel'] is String ? j['aiModel'] as String : '';
+    if (j['selectedVoices'] is Map) {
+      selectedVoices = {
+        for (final e in (j['selectedVoices'] as Map).entries)
+          if (e.key is String && e.value is String) e.key as String: e.value as String,
+      };
+    }
   }
 }
 
@@ -838,6 +846,14 @@ class AppState extends ChangeNotifier {
     session = p.session;
     courses.values.forEach(_settleFlags);
     awardBadges();
+  }
+
+  void selectVoice(String lang, String voiceId) {
+    final norm = lang.replaceAll('-', '_').toLowerCase().trim();
+    final primary = norm.split('_').first;
+    settings.selectedVoices[norm] = voiceId;
+    settings.selectedVoices[primary] = voiceId;
+    commit();
   }
 
   /// Önce her şey okunur, en sonda atanır: bozuk bir kayıt ya da yedek yarıda hata verirse eldeki durum olduğu gibi kalır.

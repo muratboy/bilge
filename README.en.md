@@ -4,7 +4,7 @@
   <p><a href="README.md">Türkçe</a> · <b>English</b></p>
 </div>
 
-An Android app that lets you learn any topic level by level, through play.
+An Android and Linux app that lets you learn any topic level by level, through play.
 You choose the topic, an AI generates the content based on a **template**, and Bilge turns it into a game.
 
 <p align="center">
@@ -61,6 +61,15 @@ Flutter is required to build and run the app.
 flutter pub get
 flutter run
 flutter build apk --release
+flutter build linux --release
+```
+
+Text-to-speech on Linux: The Piper engine is bundled inside the AppImage; speech is performed using Piper natural voices downloaded from within the app (Profile › Natural voices), and listening steps can be skipped for languages without a downloaded voice. Third-party licenses in the AppImage are located under `usr/share/doc/bilge/`.
+
+To package a standalone Linux AppImage (requires `cmake` and `appimagetool`):
+
+```sh
+./linux/packaging/build-appimage.sh
 ```
 
 ## License

@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -11,13 +13,25 @@ import 'screens/manage.dart';
 import 'screens/welcome.dart';
 import 'ui/incoming.dart';
 import 'ui/io.dart';
+import 'ui/piper_downloader.dart';
 import 'ui/sfx.dart';
+import 'ui/speech.dart';
 import 'ui/theme.dart';
 import 'ui/widgets.dart';
 
-Future<void> main() async {
+Future<void> main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.linux) {
+    unawaited(PiperVoiceDownloader.cleanPartFiles());
+  }
   final state = AppState(FileStorage());
+  Speech.selectedVoiceResolver = (lang) {
+    final norm = lang.replaceAll('-', '_').toLowerCase().trim();
+    final primary = norm.split('_').first;
+    return state.settings.selectedVoices[norm] ??
+        state.settings.selectedVoices[primary] ??
+        state.settings.selectedVoices[lang];
+  };
   await state.load();
   if (state.settings.reminder) {
     final device = PlatformDispatcher.instance.locale.languageCode;
@@ -30,12 +44,14 @@ Future<void> main() async {
       lastActive: state.profile.lastActive,
     );
   }
-  runApp(BilgeApp(state: state));
+  final initialIncoming = await Incoming.readArgs(args);
+  runApp(BilgeApp(state: state, initialIncoming: initialIncoming));
 }
 
 class BilgeApp extends StatelessWidget {
-  const BilgeApp({super.key, required this.state});
+  const BilgeApp({super.key, required this.state, this.initialIncoming});
   final AppState state;
+  final String? initialIncoming;
 
   @override
   Widget build(BuildContext context) => ListenableBuilder(
@@ -56,7 +72,7 @@ class BilgeApp extends StatelessWidget {
               locale: Locale(L.code),
               supportedLocales: const [Locale('tr'), Locale('en')],
               localizationsDelegates: GlobalMaterialLocalizations.delegates,
-              home: const _Root(),
+              home: _Root(initialIncoming: initialIncoming),
             ),
           );
         },
@@ -66,7 +82,8 @@ class BilgeApp extends StatelessWidget {
 /// Yol arkadaşı seçilene kadar karşılama, sonra ana ekran.
 /// Başka uygulamadan gelen kurs dosyası varsa, ana ekrana geçilince kullanıcıya sorulur.
 class _Root extends StatefulWidget {
-  const _Root();
+  const _Root({this.initialIncoming});
+  final String? initialIncoming;
   @override
   State<_Root> createState() => _RootState();
 }
@@ -77,6 +94,7 @@ class _RootState extends State<_Root> {
   @override
   void initState() {
     super.initState();
+    _incoming = widget.initialIncoming;
     Incoming.listen((text) {
       if (mounted) setState(() => _incoming = text);
     });
