@@ -79,3 +79,7 @@ To package a standalone Linux AppImage (requires `cmake` and `appimagetool`):
 Bilge is free software: you can use, modify and redistribute it under the terms of the GNU General Public License, version 3 or (at your option) any later version (GPL-3.0-or-later). It comes with no warranty; see [LICENSE](LICENSE).
 
 The Nunito fonts are distributed under the SIL Open Font License 1.1: [assets/fonts/OFL.txt](assets/fonts/OFL.txt).
+
+## Development note
+
+Bilge was developed with the help of AI coding tools. Most of the code, tests, documentation, and packaging scripts were written with AI assistance; design decisions, review, and device testing are my own.

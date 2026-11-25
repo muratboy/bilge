@@ -79,3 +79,7 @@ Linux için tek dosya AppImage üretmek için (`cmake` ve `appimagetool` gerekir
 Bilge özgür yazılımdır: GNU Genel Kamu Lisansı'nın 3. sürümü ya da istersen daha sonraki bir sürümü (GPL-3.0-or-later) koşullarıyla kullanabilir, değiştirebilir ve dağıtabilirsin. Hiçbir garanti verilmez; ayrıntılar [LICENSE](LICENSE) dosyasında.
 
 Nunito yazı tipleri SIL Open Font License 1.1 ile dağıtılır: [assets/fonts/OFL.txt](assets/fonts/OFL.txt).
+
+## Geliştirme notu
+
+Bilge, yapay zekâ kodlama araçlarının yardımıyla geliştirildi. Kodun, testlerin, belgelerin ve paketleme betiklerinin büyük bölümü bu araçlarla yazıldı; tasarım kararları, inceleme ve cihaz testleri bana ait.
